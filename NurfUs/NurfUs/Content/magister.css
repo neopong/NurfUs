@@ -1,3 +1,10 @@
+.summoner img{
+    height: 60px;
+    width: 60px;
+    float: left;
+    margin-right: 10px;
+}
+
 html {
 	/*background:#505D6E url(/Images/Volibear-in-League-of-Legends-Wallpaper.jpg) no-repeat center center fixed; */
     
@@ -118,7 +125,7 @@ body {
 	top:0;
 } 
 @media (min-width: 768px) {
-	.section { padding-top:160px;}
+	.section { padding-top:10px;}
 }
 
 /* Show one of sections */

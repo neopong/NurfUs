@@ -129,6 +129,10 @@
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
         <script src="/Scripts/modernizr.custom.72241.js"></script>
         <script src="/Scripts/magister.js"></script>
+        <script src="/Scripts/jquery.signalR-2.2.0.min.js"></script>
+        <script src="/signalr/hubs"></script>
+        <script src="/Scripts/Common.js"></script>
+        @RenderSection("scripts", required: false)
         <script>
             (function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
@@ -140,6 +144,5 @@
             ga('create', '@NurfUsController.GoogleAnalyticsKey', 'auto');
             ga('send', 'pageview');
         </script>
-        @RenderSection("scripts", required: false)
 </body>
 </html>

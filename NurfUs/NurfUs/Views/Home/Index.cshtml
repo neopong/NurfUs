@@ -9,20 +9,17 @@
 @using (Html.BeginForm())
 {
     <section class="section" id="head">
-
         <div class="well col-md-6">
             <h5><span class="label label-default blueTeam">Blue Team</span></h5>
             <div class="list-group">
                 <div class="panel panel-info">
-                    <div class="panel-heading blueTeam summoner" id="participant1">
-                    </div>
-                    <div class="panel-heading blueTeam summoner" id="participant2">
-                    </div>
-                    <div class="panel-heading blueTeam summoner" id="participant3">
-                    </div>
-                    <div class="panel-heading blueTeam summoner" id="participant4">
-                    </div>
-                    <div class="panel-heading blueTeam summoner" id="participant5">
+                    <div class="panel-heading blueTeam">
+                        <div class="summoner" id="participant1"></div>
+                        <div class="summoner" id="participant2"></div>
+                        <div class="summoner" id="participant3"></div>
+                        <div class="summoner" id="participant4"></div>
+                        <div class="summoner" id="participant5"></div>
+                        <div style="clear: both;"></div>
                     </div>
                 </div>
             </div>
@@ -31,23 +28,21 @@
             <h5><span class="label label-default purpleTeam">Purple Team</span></h5>
             <div class="list-group">
                 <div class="panel panel-info">
-                    <div class="panel-heading purpleTeam summoner" id="participant6">
-                    </div>
-                    <div class="panel-heading purpleTeam summoner" id="participant7">
-                    </div>
-                    <div class="panel-heading purpleTeam summoner" id="participant8">
-                    </div>
-                    <div class="panel-heading purpleTeam summoner" id="participant9">
-                    </div>
-                    <div class="panel-heading purpleTeam summoner" id="participant10">
+                    <div class="panel-heading purpleTeam">
+                        <div class="summoner" id="participant6"></div>
+                        <div class="summoner" id="participant7"></div>
+                        <div class="summoner" id="participant8"></div>
+                        <div class="summoner" id="participant9"></div>
+                        <div class="summoner" id="participant10"></div>
+                        <div style="clear: both;"></div>
                     </div>
                 </div>
             </div>
         </div>
-
+        <div>&nbsp;</div>
         <div class="well panelBackground ">
             <div id="gameDetail"></div>
-            <input type="text" id="message" class="form-control" placeholder="Chat with your fellow URFers" />
+            <input type="text" id="message" class="form-control" placeholder="Chat with your fellow URFers" autocomplete="off" />
             <input type="button" class="btn-default" id="sendmessage" value="Send" />
             <input type="hidden" id="displayname" />
             <div id="discussion-wrapper">
@@ -57,128 +52,6 @@
     </section>
 }
 
-<style type="text/css">
-    .summoner img{
-        height: 40px;
-        width: 40px;
-    }
-</style>
-@section scripts
-{
-    <script src="/Scripts/jquery.signalR-2.2.0.min.js"></script>
-    <script src="/signalr/hubs"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            if (!String.prototype.supplant) {
-                String.prototype.supplant = function (o) {
-                    return this.replace(/{([^{}]*)}/g,
-                        function (a, b) {
-                            var r = o[b];
-                            return typeof r === 'string' || typeof r === 'number' ? htmlEncode(r) : htmlEncode(a);
-                        }
-                    );
-                };
-            }
-
-            var hub = $.connection.nurfUsHub;
-
-            var timeLeftTemplate = '<div class="badge timer" data-x-started="{SecondsElapsed}"></div>';
-
-            hub.client.newMatch = function (gameDisplay) {
-                $("#gameDetail").empty().append(timeLeftTemplate.supplant(gameDisplay));
-                $("#participant1").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[0].ChampionImage + '"\>');
-                $("#participant2").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[1].ChampionImage + '"\>');
-                $("#participant3").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[2].ChampionImage + '"\>');
-                $("#participant4").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[3].ChampionImage + '"\>');
-                $("#participant5").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[4].ChampionImage + '"\>');
-                $("#participant6").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[0].ChampionImage + '"\>');
-                $("#participant7").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[1].ChampionImage + '"\>');
-                $("#participant8").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[2].ChampionImage + '"\>');
-                $("#participant9").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[3].ChampionImage + '"\>');
-                $("#participant10").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[4].ChampionImage + '"\>');
-            };
-
-            hub.client.broadcastMessage = function (name, message) {
-                // Html encode display name and message. 
-                var encodedName = htmlEncode(name);
-                var encodedMsg = htmlEncode(message);
-                // Add the message to the page. 
-                $('#discussion').prepend('<li><strong>' + encodedName
-                    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
-            };
-            // Get the user name and store it to prepend to messages.
-            $('#displayname').val(prompt('Enter your name:', ''));
-            // Set initial focus to message input box.  
-            $('#message').focus();
-
-            $(window).keydown(function (event) {
-                if (event.keyCode == 13) {
-                    event.preventDefault();
-                    $('#sendmessage').click();
-                    return false;
-                }
-            });
-
-            $.connection.hub.start().done(function () {
-                hub.server.getCurrentMatch();
-
-                $('#sendmessage').click(function () {
-                    // Call the Send method on the hub. 
-                    hub.server.send($('#displayname').val(), $('#message').val());
-                    // Clear text box and reset focus for next comment. 
-                    $('#message').val('').focus();
-                });
-            });
-        });
-
-        function htmlEncode(message) {
-            return $('<div />').text(message).html();
-        }
-
-        function describeTime(milliseconds) {
-            milliseconds = milliseconds / 1;
-
-            var totalSeconds = Math.floor(milliseconds / 1000);
-            var seconds = totalSeconds % 60;
-            var totalMinutes = Math.floor(totalSeconds / 60);
-            var minutes = totalMinutes % 60;
-            var hours = Math.floor(totalMinutes / 60);
-
-            var timeDisplay = "";
-
-            if (hours <= 10) {
-                var pad = "00";
-
-                var timePart;
-
-                if (hours > 0) {
-                    timePart = "" + hours;
-                    timeDisplay = pad.substring(0, pad.length - timePart.length) + timePart + ":";
-                }
-
-                timePart = "" + minutes;
-                timeDisplay += pad.substring(0, pad.length - timePart.length) + timePart + ":";
-
-                timePart = "" + seconds;
-                timeDisplay += pad.substring(0, pad.length - timePart.length) + timePart;
-            } else {
-                timeDisplay = "--**Waiting for new match**--";
-            }
-
-            return timeDisplay;
-        }
-
-        var pageTimer = setInterval(function () { myTimer() }, 1000);
-
-        function myTimer() {
-            $(".timer").each(function (index, element) {
-                var milliseconds = element.getAttribute("data-x-started") / 1;
-
-                $(element).text(describeTime(milliseconds));
-
-                element.setAttribute("data-x-started", milliseconds + 1000);
-            });
-        }
- 
-    </script>
+@section Scripts{
+    <script src="/Scripts/Page/Main.js"></script>
 }
