@@ -1,0 +1,500 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C08E71F3-45CE-4EE5-93C6-DFF84C2AE9DE}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NurfUs</RootNamespace>
+    <AssemblyName>NurfUs</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Classes\GameDisplay.cs" />
+    <Compile Include="Classes\NurfUsController.cs" />
+    <Compile Include="Classes\ParticipantDisplay.cs" />
+    <Compile Include="Classes\RESTHelpers.cs" />
+    <Compile Include="Classes\RESTResult.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Hubs\NurfUsHub.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\API\BannedChampion.cs" />
+    <Compile Include="Models\API\BlockDto.cs" />
+    <Compile Include="Models\API\BlockItemDto.cs" />
+    <Compile Include="Models\API\ChampionDto.cs" />
+    <Compile Include="Models\API\ChampionListDto.cs" />
+    <Compile Include="Models\API\ChampionSpellDto.cs" />
+    <Compile Include="Models\API\CurrentGameInfo.cs" />
+    <Compile Include="Models\API\Event.cs" />
+    <Compile Include="Models\API\FeaturedGames.cs" />
+    <Compile Include="Models\API\Frame.cs" />
+    <Compile Include="Models\API\GameDto.cs" />
+    <Compile Include="Models\API\ImageDto.cs" />
+    <Compile Include="Models\API\InfoDto.cs" />
+    <Compile Include="Models\API\LeagueDto.cs" />
+    <Compile Include="Models\API\LeagueEntryDto.cs" />
+    <Compile Include="Models\API\LevelTipDto.cs" />
+    <Compile Include="Models\API\Mastery.cs" />
+    <Compile Include="Models\API\MatchDetail.cs" />
+    <Compile Include="Models\API\MatchSummary.cs" />
+    <Compile Include="Models\API\MiniSeriesDto.cs" />
+    <Compile Include="Models\API\Observer.cs" />
+    <Compile Include="Models\API\Participant.cs" />
+    <Compile Include="Models\API\ParticipantFrame.cs" />
+    <Compile Include="Models\API\ParticipantIdentity.cs" />
+    <Compile Include="Models\API\ParticipantStats.cs" />
+    <Compile Include="Models\API\ParticipantTimeline.cs" />
+    <Compile Include="Models\API\ParticipantTimelineData.cs" />
+    <Compile Include="Models\API\PassiveDto.cs" />
+    <Compile Include="Models\API\Player.cs" />
+    <Compile Include="Models\API\PlayerDto.cs" />
+    <Compile Include="Models\API\PlayerHistory.cs" />
+    <Compile Include="Models\API\Position.cs" />
+    <Compile Include="Models\API\ProfileIcon.cs" />
+    <Compile Include="Models\API\ProfileIconList.cs" />
+    <Compile Include="Models\API\RawStatsDto.cs" />
+    <Compile Include="Models\API\RecentGamesDto.cs" />
+    <Compile Include="Models\API\RecommendedDto.cs" />
+    <Compile Include="Models\API\Rune.cs" />
+    <Compile Include="Models\API\SkinDto.cs" />
+    <Compile Include="Models\API\SpellVarsDto.cs" />
+    <Compile Include="Models\API\StatsDto.cs" />
+    <Compile Include="Models\API\SummonerDto.cs" />
+    <Compile Include="Models\API\Team.cs" />
+    <Compile Include="Models\API\Timeline.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SummonerSearch.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="APIKey.txt" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\magister.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Icon.png" />
+    <Content Include="Images\247229.jpg" />
+    <Content Include="Images\aeb262303a356f26d61bbba106a134a5-d8jhqfo.jpg" />
+    <Content Include="Images\Champion\Aatrox.png" />
+    <Content Include="Images\Champion\Ahri.png" />
+    <Content Include="Images\Champion\Akali.png" />
+    <Content Include="Images\Champion\Alistar.png" />
+    <Content Include="Images\Champion\Amumu.png" />
+    <Content Include="Images\Champion\Anivia.png" />
+    <Content Include="Images\Champion\Annie.png" />
+    <Content Include="Images\Champion\Ashe.png" />
+    <Content Include="Images\Champion\Azir.png" />
+    <Content Include="Images\Champion\Bard.png" />
+    <Content Include="Images\Champion\Blitzcrank.png" />
+    <Content Include="Images\Champion\Brand.png" />
+    <Content Include="Images\Champion\Braum.png" />
+    <Content Include="Images\Champion\Caitlyn.png" />
+    <Content Include="Images\Champion\Cassiopeia.png" />
+    <Content Include="Images\Champion\Chogath.png" />
+    <Content Include="Images\Champion\Corki.png" />
+    <Content Include="Images\Champion\Darius.png" />
+    <Content Include="Images\Champion\Diana.png" />
+    <Content Include="Images\Champion\Draven.png" />
+    <Content Include="Images\Champion\DrMundo.png" />
+    <Content Include="Images\Champion\Elise.png" />
+    <Content Include="Images\Champion\Evelynn.png" />
+    <Content Include="Images\Champion\Ezreal.png" />
+    <Content Include="Images\Champion\FiddleSticks.png" />
+    <Content Include="Images\Champion\Fiora.png" />
+    <Content Include="Images\Champion\Fizz.png" />
+    <Content Include="Images\Champion\Galio.png" />
+    <Content Include="Images\Champion\Gangplank.png" />
+    <Content Include="Images\Champion\Garen.png" />
+    <Content Include="Images\Champion\Gnar.png" />
+    <Content Include="Images\Champion\Gragas.png" />
+    <Content Include="Images\Champion\Graves.png" />
+    <Content Include="Images\Champion\Hecarim.png" />
+    <Content Include="Images\Champion\Heimerdinger.png" />
+    <Content Include="Images\Champion\Irelia.png" />
+    <Content Include="Images\Champion\Janna.png" />
+    <Content Include="Images\Champion\JarvanIV.png" />
+    <Content Include="Images\Champion\Jax.png" />
+    <Content Include="Images\Champion\Jayce.png" />
+    <Content Include="Images\Champion\Jinx.png" />
+    <Content Include="Images\Champion\Kalista.png" />
+    <Content Include="Images\Champion\Karma.png" />
+    <Content Include="Images\Champion\Karthus.png" />
+    <Content Include="Images\Champion\Kassadin.png" />
+    <Content Include="Images\Champion\Katarina.png" />
+    <Content Include="Images\Champion\Kayle.png" />
+    <Content Include="Images\Champion\Kennen.png" />
+    <Content Include="Images\Champion\Khazix.png" />
+    <Content Include="Images\Champion\KogMaw.png" />
+    <Content Include="Images\Champion\Leblanc.png" />
+    <Content Include="Images\Champion\LeeSin.png" />
+    <Content Include="Images\Champion\Leona.png" />
+    <Content Include="Images\Champion\Lissandra.png" />
+    <Content Include="Images\Champion\Lucian.png" />
+    <Content Include="Images\Champion\Lulu.png" />
+    <Content Include="Images\Champion\Lux.png" />
+    <Content Include="Images\Champion\Malphite.png" />
+    <Content Include="Images\Champion\Malzahar.png" />
+    <Content Include="Images\Champion\Maokai.png" />
+    <Content Include="Images\Champion\MasterYi.png" />
+    <Content Include="Images\Champion\MissFortune.png" />
+    <Content Include="Images\Champion\MonkeyKing.png" />
+    <Content Include="Images\Champion\Mordekaiser.png" />
+    <Content Include="Images\Champion\Morgana.png" />
+    <Content Include="Images\Champion\Nami.png" />
+    <Content Include="Images\Champion\Nasus.png" />
+    <Content Include="Images\Champion\Nautilus.png" />
+    <Content Include="Images\Champion\Nidalee.png" />
+    <Content Include="Images\Champion\Nocturne.png" />
+    <Content Include="Images\Champion\Nunu.png" />
+    <Content Include="Images\Champion\Olaf.png" />
+    <Content Include="Images\Champion\Orianna.png" />
+    <Content Include="Images\Champion\Pantheon.png" />
+    <Content Include="Images\Champion\Poppy.png" />
+    <Content Include="Images\Champion\Quinn.png" />
+    <Content Include="Images\Champion\Rammus.png" />
+    <Content Include="Images\Champion\RekSai.png" />
+    <Content Include="Images\Champion\Renekton.png" />
+    <Content Include="Images\Champion\Rengar.png" />
+    <Content Include="Images\Champion\Riven.png" />
+    <Content Include="Images\Champion\Rumble.png" />
+    <Content Include="Images\Champion\Ryze.png" />
+    <Content Include="Images\Champion\Sejuani.png" />
+    <Content Include="Images\Champion\Shaco.png" />
+    <Content Include="Images\Champion\Shen.png" />
+    <Content Include="Images\Champion\Shyvana.png" />
+    <Content Include="Images\Champion\Singed.png" />
+    <Content Include="Images\Champion\Sion.png" />
+    <Content Include="Images\Champion\Sivir.png" />
+    <Content Include="Images\Champion\Skarner.png" />
+    <Content Include="Images\Champion\Sona.png" />
+    <Content Include="Images\Champion\Soraka.png" />
+    <Content Include="Images\Champion\Swain.png" />
+    <Content Include="Images\Champion\Syndra.png" />
+    <Content Include="Images\Champion\Talon.png" />
+    <Content Include="Images\Champion\Taric.png" />
+    <Content Include="Images\Champion\Teemo.png" />
+    <Content Include="Images\Champion\Thresh.png" />
+    <Content Include="Images\Champion\Tristana.png" />
+    <Content Include="Images\Champion\Trundle.png" />
+    <Content Include="Images\Champion\Tryndamere.png" />
+    <Content Include="Images\Champion\TwistedFate.png" />
+    <Content Include="Images\Champion\Twitch.png" />
+    <Content Include="Images\Champion\Udyr.png" />
+    <Content Include="Images\Champion\Urgot.png" />
+    <Content Include="Images\Champion\Varus.png" />
+    <Content Include="Images\Champion\Vayne.png" />
+    <Content Include="Images\Champion\Veigar.png" />
+    <Content Include="Images\Champion\Velkoz.png" />
+    <Content Include="Images\Champion\Vi.png" />
+    <Content Include="Images\Champion\Viktor.png" />
+    <Content Include="Images\Champion\Vladimir.png" />
+    <Content Include="Images\Champion\Volibear.png" />
+    <Content Include="Images\Champion\Warwick.png" />
+    <Content Include="Images\Champion\Xerath.png" />
+    <Content Include="Images\Champion\XinZhao.png" />
+    <Content Include="Images\Champion\Yasuo.png" />
+    <Content Include="Images\Champion\Yorick.png" />
+    <Content Include="Images\Champion\Zac.png" />
+    <Content Include="Images\Champion\Zed.png" />
+    <Content Include="Images\Champion\Ziggs.png" />
+    <Content Include="Images\Champion\Zilean.png" />
+    <Content Include="Images\Champion\Zyra.png" />
+    <Content Include="Images\leagueoflegendwallpapers.com-ashe-league-of-legends-game-hd-wallpaper-1920x1080-1536.jpg" />
+    <Content Include="Images\UrfFlex.jpg" />
+    <Content Include="Images\UrfRises.jpg" />
+    <Content Include="Images\Urf_OriginalSkin.jpg" />
+    <Content Include="Images\Volibear-in-League-of-Legends-Wallpaper.jpg" />
+    <Content Include="Images\wallhaven-48710.jpg" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Cache\champion.json" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\NurfUs New.pubxml" />
+    <None Include="Properties\PublishProfiles\NurfUs.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.3.js" />
+    <Content Include="Scripts\jquery-2.1.3.min.js" />
+    <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\magister.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\modernizr.custom.72241.js" />
+    <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>60268</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:60268/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

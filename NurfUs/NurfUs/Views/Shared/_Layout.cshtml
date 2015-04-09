@@ -1,0 +1,145 @@
+﻿@using NurfUs.Classes
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title - The manatee hath spoken. Get NURFt</title>
+    <meta name="Description" content="@ViewBag.Description">
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="/Content/magister.css">
+    <link rel="stylesheet" href="/Content/Site.css">
+
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Wire+One' rel='stylesheet' type='text/css'>
+</head>
+
+<body class="theme-invert">
+
+    @*<nav class="mainmenu">
+        <div class="container">
+            <div class="dropdown">
+                <button type="button" class="navbar-toggle" data-toggle="dropdown"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <ul class="dropdown-menu panelBackground" role="menu" aria-labelledby="dLabel">
+                    <li><a href="#head" class="active">Manatee Mania!</a></li>
+                    <li><a href="#about">About the Nurf.Us crew</a></li>
+                    <li><a href="#contact">Get in touch</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>*@
+    <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="./" class="navbar-brand">Bootstrap 3 Menu Generator</a>
+            </div>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">Getting started</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Components</a>
+                    </li>
+                    <li>
+                        <a href="#">JavaScript</a>
+                    </li>
+                    <li class="active">
+                        <a href="#">Customize</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+        <div class="container">
+            <div class="row">
+                @RenderBody()
+            </div>
+        </div>
+
+        <section class="section" id="about">
+            <div class="container">
+                <div class="well panelBackground">
+                    <h2 class="text-center title">About the NURF crew</h2>
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <h5><strong>Scott Karbel<br></strong></h5>
+                            <p>Super power: Not seeing pedestrians while driving.</p>
+                        </div>
+                        <div class="col-sm-4">
+                            <h5><strong>Tyler Thomas<br></strong></h5>
+                            <p>Greatest accomplishment: Completing the Google foobar challenge and getting turned down. Special thanks go to CSUN for this one.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <div class="container">
+                <div class="well panelBackground">
+
+                    <h2 class="text-center title">Get in touch</h2>
+
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text-center">
+                            <p class="lead">Have a question about this site or wonder how you can be touched by Urf's slimy flipper?</p>
+                            <p>Feel free to email us, or drop us a line in Twitter!</p>
+                            <p><b><a href="mailto:neopong@boozeblender.com">neopong@boozeblender.com</a></b><br><br></p>
+                            <ul class="list-inline list-social">
+                                <li><a href="https://twitter.com/SpatulaSlapper" class="btn btn-link" target="parent"><i class="fa fa-twitter fa-fw"></i> Twitter</a></li>
+                                <li><a href="https://github.com/neopong/NurfUs" class="btn btn-link" target="parent"><i class="fa fa-github fa-fw"></i> Github</a></li>
+                                <li><a href="https://linkedin.com/in/ScottKarbel" class="btn btn-link" target="parent"><i class="fa fa-linkedin fa-fw"></i> Scott's LinkedIn</a></li>
+                                <li><a href="https://www.linkedin.com/in/tylerwthomas" class="btn btn-link" target="parent"><i class="fa fa-linkedin fa-fw"></i> Tyler's LinkedIn</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container">
+            <div class="well panelBackground">
+                <p>&copy; @DateTime.Now.Year - Nurf.us</p>
+                <p>Nurf.us isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p>
+            </div>
+        </div>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script src="/Scripts/modernizr.custom.72241.js"></script>
+        <script src="/Scripts/magister.js"></script>
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', '@NurfUsController.GoogleAnalyticsKey', 'auto');
+            ga('send', 'pageview');
+        </script>
+        @RenderSection("scripts", required: false)
+</body>
+</html>
