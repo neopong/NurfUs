@@ -19,9 +19,27 @@ namespace NurfUs.Hubs
         internal static ChampionListDto champs;
         private static List<NurfClient> nurfers = new List<NurfClient>();
 
+        public void Applause(string name, string key)
+        {
+            if (nurfers.FirstOrDefault(n => n.Name == name && n.Key == key) != null)
+            {
+                Clients.All.applause();
+                Clients.All.broadcastMessage(name, name + " shares his love for URF's magestic spatula and fills the site with applause!");
+            }
+        }
+
+        public void Fart(string name, string key)
+        {
+            if (nurfers.FirstOrDefault(n => n.Name == name && n.Key == key) != null)
+            {
+                Clients.All.fart();
+                Clients.All.broadcastMessage(name, name + " has eaten too much feesh. Here comes the SPRAY!!!1one!");
+            }
+        }
+
         public void GetCurrentMatch()
         {
-            Clients.All.newMatch(CreateGameDisplay(ChosenMatch));
+            Clients.Caller.newMatch(CreateGameDisplay(ChosenMatch));
         }
 
         public void NewGuest(string guestName)
@@ -58,7 +76,7 @@ namespace NurfUs.Hubs
 
         public bool Send(string name, string key, string message)
         {
-            if (nurfers.FirstOrDefault(n => n.Name == name && n.Key == key) != null)
+            if (!string.IsNullOrWhiteSpace(message) && nurfers.FirstOrDefault(n => n.Name == name && n.Key == key) != null)
             {
                 //Call the broadcastMessage method to update clients.
                 Clients.All.broadcastMessage(name, message);

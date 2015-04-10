@@ -12,5 +12,7 @@ namespace NurfUs.Classes
         public List<ParticipantDisplay> BlueTeam { get; set; }
         public List<ParticipantDisplay> PurpleTeam { get; set; }
         public BetType BetType { get; set; }
+        public string BetQuestion { get; set; }
+        public int Worth { get; set; }
     }
 }

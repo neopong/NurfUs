@@ -23,9 +23,13 @@ namespace NurfUs
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/nurf").Include(
+                      "~/Scripts/magister.js",
+                      "~/Scripts/Common.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/magister.css"));
         }
     }
 }

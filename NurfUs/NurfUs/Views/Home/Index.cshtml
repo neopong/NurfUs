@@ -12,7 +12,6 @@
         <div class="well panelBackground" id="guestEntry" @((!User.Identity.IsAuthenticated && Request.Cookies["clientName"] == null) ? "style=\"display: none;\"" : "")>
             <input type="text" class="form-control" placeholder="Enter your name" id="guestName" autocomplete="off" />
         </div>
-        
         <div id="betArena" style="display: none;">
             <div class="well col-md-6">
                 <h5><span class="label label-default">Blue Team</span></h5>
@@ -48,13 +47,14 @@
             </div>
             <div>&nbsp;</div>
             <div class="well panelBackground ">
-                <div id="gameDetail"></div>
                 <div class="form-group">
                         <div class="col-md-3">
                             <input type="text" id="message" class="form-control" placeholder="Chat with your fellow URFers" autocomplete="off" />
                         </div>
-                        <div class="col-md-3 btn-group">
+                        <div class="col-md-5 btn-group">
                             <input type="button" class="btn btn-default" id="sendmessage" value="Send" />
+                            <input type="button" class="btn btn-danger" id="applause" value="Live for the applause" />
+                            <input type="button" class="btn btn-danger" id="fart" value="#FishFarts" />
                         </div>
                     </div>
                 <div id="discussion-wrapper">

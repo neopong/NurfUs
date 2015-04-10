@@ -1,8 +1,44 @@
 .summoner img{
-    height: 60px;
-    width: 60px;
+    height: 40px;
+    width: 40px;
     float: left;
     margin-right: 10px;
+}
+
+.checkMark{ 
+    width:100%;
+    height:100%;
+    display:none;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+
+.blueTeam .checkMark img, .purpleTeam .checkMark img{
+    width: 160px;
+    height:120px;
+    margin-left:40%;
+}
+
+.checkShow{
+    display:block;
+    background-color:black;
+    opacity:0.6;
+}
+
+@media screen and (min-width: 800px) {
+    .selectable:hover .checkMark{
+        display:block;
+        background-color:black;
+        opacity:0.6;
+    }
+
+    .summoner img{
+        height: 60px;
+        width: 60px;
+        float: left;
+        margin-right: 10px;
+    }
 }
 
 html {
@@ -113,26 +149,6 @@ body {
 /********************************************************/
 /*             Sections - universal classes             */
 /********************************************************/
-.checkMark{ 
-    width:100%;
-    height:100%;
-    display:none;
-    position:absolute;
-    top:0px;
-    left:0px;
-}
-
-.blueTeam .checkMark img, .purpleTeam .checkMark img{
-    width: 160px;
-    height:160px;
-    margin-left:200px;
-}
-
-.selectable:hover .checkMark, .checkShow{
-    display:block;
-    background-color:black;
-    opacity:0.75;
-}
 
 .section { 
 	z-index: 1;
@@ -140,13 +156,13 @@ body {
 	width: 100%; 
 	overflow:auto;
 	height:100%;
-	padding-top:100px;
+	padding-top:10px;
 	padding-bottom:50px; 
 	display:none;
 	top:0;
 } 
 @media (min-width: 768px) {
-	.section { padding-top:10px;}
+	.section { padding-bottom:0px;}
 }
 
 /* Show one of sections */

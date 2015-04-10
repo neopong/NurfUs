@@ -14,6 +14,7 @@ $(document).ready(function () {
     hub.client.newMatch = function (gameDisplay) {
         betId = 0;
         $(".checkShow").removeClass("checkShow");
+        new Audio("/Audio/UrfIntro.mp3").play();
 
         $("#gameDetail").empty().append(timeLeftTemplate.supplant(gameDisplay));
         $("#participant1").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[0].ChampionImage + '"\>');
@@ -26,6 +27,17 @@ $(document).ready(function () {
         $("#participant8").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[2].ChampionImage + '"\>');
         $("#participant9").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[3].ChampionImage + '"\>');
         $("#participant10").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[4].ChampionImage + '"\>');
+
+        $("#participant1").attr("data-x-betId", gameDisplay.BlueTeam[0].ParticipantId)
+        $("#participant2").attr("data-x-betId", gameDisplay.BlueTeam[1].ParticipantId)
+        $("#participant3").attr("data-x-betId", gameDisplay.BlueTeam[2].ParticipantId)
+        $("#participant4").attr("data-x-betId", gameDisplay.BlueTeam[3].ParticipantId)
+        $("#participant5").attr("data-x-betId", gameDisplay.BlueTeam[4].ParticipantId)
+        $("#participant6").attr("data-x-betId", gameDisplay.PurpleTeam[0].ParticipantId)
+        $("#participant7").attr("data-x-betId", gameDisplay.PurpleTeam[1].ParticipantId)
+        $("#participant8").attr("data-x-betId", gameDisplay.PurpleTeam[2].ParticipantId)
+        $("#participant9").attr("data-x-betId", gameDisplay.PurpleTeam[3].ParticipantId)
+        $("#participant10").attr("data-x-betId", gameDisplay.PurpleTeam[4].ParticipantId)
 
         if (gameDisplay.BetType == 0) {
             $(".blueTeam, .purpleTeam, .summoner").off();
@@ -67,6 +79,14 @@ $(document).ready(function () {
             + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
 
+    hub.client.applause = function () {
+        new Audio("/Audio/Applause.mp3").play();
+    };
+
+    hub.client.fart = function () {
+        new Audio("/Audio/Fart.mp3").play();
+    };
+
     if (authenticated)
     {
         toggleBet(true);
@@ -92,6 +112,14 @@ $(document).ready(function () {
 
     $.connection.hub.start().done(function () {
         hub.server.getCurrentMatch();
+
+        $('#applause').click(function () {
+            hub.server.applause(getCookie("clientName"), getCookie("clientKey"));
+        });
+
+        $('#fart').click(function () {
+            hub.server.fart(getCookie("clientName"), getCookie("clientKey"));
+        });
 
         $('#sendmessage').click(function () {
             // Call the Send method on the hub. 
