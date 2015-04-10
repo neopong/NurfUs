@@ -9,44 +9,55 @@
 @using (Html.BeginForm())
 {
     <section class="section" id="head">
-        <div class="well col-md-6">
-            <h5><span class="label label-default blueTeam">Blue Team</span></h5>
-            <div class="list-group">
-                <div class="panel panel-info">
-                    <div class="panel-heading blueTeam">
-                        <div class="summoner" id="participant1"></div>
-                        <div class="summoner" id="participant2"></div>
-                        <div class="summoner" id="participant3"></div>
-                        <div class="summoner" id="participant4"></div>
-                        <div class="summoner" id="participant5"></div>
-                        <div style="clear: both;"></div>
+        <div class="well panelBackground" id="guestEntry" @((!User.Identity.IsAuthenticated && Request.Cookies["clientName"] == null) ? "style=\"display: none;\"" : "")>
+            <input type="text" class="form-control" placeholder="Enter your name" id="guestName" autocomplete="off" />
+        </div>
+        
+        <div id="betArena" style="display: none;">
+            <div class="well col-md-6">
+                <h5><span class="label label-default blueTeam">Blue Team</span></h5>
+                <div class="list-group">
+                    <div class="panel panel-info">
+                        <div class="panel-heading blueTeam">
+                            <div class="summoner" id="participant1"></div>
+                            <div class="summoner" id="participant2"></div>
+                            <div class="summoner" id="participant3"></div>
+                            <div class="summoner" id="participant4"></div>
+                            <div class="summoner" id="participant5"></div>
+                            <div style="clear: both;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="well col-md-6">
-            <h5><span class="label label-default purpleTeam">Purple Team</span></h5>
-            <div class="list-group">
-                <div class="panel panel-info">
-                    <div class="panel-heading purpleTeam">
-                        <div class="summoner" id="participant6"></div>
-                        <div class="summoner" id="participant7"></div>
-                        <div class="summoner" id="participant8"></div>
-                        <div class="summoner" id="participant9"></div>
-                        <div class="summoner" id="participant10"></div>
-                        <div style="clear: both;"></div>
+            <div class="well col-md-6">
+                <h5><span class="label label-default purpleTeam">Purple Team</span></h5>
+                <div class="list-group">
+                    <div class="panel panel-info">
+                        <div class="panel-heading purpleTeam">
+                            <div class="summoner" id="participant6"></div>
+                            <div class="summoner" id="participant7"></div>
+                            <div class="summoner" id="participant8"></div>
+                            <div class="summoner" id="participant9"></div>
+                            <div class="summoner" id="participant10"></div>
+                            <div style="clear: both;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div>&nbsp;</div>
-        <div class="well panelBackground ">
-            <div id="gameDetail"></div>
-            <input type="text" id="message" class="form-control" placeholder="Chat with your fellow URFers" autocomplete="off" />
-            <input type="button" class="btn-default" id="sendmessage" value="Send" />
-            <input type="hidden" id="displayname" />
-            <div id="discussion-wrapper">
-            <ul id="discussion"></ul>
+            <div>&nbsp;</div>
+            <div class="well panelBackground ">
+                <div id="gameDetail"></div>
+                <div class="form-group">
+                        <div class="col-md-3">
+                            <input type="text" id="message" class="form-control" placeholder="Chat with your fellow URFers" autocomplete="off" />
+                        </div>
+                        <div class="col-md-3 btn-group">
+                            <input type="button" class="btn btn-default" id="sendmessage" value="Send" />
+                        </div>
+                    </div>
+                <div id="discussion-wrapper">
+                    <ul id="discussion"></ul>
+                </div>
             </div>
         </div>
     </section>

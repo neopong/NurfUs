@@ -17,16 +17,55 @@ namespace NurfUs.Hubs
         private static DateTime LastChosen;
         internal static MatchDetail ChosenMatch;
         internal static ChampionListDto champs;
+        private static List<NurfClient> nurfers = new List<NurfClient>();
 
         public void GetCurrentMatch()
         {
             Clients.All.newMatch(CreateGameDisplay(ChosenMatch));
         }
 
-        public void Send(string name, string message)
+        public void NewGuest(string guestName)
         {
-            //Call the broadcastMessage method to update clients.
-            Clients.All.broadcastMessage(name, message);
+
+            NurfClient newClient = new NurfClient();
+
+            guestName = guestName.Trim();
+
+            if (guestName.Length < 3)
+            {
+                newClient.Message = "Your name must be at least 3 characters long.";
+            }
+            else
+	        {
+                guestName = "Guest( " + guestName + " )";
+                
+                if (nurfers.FirstOrDefault(n => n.Name == guestName) != null)
+                {
+                    newClient.Message = "Guest name already taken. Try registering for a real account or try a new name";
+                }
+                else
+	            {
+                    newClient.Name = guestName;
+                    newClient.Key = Guid.NewGuid().ToString();
+                    newClient.Valid = true;
+
+                    nurfers.Add(newClient);
+	            }
+	        }
+
+            Clients.Caller.userResponse(newClient);
+        }
+
+        public bool Send(string name, string key, string message)
+        {
+            if (nurfers.FirstOrDefault(n => n.Name == name && n.Key == key) != null)
+            {
+                //Call the broadcastMessage method to update clients.
+                Clients.All.broadcastMessage(name, message);
+                return true;
+            }
+
+            return false;
         }
 
         internal static void GenerateNewMatch()

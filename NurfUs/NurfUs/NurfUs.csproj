@@ -179,7 +179,9 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Classes\BetType.cs" />
     <Compile Include="Classes\GameDisplay.cs" />
+    <Compile Include="Classes\NurfClient.cs" />
     <Compile Include="Classes\NurfUsController.cs" />
     <Compile Include="Classes\ParticipantDisplay.cs" />
     <Compile Include="Classes\RESTHelpers.cs" />
