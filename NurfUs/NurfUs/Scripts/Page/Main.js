@@ -21,6 +21,19 @@
         $("#participant8").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[2].ChampionImage + '"\>');
         $("#participant9").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[3].ChampionImage + '"\>');
         $("#participant10").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[4].ChampionImage + '"\>');
+
+        if (gameDisplay.BetType == 0) {
+            $(".blueTeam").off();
+            $(".purpleTeam").off();
+
+            $(".blueTeam").click(function () {
+                alert("Blue team go!");
+            });
+
+            $(".purpleTeam").click(function () {
+                alert("Purple team go!");
+            });
+        }
     };
 
     hub.client.userResponse = function (newClient) {

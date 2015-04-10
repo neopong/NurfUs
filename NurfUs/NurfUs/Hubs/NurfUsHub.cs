@@ -89,7 +89,8 @@ namespace NurfUs.Hubs
                 SecondsElapsed = Convert.ToInt32(DateTime.Now.Subtract(LastChosen).TotalSeconds)*1000,
                 MatchInterval = Convert.ToInt32(ConfigurationManager.AppSettings["NewMatchInterval"]),
                 BlueTeam = new List<ParticipantDisplay>(),
-                PurpleTeam = new List<ParticipantDisplay>()
+                PurpleTeam = new List<ParticipantDisplay>(),
+                BetType = BetType.Team
             };
 
             foreach (Participant participant in ChosenMatch.Participants.Where(p => p.TeamId == 100))

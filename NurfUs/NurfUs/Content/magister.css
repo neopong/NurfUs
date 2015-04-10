@@ -113,6 +113,26 @@ body {
 /********************************************************/
 /*             Sections - universal classes             */
 /********************************************************/
+.blueTeam, .purpleTeam {
+    top: 0;
+    left: 0;
+}
+
+.blueTeam .teamCheck{
+    position:relative; 
+    top:0px; 
+    width:320px; 
+    height:80px; 
+    background:#FF2400; 
+    background: url(img/fish-1.png) no-repeat; 
+    opacity:0;
+    background: url(/Images/Checkmark.png) no-repeat;
+}
+
+.blueTeam:hover .teamCheck, .purpleTeam:hover .teamCheck{
+    opacity: 0.7;   
+}
+
 .section { 
 	z-index: 1;
 	min-height:420px;
