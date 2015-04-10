@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿var betId = 0;
+
+$(document).ready(function () {
     var hub = $.connection.nurfUsHub;
     var authenticated = false;
 
@@ -10,6 +12,9 @@
     var timeLeftTemplate = '<div class="badge timer" data-x-started="{SecondsElapsed}"></div>';
 
     hub.client.newMatch = function (gameDisplay) {
+        betId = 0;
+        $(".checkShow").removeClass("checkShow");
+
         $("#gameDetail").empty().append(timeLeftTemplate.supplant(gameDisplay));
         $("#participant1").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[0].ChampionImage + '"\>');
         $("#participant2").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[1].ChampionImage + '"\>');
@@ -23,17 +28,20 @@
         $("#participant10").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[4].ChampionImage + '"\>');
 
         if (gameDisplay.BetType == 0) {
-            $(".blueTeam").off();
-            $(".purpleTeam").off();
-
-            $(".blueTeam").click(function () {
-                alert("Blue team go!");
-            });
-
-            $(".purpleTeam").click(function () {
-                alert("Purple team go!");
-            });
+            $(".blueTeam, .purpleTeam, .summoner").off();
+            $(".summoner").removeClass("selectable");
+            $(".blueTeam, .purpleTeam").addClass("selectable");
         }
+        else {
+            $(".blueTeam, .purpleTeam, .summoner").off();
+            $(".blueTeam, .purpleTeam").removeClass("selectable");
+            $(".summoner").addClass("selectable");
+        }
+
+        $(".selectable").click(function () {
+            betSelected(this);
+        });
+
     };
 
     hub.client.userResponse = function (newClient) {
@@ -119,5 +127,17 @@ function toggleBet(authenticate)
         $("#betArena").hide();
         // Set initial focus to message input box.  
         $('#guestName').focus();
+    }
+}
+
+function betSelected(element)
+{
+    $(".checkShow").removeClass("checkShow");
+    if (betId != $(element).attr("data-x-betId")) {
+        betId = $(element).attr("data-x-betId");
+        $(element).children(".checkMark").addClass("checkShow");
+    }
+    else {
+        betId = 0;
     }
 }
