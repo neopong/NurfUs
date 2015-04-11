@@ -156,7 +156,15 @@ namespace NurfUs.Hubs
             ChosenMatch = jss.Deserialize<MatchDetail>(matchContent);
             LastChosen = DateTime.Now;
             
-       
+            //I am having issues getting the participant id from the participant object
+            //So I am going to do a simple assignment for now
+            for (int i = 0; i < ChosenMatch.ParticipantIdentities.Count(); i++)
+            {
+                if (ChosenMatch.Participants[i].ParticipantId == 0)
+                {
+                    ChosenMatch.Participants[i].ParticipantId = ChosenMatch.ParticipantIdentities[i].ParticipantId;
+                }
+            }
 
             //Well we sorta just want like random bets to spawn.
             int choice = new Random().Next(3);
@@ -187,7 +195,7 @@ namespace NurfUs.Hubs
                 BetType = betType,
                 BetQuestion = GetRoundMessage(betType)
             };
-
+            
             foreach (Participant participant in ChosenMatch.Participants.Where(p => p.TeamId == 100))
             {
                 gameDisplay.BlueTeam.Add(
