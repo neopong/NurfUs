@@ -48,15 +48,13 @@ namespace NurfUs.Hubs
         internal static ChampionListDto champs;
         private static Dictionary<String, PlayerBet> PlayerBets;
         private static int CurrentCorrectAnswer;
-
-        
-
+        private static UserData userDataContext;
         private static List<NurfClient> nurfers = new List<NurfClient>();
 
         static NurfUsHub()
         {
             PlayerBets = new Dictionary<string, PlayerBet>();
-
+            userDataContext = new UserData();
         }
 
         public void Applause(string name, string key)
@@ -107,8 +105,15 @@ namespace NurfUs.Hubs
                     newClient.Name = guestName;
                     newClient.Key = Guid.NewGuid().ToString();
                     newClient.Valid = true;
-
                     
+                    UserInfo userInfo = new UserInfo();
+                    userInfo.ASPNetUserId = newClient.Key;
+                    userInfo.InCorrectGuesses = 0;
+                    userInfo.CorrectGuesses = 0;
+                    userInfo.TempUser = true;
+                    userInfo.Currency = 5000;
+                    userDataContext.UserInfoes.Add(userInfo);
+                    userDataContext.SaveChangesAsync();
 	            }
 	        }
 
@@ -185,13 +190,32 @@ namespace NurfUs.Hubs
             CurrentCorrectAnswer = -1;
 
             int choice = new Random().Next(3);
-
             switch (choice)
             {
                 case 0:
                     ChosenBetType = BetType.SummonerMostKills;
-                    var highKillChampion = ChosenMatch.Participants.OrderByDescending(p => p.Stats.Kills).ThenByDescending(p => p.Stats.TotalPlayerScore).FirstOrDefault();
-                    CurrentCorrectAnswer = highKillChampion.ParticipantId;
+                    //Turns out they dont give us the stats object... so we gotta do this manually...
+                    //var highKillChampion = ChosenMatch.Participants.OrderByDescending(p => p.Stats.Kills).ThenByDescending(p => p.Stats.TotalPlayerScore).FirstOrDefault();
+                    int participantMostKills = 0;
+                    int currentHighKillCount = 0;
+
+                    foreach(var participant in ChosenMatch.Participants){
+                        int curCount = 0;
+                        foreach (var frame in ChosenMatch.Timeline.Frames)
+                        {
+                            if (frame.Events != null)
+                            {
+                                curCount += frame.Events.Where(e => e.EventType == EVENT_KEY_CHAMPION_KILL && e.KillerId == participant.ParticipantId).Count();
+                            }
+                        }
+                        if (curCount > currentHighKillCount)
+                        {
+                            currentHighKillCount = curCount;
+                            participantMostKills = participant.ParticipantId;
+                        }
+                    }
+
+                    CurrentCorrectAnswer = participantMostKills;
                     break;
                 case 1:
                     ChosenBetType = BetType.TeamWinner;
@@ -200,17 +224,25 @@ namespace NurfUs.Hubs
                     break;
                 case 2:
                     ChosenBetType = BetType.SummonerFirstBlood;
-
-                    foreach (var frame in ChosenMatch.Timeline.Frames)
+                    if (ChosenMatch.Timeline.Frames != null)
                     {
-                        foreach (var frameEvent in frame.Events)
+                        foreach (var frame in ChosenMatch.Timeline.Frames)
                         {
-                            if (frameEvent.EventType == EVENT_KEY_CHAMPION_KILL)
+                            if (frame.Events != null)
                             {
-                                CurrentCorrectAnswer = frameEvent.KillerId;
+                                foreach (var frameEvent in frame.Events)
+                                {
+                                    if (frameEvent.EventType == EVENT_KEY_CHAMPION_KILL)
+                                    {
+                                        CurrentCorrectAnswer = frameEvent.KillerId;
+                                        //dijkstra forgive me for I hath sinned
+                                        goto Found;
+                                    }
+                                }
                             }
                         }
                     }
+Found:
                     break;
             }
 
@@ -276,18 +308,30 @@ namespace NurfUs.Hubs
             //Only evaluate the results if there were any bets
             if (PlayerBets != null && PlayerBets.Count > 0)
             {
-                foreach (var kvp in PlayerBets)
+                foreach (var playerBetKvp in PlayerBets)
                 {
-                    if (kvp.Value.BetChoiceId == CurrentCorrectAnswer)
+                    var user = userDataContext.UserInfoes.Where(ud => ud.ASPNetUserId == playerBetKvp.Key).FirstOrDefault();
+                    if (user != null)
                     {
-                        //Handle correct bets here
-                    }
-                    else
-                    {
-
+                        if (playerBetKvp.Value.BetChoiceId == CurrentCorrectAnswer)
+                        {
+                            user.Currency += playerBetKvp.Value.BetAmount;
+                            user.CorrectGuesses++;
+                        }
+                        else
+                        {
+                            user.Currency -= playerBetKvp.Value.BetAmount;
+                            user.InCorrectGuesses++;
+                        }
                     }
                 }
+                userDataContext.SaveChangesAsync();
             }
+        }
+
+        internal static async void UpdateUserInfo(UserInfo info)
+        {
+            
         }
     }
 }
