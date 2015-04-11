@@ -98,6 +98,27 @@ $(document).ready(function () {
         toggleBet(false);
     }
 
+    //This is where we will poll the server to add the bet info.
+    function betSelected(element) {
+        $(".checkShow").removeClass("checkShow");
+        if (betId != $(element).attr("data-x-betId")) {
+            betId = $(element).attr("data-x-betId");
+            $(element).children(".checkMark").addClass("checkShow");
+
+            var userBet = {
+                //Select the bet amount
+                BetAmount: 100,
+                UserId: "Whatever the userid is",
+                BetChoiceId: betId
+            }
+            //
+            hub.server.addUserBet("User ID goes here", 100, betId);
+        }
+        else {
+            betId = 0;
+        }
+    }
+
     $(window).keydown(function (event) {
         if (event.keyCode == 13) {
             event.preventDefault();
@@ -161,14 +182,4 @@ function toggleBet(authenticate)
     }
 }
 
-function betSelected(element)
-{
-    $(".checkShow").removeClass("checkShow");
-    if (betId != $(element).attr("data-x-betId")) {
-        betId = $(element).attr("data-x-betId");
-        $(element).children(".checkMark").addClass("checkShow");
-    }
-    else {
-        betId = 0;
-    }
-}
+
