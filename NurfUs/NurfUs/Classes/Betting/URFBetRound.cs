@@ -6,56 +6,48 @@ using System.Web;
 namespace NurfUs.Classes.Betting
 {
 
-    public class UserBet
+  
+    public class URFBetRound 
     {
-        int BetOptionIndex
-        {
+        public BetEvent Event{
             get;
             set;
         }
+        
+        private Dictionary<String,UserBet> UserBets;
 
-        int BetAmount
+        public URFBetRound(BetEvent pEvent)
         {
-            get;
-            set;
-        }
-    }
-    public class URFBetRound : IBetRound
-    {
-        List<BetOption> BetOptions
-        {
-            get;
-            set;
+            this.Event = pEvent;
+            this.UserBets = new Dictionary<string, UserBet>();
         }
 
-        //UserId, with bit option Index
-        Dictionary<String, int> UserBets
+        public void AddUserBet(UserBet bet)
         {
-            get;
-            set;
-        }
-
-        public int WinningBetIndex
-        {
-            get;
-            set;
-        }
-
-        public URFBetRound(List<BetOption> betOptions, int winningBetIndex)
-        {
-            BetOptions = betOptions;
-            WinningBetIndex = winningBetIndex;
-        }
-
-        public void AddUserBet(String userId, int betOptionIndex)
-        {
-            if (UserBets.ContainsKey(userId))
+            if (!UserBets.ContainsKey(bet.UserId))
             {
-                UserBets[userId] = betOptionIndex;
+                UserBets.Add(bet.UserId, bet);
             }
             else
             {
-                UserBets.Add(userId, betOptionIndex);
+                UserBets[bet.UserId] = bet;
+            }
+        }
+
+        public void ChangeUserBetAmount(String userId, int newAmount)
+        {
+            if (UserBets.ContainsKey(userId))
+            {
+                UserBets[userId].BetAmount = newAmount;
+            }
+        }
+
+        public void ChangeUserEntityChoice(String userId, BetEntity superiorEntity, BetEntity inferiorEntity)
+        {
+            if (UserBets.ContainsKey(userId))
+            {
+                UserBets[userId].ChoiceSuperiorEntity = superiorEntity;
+                UserBets[userId].ChoiceInferiorEntity = inferiorEntity;
             }
         }
 
