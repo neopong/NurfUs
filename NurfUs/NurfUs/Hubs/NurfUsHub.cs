@@ -9,11 +9,16 @@ using System.Web.Hosting;
 using System.IO;
 using System.Web.Script.Serialization;
 using System.Configuration;
+using System.Timers;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace NurfUs.Hubs
 {
     public class NurfUsHub : Hub
     {
+        private const int MILLISECONDS_PER_ROUND = 3000;
+
         private static DateTime LastChosen;
         internal static MatchDetail ChosenMatch;
         internal static ChampionListDto champs;
@@ -36,6 +41,14 @@ namespace NurfUs.Hubs
                 Clients.All.broadcastMessage(name, name + " has eaten too much feesh. Here comes the SPRAY!!!1one!");
             }
         }
+
+        private static object lockObj;
+        private static TimeSpan currentTimeSpan;
+        private static Stopwatch stopWatch;
+        private static Task timerTask;
+
+
+
 
         public void GetCurrentMatch()
         {
