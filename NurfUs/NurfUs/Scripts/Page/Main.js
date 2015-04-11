@@ -41,7 +41,8 @@ $(document).ready(function () {
         $("#participant9").attr("data-x-betId", gameDisplay.PurpleTeam[3].ParticipantId)
         $("#participant10").attr("data-x-betId", gameDisplay.PurpleTeam[4].ParticipantId)
 
-        if (gameDisplay.BetType == 0) {
+        //Change the checkmark display based on the bet types
+        if (gameDisplay.BetType == 1) {
             $(".blueTeam, .purpleTeam, .summoner").off();
             $(".summoner").removeClass("selectable");
             $(".blueTeam, .purpleTeam").addClass("selectable");

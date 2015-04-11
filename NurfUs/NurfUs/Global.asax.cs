@@ -42,7 +42,7 @@ namespace NurfUs
             timer.Elapsed += (o, t) =>
             {
                 NurfUsHub.GenerateNewMatch();
-                GlobalHost.ConnectionManager.GetHubContext<NurfUsHub>().Clients.All.newMatch(NurfUsHub.CreateGameDisplay(NurfUsHub.ChosenMatch));
+                GlobalHost.ConnectionManager.GetHubContext<NurfUsHub>().Clients.All.newMatch(NurfUsHub.CreateGameDisplay(NurfUsHub.ChosenMatch, NurfUsHub.ChosenBetType));
             };
 
             timer.Start();

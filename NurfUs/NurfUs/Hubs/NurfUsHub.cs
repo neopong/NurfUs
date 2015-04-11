@@ -12,18 +12,45 @@ using System.Configuration;
 using System.Timers;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using NurfUs.Classes.Betting;
+
 
 namespace NurfUs.Hubs
 {
+    internal class PlayerBet
+    {
+        public int BetAmount{
+            get;
+            set;
+        }
+
+        public String UserId{
+            get;
+            set;
+        }
+
+        public int BetChoiceId{
+            get;
+            set;
+        }
+    }
+
     public class NurfUsHub : Hub
     {
         private const int MILLISECONDS_PER_ROUND = 3000;
 
         private static DateTime LastChosen;
         internal static MatchDetail ChosenMatch;
+        internal static BetType ChosenBetType;
         internal static ChampionListDto champs;
+        private static Dictionary<String, PlayerBet> PlayerBets;
+
         private static List<NurfClient> nurfers = new List<NurfClient>();
+
+        static NurfUsHub()
+        {
+            PlayerBets = new Dictionary<string, PlayerBet>();
+
+        }
 
         public void Applause(string name, string key)
         {
@@ -43,17 +70,10 @@ namespace NurfUs.Hubs
             }
         }
 
-        private static object lockObj;
-        private static TimeSpan currentTimeSpan;
-        private static Stopwatch stopWatch;
-        private static Task timerTask;
-
-
-
-
         public void GetCurrentMatch()
         {
-            Clients.Caller.newMatch(CreateGameDisplay(ChosenMatch));
+            int choice = new Random().Next(1);
+            Clients.Caller.newMatch(CreateGameDisplay(ChosenMatch,ChosenBetType));
         }
 
         public void NewGuest(string guestName)
@@ -88,6 +108,21 @@ namespace NurfUs.Hubs
             Clients.Caller.userResponse(newClient);
         }
 
+        public void AddUserBet(String userId, int betId, int betAmount)
+        {
+            if (!PlayerBets.ContainsKey(userId))
+            {
+                PlayerBets.Add(userId, new PlayerBet() { UserId = userId });   
+            }
+            PlayerBets[userId].BetAmount = betAmount;
+            PlayerBets[userId].BetChoiceId = betId;
+
+            //You can call a client function to subtract their visible amount of currenty or something
+            //After this function.:
+
+            //client.DoSomethingCool();
+        }
+
         public bool Send(string name, string key, string message)
         {
             if (nurfers.FirstOrDefault(n => n.Name == name && n.Key == key) != null)
@@ -107,6 +142,8 @@ namespace NurfUs.Hubs
         //this is where we will add the new event
         internal static void GenerateNewMatch()
         {
+            
+
             DirectoryInfo diMatchHistory = new DirectoryInfo(ConfigurationManager.AppSettings["MatchDirectory"]);
             int matchCount = diMatchHistory.GetFiles().Count();
 
@@ -118,13 +155,28 @@ namespace NurfUs.Hubs
 
             ChosenMatch = jss.Deserialize<MatchDetail>(matchContent);
             LastChosen = DateTime.Now;
+            
+       
 
             //Well we sorta just want like random bets to spawn.
-            URFBetRound roundBet = URFBetRound.GenerateRandomBetRound(ChosenMatch);
-            
+            int choice = new Random().Next(3);
+            switch (choice)
+            {
+                case 0:
+                    ChosenBetType = BetType.SummonerMostKills;
+                    break;
+                case 1:
+                    ChosenBetType = BetType.TeamWinner;
+                    break;
+                case 2:
+                    ChosenBetType = BetType.SummonerFirstBlood;
+                    break;
+            }
+
+            PlayerBets.Clear();
         }
 
-        internal static GameDisplay CreateGameDisplay(MatchDetail match)
+        internal static GameDisplay CreateGameDisplay(MatchDetail match, BetType betType)
         {
             GameDisplay gameDisplay = new GameDisplay()
             {
@@ -132,8 +184,8 @@ namespace NurfUs.Hubs
                 MatchInterval = Convert.ToInt32(ConfigurationManager.AppSettings["NewMatchInterval"]),
                 BlueTeam = new List<ParticipantDisplay>(),
                 PurpleTeam = new List<ParticipantDisplay>(),
-                BetType = BetType.Team,
-                BetQuestion = "Which team won the game?"
+                BetType = betType,
+                BetQuestion = GetRoundMessage(betType)
             };
 
             foreach (Participant participant in ChosenMatch.Participants.Where(p => p.TeamId == 100))
@@ -157,6 +209,22 @@ namespace NurfUs.Hubs
             }
 
             return gameDisplay;
+        }
+
+        private static String GetRoundMessage(BetType betType)
+        {
+            switch (betType)
+            {
+                case BetType.SummonerMostKills:
+                    return "Which summoner got the most kills?";
+                case BetType.SummonerFirstBlood:
+                    return "Which summoner got First Blood?";
+                case BetType.TeamWinner :
+                    return "Which team won the game?";
+                default:
+                    break;
+            }
+            return "";
         }
     }
 }

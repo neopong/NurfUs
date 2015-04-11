@@ -12,6 +12,12 @@ namespace NurfUs.Models
             get;
             set;
         }
+        public String UserKey
+        {
+            get;
+            set;
+        }
+
         public bool TempUser
         {
             get;
@@ -36,5 +42,6 @@ namespace NurfUs.Models
             set;
         }
 
+        
     }
 }
