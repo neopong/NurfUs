@@ -39,7 +39,7 @@ namespace NurfUs.Hubs
     public class NurfUsHub : Hub
     {
         public const int NEW_ACCOUNT_CURRENCY = 10000;
-
+        private const String EVENT_KEY_CHAMPION_KILL = "CHAMPION_KILL";
         private const int MILLISECONDS_PER_ROUND = 3000;
 
         private static DateTime LastChosen;
@@ -47,6 +47,9 @@ namespace NurfUs.Hubs
         internal static BetType ChosenBetType;
         internal static ChampionListDto champs;
         private static Dictionary<String, PlayerBet> PlayerBets;
+        private static int CurrentCorrectAnswer;
+
+        
 
         private static List<NurfClient> nurfers = new List<NurfClient>();
 
@@ -172,20 +175,46 @@ namespace NurfUs.Hubs
                 }
             }
 
+            
+
             //Well we sorta just want like random bets to spawn.
+            //Just a note to anyone who actually looks at this code
+            //This is bad design, don't do this, there are patterns and
+            //code architectures that can do this better
+            //This was just done because of time constraints...
+            CurrentCorrectAnswer = -1;
+
             int choice = new Random().Next(3);
+
             switch (choice)
             {
                 case 0:
                     ChosenBetType = BetType.SummonerMostKills;
+                    var highKillChampion = ChosenMatch.Participants.OrderByDescending(p => p.Stats.Kills).ThenByDescending(p => p.Stats.TotalPlayerScore).FirstOrDefault();
+                    CurrentCorrectAnswer = highKillChampion.ParticipantId;
                     break;
                 case 1:
                     ChosenBetType = BetType.TeamWinner;
+                    var winningTeam = ChosenMatch.Teams.Where(t => t.Winner = true).FirstOrDefault();
+                    CurrentCorrectAnswer = winningTeam.TeamId;
                     break;
                 case 2:
                     ChosenBetType = BetType.SummonerFirstBlood;
+
+                    foreach (var frame in ChosenMatch.Timeline.Frames)
+                    {
+                        foreach (var frameEvent in frame.Events)
+                        {
+                            if (frameEvent.EventType == EVENT_KEY_CHAMPION_KILL)
+                            {
+                                CurrentCorrectAnswer = frameEvent.KillerId;
+                            }
+                        }
+                    }
                     break;
             }
+
+
 
             PlayerBets.Clear();
         }
@@ -239,6 +268,26 @@ namespace NurfUs.Hubs
                     break;
             }
             return "";
+        }
+
+        //Evaluates the results of the current match before starting a new one.
+        internal static void EvaluateCurrentMatch()
+        {
+            //Only evaluate the results if there were any bets
+            if (PlayerBets != null && PlayerBets.Count > 0)
+            {
+                foreach (var kvp in PlayerBets)
+                {
+                    if (kvp.Value.BetChoiceId == CurrentCorrectAnswer)
+                    {
+                        //Handle correct bets here
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
         }
     }
 }
