@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NurfUs.Models.API;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -49,6 +50,26 @@ namespace NurfUs.Classes.Betting
                 UserBets[userId].ChoiceSuperiorEntity = superiorEntity;
                 UserBets[userId].ChoiceInferiorEntity = inferiorEntity;
             }
+        }
+
+        public static URFBetRound GenerateRandomBetRound(MatchDetail matchDetail)
+        {
+            int random = new Random().Next(2);
+
+            URFBetRound round = null;
+            switch (random)
+            {
+                case 0:
+                    round = new URFBetRound(BetEventFactory.GeneratePvPKillEvent(matchDetail));
+                    break;
+                case 1:
+                    round = new URFBetRound(BetEventFactory.GeneratePvTKillEvent(matchDetail));
+                    break;
+                case 2:
+                    round = new URFBetRound(BetEventFactory.GenerateFirstBloodKillEvent(matchDetail));
+                    break;
+            }
+            return round;
         }
 
     }

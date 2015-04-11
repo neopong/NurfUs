@@ -10,7 +10,19 @@ namespace NurfUs.Classes.Betting
     {
         private static ulong uniqueEntityId = 0;
 
+        internal static BetEvent GeneratePvPKillEvent(Models.API.MatchDetail matchDetail)
+        {
+            throw new NotImplementedException();
+        }
 
+        internal static BetEvent GeneratePvTKillEvent(Models.API.MatchDetail matchDetail)
+        {
+            throw new NotImplementedException();
+        }
 
+        internal static BetEvent GenerateFirstBloodKillEvent(Models.API.MatchDetail matchDetail)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

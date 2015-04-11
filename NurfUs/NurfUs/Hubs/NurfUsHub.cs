@@ -12,6 +12,7 @@ using System.Configuration;
 using System.Timers;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using NurfUs.Classes.Betting;
 
 namespace NurfUs.Hubs
 {
@@ -99,6 +100,7 @@ namespace NurfUs.Hubs
             return false;
         }
 
+        //this is where we will add the new event
         internal static void GenerateNewMatch()
         {
             DirectoryInfo diMatchHistory = new DirectoryInfo(ConfigurationManager.AppSettings["MatchDirectory"]);
@@ -107,10 +109,15 @@ namespace NurfUs.Hubs
             Random randomGameNum = new Random();
             string matchContent = File.ReadAllText(diMatchHistory.GetFiles()[randomGameNum.Next(matchCount)].FullName);
 
+            //We should keep a cache of champions in memory
             JavaScriptSerializer jss = new JavaScriptSerializer();
 
             ChosenMatch = jss.Deserialize<MatchDetail>(matchContent);
             LastChosen = DateTime.Now;
+
+            //Well we sorta just want like random bets to spawn.
+            URFBetRound roundBet = URFBetRound.GenerateRandomBetRound(ChosenMatch);
+            
         }
 
         internal static GameDisplay CreateGameDisplay(MatchDetail match)

@@ -181,6 +181,11 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Classes\Betting\BetEntity.cs" />
+    <Compile Include="Classes\Betting\BetEventFactory.cs" />
+    <Compile Include="Classes\Betting\BetEvent.cs" />
+    <Compile Include="Classes\Betting\URFBetRound.cs" />
+    <Compile Include="Classes\Betting\UserBet.cs" />
     <Compile Include="Classes\BetType.cs" />
     <Compile Include="Classes\GameDisplay.cs" />
     <Compile Include="Classes\NurfClient.cs" />
@@ -243,6 +248,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SummonerSearch.cs" />
+    <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

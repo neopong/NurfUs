@@ -7,5 +7,11 @@ namespace NurfUs.Classes.Betting
 {
     public class BetEntity
     {
+        public int EntityId
+        {
+            get;
+            set;
+        }
+
     }
 }
