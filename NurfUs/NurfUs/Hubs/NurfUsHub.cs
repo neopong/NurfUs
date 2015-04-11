@@ -76,10 +76,14 @@ namespace NurfUs.Hubs
 
         public bool Send(string name, string key, string message)
         {
-            if (!string.IsNullOrWhiteSpace(message) && nurfers.FirstOrDefault(n => n.Name == name && n.Key == key) != null)
+            if (nurfers.FirstOrDefault(n => n.Name == name && n.Key == key) != null)
             {
-                //Call the broadcastMessage method to update clients.
-                Clients.All.broadcastMessage(name, message);
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    //Call the broadcastMessage method to update clients.
+                    Clients.All.broadcastMessage(name, message);
+                }
+                
                 return true;
             }
 
@@ -108,7 +112,8 @@ namespace NurfUs.Hubs
                 MatchInterval = Convert.ToInt32(ConfigurationManager.AppSettings["NewMatchInterval"]),
                 BlueTeam = new List<ParticipantDisplay>(),
                 PurpleTeam = new List<ParticipantDisplay>(),
-                BetType = BetType.Team
+                BetType = BetType.Team,
+                BetQuestion = "Which team won the game?"
             };
 
             foreach (Participant participant in ChosenMatch.Participants.Where(p => p.TeamId == 100))

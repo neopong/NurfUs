@@ -387,6 +387,7 @@
     <Content Include="Images\Champion\Zilean.png" />
     <Content Include="Images\Champion\Zyra.png" />
     <Content Include="Images\Checkmark.png" />
+    <Content Include="Images\Currency.jpg" />
     <Content Include="Images\leagueoflegendwallpapers.com-ashe-league-of-legends-game-hd-wallpaper-1920x1080-1536.jpg" />
     <Content Include="Images\UrfFlex.jpg" />
     <Content Include="Images\UrfRises.jpg" />

@@ -17,6 +17,8 @@ $(document).ready(function () {
         new Audio("/Audio/UrfIntro.mp3").play();
 
         $("#gameDetail").empty().append(timeLeftTemplate.supplant(gameDisplay));
+        $("#betQuestion").empty().append(gameDisplay.BetQuestion);
+
         $("#participant1").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[0].ChampionImage + '"\>');
         $("#participant2").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[1].ChampionImage + '"\>');
         $("#participant3").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[2].ChampionImage + '"\>');
@@ -75,8 +77,8 @@ $(document).ready(function () {
         var encodedName = htmlEncode(name);
         var encodedMsg = htmlEncode(message);
         // Add the message to the page. 
-        $('#discussion').prepend('<li><strong>' + encodedName
-            + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+        $('#discussion').prepend('<li><strong><div class="badge">' + encodedName
+            + '</div></strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
     };
 
     hub.client.applause = function () {
