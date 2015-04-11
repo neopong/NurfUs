@@ -14,11 +14,12 @@ namespace NurfUs.Models
     
     public partial class UserInfo
     {
-        public string UserId { get; set; }
         public string UserKey { get; set; }
         public bool TempUser { get; set; }
         public long Currency { get; set; }
         public int CorrectGuesses { get; set; }
         public int InCorrectGuesses { get; set; }
+        public int Id { get; set; }
+        public string ASPNetUserId { get; set; }
     }
 }

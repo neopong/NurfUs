@@ -38,6 +38,8 @@ namespace NurfUs.Hubs
 
     public class NurfUsHub : Hub
     {
+        public const int NEW_ACCOUNT_CURRENCY = 10000;
+
         private const int MILLISECONDS_PER_ROUND = 3000;
 
         private static DateTime LastChosen;
@@ -109,6 +111,8 @@ namespace NurfUs.Hubs
 
             Clients.Caller.userResponse(newClient);
         }
+
+        
 
         public void AddUserBet(String userId, int betId, int betAmount)
         {

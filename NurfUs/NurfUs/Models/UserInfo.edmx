@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NurfUsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NurfUsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -22,17 +22,12 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'NurfUs.dbo.UserInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="UserInfo">
           <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="TempUser" />
-            <PropertyRef Name="Currency" />
-            <PropertyRef Name="CorrectGuesses" />
-            <PropertyRef Name="InCorrectGuesses" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ASPNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="UserKey" Type="varchar" MaxLength="64" />
           <Property Name="TempUser" Type="bit" Nullable="false" />
           <Property Name="Currency" Type="bigint" Nullable="false" />
@@ -41,19 +36,9 @@ warning 6002: The table/view 'NurfUs.dbo.UserInfo' does not have a primary key d
         </EntityType>
         <EntityContainer Name="NurfUsModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [UserInfo].[UserId] AS [UserId], 
-    [UserInfo].[UserKey] AS [UserKey], 
-    [UserInfo].[TempUser] AS [TempUser], 
-    [UserInfo].[Currency] AS [Currency], 
-    [UserInfo].[CorrectGuesses] AS [CorrectGuesses], 
-    [UserInfo].[InCorrectGuesses] AS [InCorrectGuesses]
-    FROM [dbo].[UserInfo] AS [UserInfo]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NurfUsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -76,18 +61,15 @@ warning 6002: The table/view 'NurfUs.dbo.UserInfo' does not have a primary key d
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="TempUser" />
-            <PropertyRef Name="Currency" />
-            <PropertyRef Name="CorrectGuesses" />
-            <PropertyRef Name="InCorrectGuesses" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserKey" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
           <Property Name="TempUser" Type="Boolean" Nullable="false" />
           <Property Name="Currency" Type="Int64" Nullable="false" />
           <Property Name="CorrectGuesses" Type="Int32" Nullable="false" />
           <Property Name="InCorrectGuesses" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ASPNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="UserData" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
@@ -120,7 +102,8 @@ warning 6002: The table/view 'NurfUs.dbo.UserInfo' does not have a primary key d
           <EntitySetMapping Name="UserInfoes">
             <EntityTypeMapping TypeName="NurfUsModel.UserInfo">
               <MappingFragment StoreEntitySet="UserInfo">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ASPNetUserId" ColumnName="ASPNetUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserKey" ColumnName="UserKey" />
                 <ScalarProperty Name="TempUser" ColumnName="TempUser" />
                 <ScalarProperty Name="Currency" ColumnName="Currency" />
