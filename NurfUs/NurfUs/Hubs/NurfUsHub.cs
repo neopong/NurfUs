@@ -9,11 +9,17 @@ using System.Web.Hosting;
 using System.IO;
 using System.Web.Script.Serialization;
 using System.Configuration;
+using System.Timers;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using NurfUs.Classes.Betting;
 
 namespace NurfUs.Hubs
 {
     public class NurfUsHub : Hub
     {
+        private const int MILLISECONDS_PER_ROUND = 3000;
+
         private static DateTime LastChosen;
         internal static MatchDetail ChosenMatch;
         internal static ChampionListDto champs;
@@ -36,6 +42,14 @@ namespace NurfUs.Hubs
                 Clients.All.broadcastMessage(name, name + " has eaten too much feesh. Here comes the SPRAY!!!1one!");
             }
         }
+
+        private static object lockObj;
+        private static TimeSpan currentTimeSpan;
+        private static Stopwatch stopWatch;
+        private static Task timerTask;
+
+
+
 
         public void GetCurrentMatch()
         {
@@ -90,6 +104,7 @@ namespace NurfUs.Hubs
             return false;
         }
 
+        //this is where we will add the new event
         internal static void GenerateNewMatch()
         {
             DirectoryInfo diMatchHistory = new DirectoryInfo(ConfigurationManager.AppSettings["MatchDirectory"]);
@@ -98,10 +113,15 @@ namespace NurfUs.Hubs
             Random randomGameNum = new Random();
             string matchContent = File.ReadAllText(diMatchHistory.GetFiles()[randomGameNum.Next(matchCount)].FullName);
 
+            //We should keep a cache of champions in memory
             JavaScriptSerializer jss = new JavaScriptSerializer();
 
             ChosenMatch = jss.Deserialize<MatchDetail>(matchContent);
             LastChosen = DateTime.Now;
+
+            //Well we sorta just want like random bets to spawn.
+            URFBetRound roundBet = URFBetRound.GenerateRandomBetRound(ChosenMatch);
+            
         }
 
         internal static GameDisplay CreateGameDisplay(MatchDetail match)

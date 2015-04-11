@@ -3,6 +3,8 @@
 
 **/APIKey.txt
 **/GoogleAnalyticsKey.txt
+**/PRIVATE_CONNECTION_STRING_DO_NOT_PUSH.txt
+**/*.config
 
 # User-specific files
 *.suo
@@ -198,5 +200,3 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
-*/*.config
-*.config
