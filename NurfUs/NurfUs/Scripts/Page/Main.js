@@ -111,8 +111,8 @@ $(document).ready(function () {
                 UserId: "Whatever the userid is",
                 BetChoiceId: betId
             }
-            //
-            hub.server.addUserBet("User ID goes here", 100, betId);
+            //--------------------- 
+            hub.server.addUserBet(getCookie("clientKey"), 100, betId);
         }
         else {
             betId = 0;
