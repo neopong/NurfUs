@@ -40,6 +40,24 @@
                     <li>
                         <a href="#howtoplay" class="sectionSwitch">How to play</a>
                     </li>
+                    @if (Request.IsAuthenticated)
+                    {
+                    <li>
+                        <a href="~/Account/LogOff" class="">Logout</a>
+                    </li>    
+                    <li>
+                        <a> Logged In as: @User.Identity.Name</a>
+                    </li> 
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="~/Account/LogIn" class="">Log in</a>
+                        </li>        
+                        <li>
+                            <a href="~/Account/Register" class="">Register</a>
+                        </li>        
+                    }
                 </ul>
             </nav>
         </div>
