@@ -12,6 +12,8 @@ using System.Configuration;
 using System.Timers;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using NurfUs.Models;
+using System.Data.Entity;
 
 
 namespace NurfUs.Hubs
@@ -101,7 +103,7 @@ namespace NurfUs.Hubs
                     newClient.Key = Guid.NewGuid().ToString();
                     newClient.Valid = true;
 
-                    nurfers.Add(newClient);
+                    
 	            }
 	        }
 
