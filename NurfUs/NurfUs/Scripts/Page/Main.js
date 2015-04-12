@@ -19,16 +19,23 @@ $(document).ready(function () {
         $("#gameDetail").empty().append(timeLeftTemplate.supplant(gameDisplay));
         $("#betQuestion").empty().append(gameDisplay.BetQuestion);
 
-        $("#participant1").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[0].ChampionImage + '"\>');
-        $("#participant2").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[1].ChampionImage + '"\>');
-        $("#participant3").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[2].ChampionImage + '"\>');
-        $("#participant4").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[3].ChampionImage + '"\>');
-        $("#participant5").empty().append('<img src="/Images/Champion/' + gameDisplay.BlueTeam[4].ChampionImage + '"\>');
-        $("#participant6").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[0].ChampionImage + '"\>');
-        $("#participant7").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[1].ChampionImage + '"\>');
-        $("#participant8").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[2].ChampionImage + '"\>');
-        $("#participant9").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[3].ChampionImage + '"\>');
-        $("#participant10").empty().append('<img src="/Images/Champion/' + gameDisplay.PurpleTeam[4].ChampionImage + '"\>');
+        var checkMark = '<div class="checkMark"><img src="/Images/Checkmark.png" /></div>';
+        var preImage = '<img src="/Images/Champion/';
+
+        if (gameDisplay.BetType == 0) {
+            preImage = checkMark + preImage;
+        }
+
+        $("#participant1").empty().append(preImage + gameDisplay.BlueTeam[0].ChampionImage + '"\>');
+        $("#participant2").empty().append(preImage + gameDisplay.BlueTeam[1].ChampionImage + '"\>');
+        $("#participant3").empty().append(preImage + gameDisplay.BlueTeam[2].ChampionImage + '"\>');
+        $("#participant4").empty().append(preImage + gameDisplay.BlueTeam[3].ChampionImage + '"\>');
+        $("#participant5").empty().append(preImage + gameDisplay.BlueTeam[4].ChampionImage + '"\>');
+        $("#participant6").empty().append(preImage + gameDisplay.PurpleTeam[0].ChampionImage + '"\>');
+        $("#participant7").empty().append(preImage + gameDisplay.PurpleTeam[1].ChampionImage + '"\>');
+        $("#participant8").empty().append(preImage + gameDisplay.PurpleTeam[2].ChampionImage + '"\>');
+        $("#participant9").empty().append(preImage + gameDisplay.PurpleTeam[3].ChampionImage + '"\>');
+        $("#participant10").empty().append(preImage + gameDisplay.PurpleTeam[4].ChampionImage + '"\>');
 
         $("#participant1").attr("data-x-betId", gameDisplay.BlueTeam[0].ParticipantId)
         $("#participant2").attr("data-x-betId", gameDisplay.BlueTeam[1].ParticipantId)
@@ -41,7 +48,7 @@ $(document).ready(function () {
         $("#participant9").attr("data-x-betId", gameDisplay.PurpleTeam[3].ParticipantId)
         $("#participant10").attr("data-x-betId", gameDisplay.PurpleTeam[4].ParticipantId)
 
-        if (gameDisplay.BetType == 0) {
+        if (gameDisplay.BetType == 1) {
             $(".blueTeam, .purpleTeam, .summoner").off();
             $(".summoner").removeClass("selectable");
             $(".blueTeam, .purpleTeam").addClass("selectable");

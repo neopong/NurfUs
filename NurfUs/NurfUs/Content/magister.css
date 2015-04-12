@@ -1,8 +1,21 @@
-.summoner img{
+div.summoner.selectable{
+    position: relative;
+}
+
+div.blueTeam.selectable, div.purpleTeam.selectable{
+    position: relative;
+}
+
+.summoner{
     height: 40px;
     width: 40px;
     float: left;
     margin-right: 10px;
+}
+
+.summoner img{
+    height:100%;
+    width: 100%;
 }
 
 .checkMark{ 
@@ -14,10 +27,17 @@
     left:0px;
 }
 
+
 .blueTeam .checkMark img, .purpleTeam .checkMark img{
     width: 160px;
-    height:120px;
+    height:160px;
     margin-left:40%;
+}
+
+.summoner .checkMark img{
+    width: 40px;
+    height:40px;
+    margin-left:10%;
 }
 
 .checkShow{
@@ -33,11 +53,17 @@
         opacity:0.6;
     }
 
-    .summoner img{
+    .summoner{
         height: 60px;
         width: 60px;
         float: left;
         margin-right: 10px;
+    }
+
+    .summoner .checkMark img{
+        width: 60px;
+        height:60px;
+        margin-left:10%;
     }
 }
 
