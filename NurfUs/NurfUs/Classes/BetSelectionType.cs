@@ -5,7 +5,7 @@ using System.Web;
 
 namespace NurfUs.Classes
 {
-    public enum BetType
+    public enum BetSelectionType
     {
         Team,
         Summoner

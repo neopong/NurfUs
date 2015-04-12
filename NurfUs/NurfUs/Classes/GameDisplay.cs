@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NurfUs.Classes;
+using NurfUs.Classes.Betting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;

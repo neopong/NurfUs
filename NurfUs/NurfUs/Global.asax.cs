@@ -41,6 +41,7 @@ namespace NurfUs
             timer.Interval = Convert.ToInt32(ConfigurationManager.AppSettings["NewMatchInterval"]);
             timer.Elapsed += (o, t) =>
             {
+                NurfUsHub.EvaluateCurrentMatch();
                 NurfUsHub.GenerateNewMatch();
                 GlobalHost.ConnectionManager.GetHubContext<NurfUsHub>().Clients.All.newMatch(NurfUsHub.CreateGameDisplay(NurfUsHub.ChosenMatch));
             };

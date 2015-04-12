@@ -12,18 +12,57 @@ using System.Configuration;
 using System.Timers;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using NurfUs.Classes.Betting;
+using NurfUs.Models;
+using System.Data.Entity;
+using NurfUs.Classes.Betting.Questions;
+
 
 namespace NurfUs.Hubs
 {
+    internal class PlayerBet
+    {
+        public int BetAmount{
+            get;
+            set;
+        }
+
+        public String UserId{
+            get;
+            set;
+        }
+
+        public int BetChoiceId{
+            get;
+            set;
+        }
+    }
+
     public class NurfUsHub : Hub
     {
+        public const int NEW_ACCOUNT_CURRENCY = 10000;
+        internal const String EVENT_KEY_CHAMPION_KILL = "CHAMPION_KILL";
         private const int MILLISECONDS_PER_ROUND = 3000;
 
         private static DateTime LastChosen;
         internal static MatchDetail ChosenMatch;
+        internal static IBetQuestion ChosenQuestion;
         internal static ChampionListDto champs;
+        private static Dictionary<String, PlayerBet> PlayerBets;
+        private static int CurrentCorrectAnswer;
+        private static UserData userDataContext;
         private static List<NurfClient> nurfers = new List<NurfClient>();
+
+        private static List<IBetQuestion> questions = new List<IBetQuestion>()
+        {
+            new QFirstBlood(),
+            new QMostKills(),
+            new QTeamWinner()
+        };
+        static NurfUsHub()
+        {
+            PlayerBets = new Dictionary<string, PlayerBet>();
+            userDataContext = new UserData();
+        }
 
         public void Applause(string name, string key)
         {
@@ -42,14 +81,6 @@ namespace NurfUs.Hubs
                 Clients.All.broadcastMessage(name, name + " has eaten too much feesh. Here comes the SPRAY!!!1one!");
             }
         }
-
-        private static object lockObj;
-        private static TimeSpan currentTimeSpan;
-        private static Stopwatch stopWatch;
-        private static Task timerTask;
-
-
-
 
         public void GetCurrentMatch()
         {
@@ -80,12 +111,36 @@ namespace NurfUs.Hubs
                     newClient.Name = guestName;
                     newClient.Key = Guid.NewGuid().ToString();
                     newClient.Valid = true;
-
-                    nurfers.Add(newClient);
+                    
+                    UserInfo userInfo = new UserInfo();
+                    userInfo.ASPNetUserId = newClient.Key;
+                    userInfo.InCorrectGuesses = 0;
+                    userInfo.CorrectGuesses = 0;
+                    userInfo.TempUser = true;
+                    userInfo.Currency = 5000;
+                    userDataContext.UserInfoes.Add(userInfo);
+                    userDataContext.SaveChangesAsync();
 	            }
 	        }
 
             Clients.Caller.userResponse(newClient);
+        }
+
+        
+
+        public void AddUserBet(String userId, int betId, int betAmount)
+        {
+            if (!PlayerBets.ContainsKey(userId))
+            {
+                PlayerBets.Add(userId, new PlayerBet() { UserId = userId });   
+            }
+            PlayerBets[userId].BetAmount = betAmount;
+            PlayerBets[userId].BetChoiceId = betId;
+
+            //You can call a client function to subtract their visible amount of currenty or something
+            //After this function.:
+
+            //client.DoSomethingCool();
         }
 
         public bool Send(string name, string key, string message)
@@ -107,21 +162,49 @@ namespace NurfUs.Hubs
         //this is where we will add the new event
         internal static void GenerateNewMatch()
         {
+            //We've already pulled match info and stored the json on the local drive in the event the api is down.
+            //If you don't have the matches stored on your local drive use the code below instead of the region below it
+            /*
+            Task<RESTResult<MatchDetail>> matchResult = RESTHelpers.RESTRequest<MatchDetail>
+                (
+                    "https://na.api.pvp.net/api/lol/na/v2.2/match/1778704162", 
+                    "", 
+                    "{apiKey}", 
+                    "includeTimeline=true"
+                );
+
+            matchResult.Wait();
+            
+            if (matchResult.Result.Success)
+            {
+                ChosenMatch = matchResult.Result.ReturnObject;
+            }
+            else
+            {
+                //Do your error logic here
+            }
+            */
+
+            #region Pull Match from local drive
+            //***************************************************
             DirectoryInfo diMatchHistory = new DirectoryInfo(ConfigurationManager.AppSettings["MatchDirectory"]);
             int matchCount = diMatchHistory.GetFiles().Count();
 
             Random randomGameNum = new Random();
             string matchContent = File.ReadAllText(diMatchHistory.GetFiles()[randomGameNum.Next(matchCount)].FullName);
 
-            //We should keep a cache of champions in memory
             JavaScriptSerializer jss = new JavaScriptSerializer();
 
             ChosenMatch = jss.Deserialize<MatchDetail>(matchContent);
+            //***************************************************
+            #endregion Pull Match from local drive
+
             LastChosen = DateTime.Now;
 
-            //Well we sorta just want like random bets to spawn.
-            URFBetRound roundBet = URFBetRound.GenerateRandomBetRound(ChosenMatch);
-            
+            ChosenQuestion = questions[new Random().Next(questions.Count)];
+            CurrentCorrectAnswer = ChosenQuestion.GetCorrectAnswerId(ChosenMatch);
+
+            PlayerBets.Clear();
         }
 
         internal static GameDisplay CreateGameDisplay(MatchDetail match)
@@ -132,10 +215,10 @@ namespace NurfUs.Hubs
                 MatchInterval = Convert.ToInt32(ConfigurationManager.AppSettings["NewMatchInterval"]),
                 BlueTeam = new List<ParticipantDisplay>(),
                 PurpleTeam = new List<ParticipantDisplay>(),
-                BetType = BetType.Team,
-                BetQuestion = "Which team won the game?"
+                BetType = ChosenQuestion.BetType,
+                BetQuestion = ChosenQuestion.BetQuestion
             };
-
+            
             foreach (Participant participant in ChosenMatch.Participants.Where(p => p.TeamId == 100))
             {
                 gameDisplay.BlueTeam.Add(
@@ -157,6 +240,38 @@ namespace NurfUs.Hubs
             }
 
             return gameDisplay;
+        }
+
+        //Evaluates the results of the current match before starting a new one.
+        internal static void EvaluateCurrentMatch()
+        {
+            //Only evaluate the results if there were any bets
+            if (PlayerBets != null && PlayerBets.Count > 0)
+            {
+                foreach (var playerBetKvp in PlayerBets)
+                {
+                    var user = userDataContext.UserInfoes.Where(ud => ud.ASPNetUserId == playerBetKvp.Key).FirstOrDefault();
+                    if (user != null)
+                    {
+                        if (playerBetKvp.Value.BetChoiceId == CurrentCorrectAnswer)
+                        {
+                            user.Currency += playerBetKvp.Value.BetAmount;
+                            user.CorrectGuesses++;
+                        }
+                        else
+                        {
+                            user.Currency -= playerBetKvp.Value.BetAmount;
+                            user.InCorrectGuesses++;
+                        }
+                    }
+                }
+                userDataContext.SaveChangesAsync();
+            }
+        }
+
+        internal static async void UpdateUserInfo(UserInfo info)
+        {
+            
         }
     }
 }

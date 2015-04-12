@@ -17,27 +17,6 @@ namespace NurfUs.Controllers
             return View(new SummonerSearch());
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Index(SummonerSearch search)
-        {
-            RESTResult<Dictionary<string, SummonerDto>> result =
-                    await
-                        RESTHelpers.RESTRequest<Dictionary<string, SummonerDto>>
-                (
-                    string.Format("{0}{1}/v1.4/summoner/by-name/{2}", BaseUrl.Replace("/na.", "/" + search.Region.ToLower() + "."), search.Region.ToLower(), search.Name),
-                    "",
-                    DevKey,
-                    ""
-                );
-
-            if (result.Success)
-            {
-                search.Summoners = result.ReturnObject;
-            }
-
-            return View(search);
-        }
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

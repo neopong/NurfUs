@@ -22,7 +22,7 @@ $(document).ready(function () {
         var checkMark = '<div class="checkMark"><img src="/Images/Checkmark.png" /></div>';
         var preImage = '<img src="/Images/Champion/';
 
-        if (gameDisplay.BetType == 0) {
+        if (gameDisplay.BetType == 1) {
             preImage = checkMark + preImage;
         }
 
@@ -48,13 +48,13 @@ $(document).ready(function () {
         $("#participant9").attr("data-x-betId", gameDisplay.PurpleTeam[3].ParticipantId)
         $("#participant10").attr("data-x-betId", gameDisplay.PurpleTeam[4].ParticipantId)
 
-        if (gameDisplay.BetType == 1) {
-            $(".blueTeam, .purpleTeam, .summoner").off();
+        if (gameDisplay.BetType == 0) {
+            $(".blueTeam, .purpleTeam, .summoner, .selectable").off();
             $(".summoner").removeClass("selectable");
             $(".blueTeam, .purpleTeam").addClass("selectable");
         }
         else {
-            $(".blueTeam, .purpleTeam, .summoner").off();
+            $(".blueTeam, .purpleTeam, .summoner, .selectable").off();
             $(".blueTeam, .purpleTeam").removeClass("selectable");
             $(".summoner").addClass("selectable");
         }
@@ -102,6 +102,27 @@ $(document).ready(function () {
     }
     else {
         toggleBet(false);
+    }
+
+    //This is where we will poll the server to add the bet info.
+    function betSelected(element) {
+        $(".checkShow").removeClass("checkShow");
+        if (betId != $(element).attr("data-x-betId")) {
+            betId = $(element).attr("data-x-betId");
+            $(element).children(".checkMark").addClass("checkShow");
+
+            var userBet = {
+                //Select the bet amount
+                BetAmount: 100,
+                UserId: "Whatever the userid is",
+                BetChoiceId: betId
+            }
+            //--------------------- 
+            hub.server.addUserBet(getCookie("clientKey"), 100, betId);
+        }
+        else {
+            betId = 0;
+        }
     }
 
     $(window).keydown(function (event) {
@@ -167,14 +188,4 @@ function toggleBet(authenticate)
     }
 }
 
-function betSelected(element)
-{
-    $(".checkShow").removeClass("checkShow");
-    if (betId != $(element).attr("data-x-betId")) {
-        betId = $(element).attr("data-x-betId");
-        $(element).children(".checkMark").addClass("checkShow");
-    }
-    else {
-        betId = 0;
-    }
-}
+
