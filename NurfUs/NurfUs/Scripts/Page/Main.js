@@ -7,7 +7,19 @@ $(document).ready(function () {
     if (getCookie("clientName").length >= 3)
     {
         authenticated = true;
+        toggleBet(true);
     }
+    else {
+        toggleBet(false);
+    }
+
+    $('#betAmount').spinedit({
+        minimum: 1,
+        maximum: 1000000000,
+        step: 100,
+        value: 1000,
+        numberOfDecimals: 0
+    });
 
     var timeLeftTemplate = '<div class="badge timer" data-x-started="{SecondsElapsed}"></div>';
 
@@ -96,14 +108,6 @@ $(document).ready(function () {
         new Audio("/Audio/Fart.mp3").play();
     };
 
-    if (authenticated)
-    {
-        toggleBet(true);
-    }
-    else {
-        toggleBet(false);
-    }
-
     //This is where we will poll the server to add the bet info.
     function betSelected(element) {
         $(".checkShow").removeClass("checkShow");
@@ -113,12 +117,12 @@ $(document).ready(function () {
 
             var userBet = {
                 //Select the bet amount
-                BetAmount: 100,
-                UserId: "Whatever the userid is",
+                BetAmount: $("#betAmount").val(),
+                UserId: getCookie("clientName"),
                 BetChoiceId: betId
             }
             //--------------------- 
-            hub.server.addUserBet(getCookie("clientKey"), 100, betId);
+            hub.server.addUserBet(getCookie("clientKey"), $("#betAmount").val(), betId);
         }
         else {
             betId = 0;
@@ -176,16 +180,25 @@ function toggleBet(authenticate)
     if (authenticate)
     {
         $("#guestEntry").hide();
+        $("#howtoplay").hide();
+        $("#head").show();
         $("#betArena").show();
         // Set initial focus to message input box.  
         $('#message').focus();
     }
     else {
-        $("#guestEntry").show();
         $("#betArena").hide();
-        // Set initial focus to message input box.  
-        $('#guestName').focus();
+        $("#guestEntry").show();
+
+        if (getCookie("clientName").length >= 3)
+        {
+            // Set initial focus to message input box.  
+            $('#guestName').focus();
+        }
+        else {
+            $("#head").hide();
+            $("#howtoplay").show();
+            $("#playWizard").show();
+        }
     }
 }
-
-

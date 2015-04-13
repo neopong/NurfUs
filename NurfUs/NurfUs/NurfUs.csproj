@@ -188,6 +188,7 @@
     <Compile Include="Classes\Betting\Questions\IBetQuestion.cs" />
     <Compile Include="Classes\Betting\Questions\QFirstBlood.cs" />
     <Compile Include="Classes\Betting\Questions\QMostKills.cs" />
+    <Compile Include="Classes\Betting\Questions\QTeamMostTowerKills.cs" />
     <Compile Include="Classes\Betting\Questions\QTeamWinner.cs" />
     <Compile Include="Classes\GameDisplay.cs" />
     <Compile Include="Classes\NurfClient.cs" />
@@ -279,6 +280,7 @@
     <Content Include="Audio\Applause.mp3" />
     <Content Include="Audio\Fart.mp3" />
     <Content Include="Audio\UrfIntro.mp3" />
+    <Content Include="Content\bootstrap-spinedit.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -422,6 +424,7 @@
     <Content Include="Images\Urf_OriginalSkin.jpg" />
     <Content Include="Images\Volibear-in-League-of-Legends-Wallpaper.jpg" />
     <Content Include="Images\wallhaven-48710.jpg" />
+    <Content Include="Scripts\bootstrap-spinedit.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Cache\champion.json" />

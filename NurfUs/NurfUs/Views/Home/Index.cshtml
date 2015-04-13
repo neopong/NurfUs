@@ -9,12 +9,23 @@
 @using (Html.BeginForm())
 {
     <section class="section" id="head">
-        <div class="well panelBackground" id="guestEntry" @((!User.Identity.IsAuthenticated && Request.Cookies["clientName"] == null) ? "style=\"display: none;\"" : "")>
-            <input type="text" class="form-control" placeholder="Enter your name" id="guestName" autocomplete="off" />
+        <div class="well panelBackground" id="guestEntry">
+            <input type="text" class="form-control" style="max-width: 350px;" placeholder="Enter a name and hit enter to Login as a guest" id="guestName" autocomplete="off" />
+            <br />
+            OR
+            <a href="/Account/Login" class="btn btn-default">Login</a>
+            <br />
+            <br />
+            OR
+            <a href="/Account/Register" class="btn btn-default">Register for a new account</a>
         </div>
         <div id="betArena" style="display: none;">
             <div class="well panelBackground">
                 <h1 id="betQuestion"></h1>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">$Fish$</span>
+                    <input type="text" id="betAmount" class="form-control" placeholder="Fish to bet" aria-describedby="basic-addon1">
+                </div>
             </div>
             <div class="well col-md-6 blueTeam" data-x-betid="100">
                 <div class="checkMark"><img src="/Images/Checkmark.png" /></div>
@@ -69,5 +80,7 @@
 }
 
 @section Scripts{
+    <script src="/Scripts/bootstrap-spinedit.js"></script>
+    <link href='/Content/bootstrap-spinedit.css' rel='stylesheet' type='text/css'>
     <script src="/Scripts/Page/Main.js"></script>
 }

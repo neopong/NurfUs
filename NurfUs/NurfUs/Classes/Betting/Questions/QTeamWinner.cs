@@ -12,9 +12,12 @@ namespace NurfUs.Classes.Betting.Questions
 
         public string BetQuestion { get { return "Which team won the game?"; } }
 
-        public int GetCorrectAnswerId(MatchDetail match)
+        public List<int> GetCorrectAnswerIds(MatchDetail match)
         {
-            return match.Teams.Where(t => t.Winner = true).FirstOrDefault().TeamId;
+            List<int> correctAnswers = new List<int>();
+            correctAnswers.Add(match.Teams.Where(t => t.Winner).FirstOrDefault().TeamId);
+
+            return correctAnswers;
         }
     }
 }

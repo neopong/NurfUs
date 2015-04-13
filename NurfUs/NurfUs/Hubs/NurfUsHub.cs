@@ -48,7 +48,7 @@ namespace NurfUs.Hubs
         internal static IBetQuestion ChosenQuestion;
         internal static ChampionListDto champs;
         private static Dictionary<String, PlayerBet> PlayerBets;
-        private static int CurrentCorrectAnswer;
+        private static List<int> CurrentCorrectAnswers;
         private static UserData userDataContext;
         private static List<NurfClient> nurfers = new List<NurfClient>();
 
@@ -56,7 +56,8 @@ namespace NurfUs.Hubs
         {
             new QFirstBlood(),
             new QMostKills(),
-            new QTeamWinner()
+            new QTeamWinner(),
+            new QTeamMostTowerKills()
         };
         static NurfUsHub()
         {
@@ -75,10 +76,11 @@ namespace NurfUs.Hubs
 
         public void Fart(string name, string key)
         {
+
             if (nurfers.FirstOrDefault(n => n.Name == name && n.Key == key) != null)
             {
                 Clients.All.fart();
-                Clients.All.broadcastMessage(name, name + " has eaten too much feesh. Here comes the SPRAY!!!1one!");
+                Clients.All.broadcastMessage("System", name + " has eaten too much feesh. Here comes the SPRAY!!!1one!");
             }
         }
 
@@ -102,7 +104,12 @@ namespace NurfUs.Hubs
 	        {
                 guestName = "Guest( " + guestName + " )";
                 
-                if (nurfers.FirstOrDefault(n => n.Name == guestName) != null)
+                if 
+                (
+                    nurfers.FirstOrDefault(n => n.Name.ToLower() == guestName.ToLower()) != null 
+                    || 
+                    userDataContext.UserInfoes.FirstOrDefault(u => u.UserKey == guestName) != null
+                )
                 {
                     newClient.Message = "Guest name already taken. Try registering for a real account or try a new name";
                 }
@@ -118,8 +125,11 @@ namespace NurfUs.Hubs
                     userInfo.CorrectGuesses = 0;
                     userInfo.TempUser = true;
                     userInfo.Currency = 5000;
+                    userInfo.UserKey = guestName;
                     userDataContext.UserInfoes.Add(userInfo);
                     userDataContext.SaveChangesAsync();
+
+                    nurfers.Add(newClient);
 	            }
 	        }
 
@@ -202,7 +212,10 @@ namespace NurfUs.Hubs
             LastChosen = DateTime.Now;
 
             ChosenQuestion = questions[new Random().Next(questions.Count)];
-            CurrentCorrectAnswer = ChosenQuestion.GetCorrectAnswerId(ChosenMatch);
+            CurrentCorrectAnswers = ChosenQuestion.GetCorrectAnswerIds(ChosenMatch);
+#if DEBUG
+            Debug.WriteLine(string.Join(",", CurrentCorrectAnswers));
+#endif
 
             PlayerBets.Clear();
         }
@@ -253,7 +266,7 @@ namespace NurfUs.Hubs
                     var user = userDataContext.UserInfoes.Where(ud => ud.ASPNetUserId == playerBetKvp.Key).FirstOrDefault();
                     if (user != null)
                     {
-                        if (playerBetKvp.Value.BetChoiceId == CurrentCorrectAnswer)
+                        if (CurrentCorrectAnswers.Contains(playerBetKvp.Value.BetChoiceId))
                         {
                             user.Currency += playerBetKvp.Value.BetAmount;
                             user.CorrectGuesses++;

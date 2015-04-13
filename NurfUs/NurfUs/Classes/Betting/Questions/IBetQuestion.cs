@@ -11,6 +11,6 @@ namespace NurfUs.Classes.Betting.Questions
     {
         BetType BetType { get; }
         string BetQuestion { get; }
-        int GetCorrectAnswerId(MatchDetail match);
+        List<int> GetCorrectAnswerIds(MatchDetail match);
     }
 }

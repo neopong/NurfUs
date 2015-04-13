@@ -12,10 +12,11 @@ namespace NurfUs.Classes.Betting.Questions
 
         public string BetQuestion { get { return "Which summoner got the most kills?"; } }
 
-        public int GetCorrectAnswerId(MatchDetail match)
+        public List<int> GetCorrectAnswerIds(MatchDetail match)
         {
+            List<int> correctAnswers = new List<int>();
+
             //Turns out they dont give us the stats object... so we gotta do this manually...
-            int participantMostKills = 0;
             int currentHighKillCount = 0;
 
             foreach (var participant in match.Participants)
@@ -30,12 +31,19 @@ namespace NurfUs.Classes.Betting.Questions
                 }
                 if (curCount > currentHighKillCount)
                 {
+                    correctAnswers.Clear();
+
                     currentHighKillCount = curCount;
-                    participantMostKills = participant.ParticipantId;
+
+                    correctAnswers.Add(participant.ParticipantId);
+                }
+                else if (curCount == currentHighKillCount)
+                {
+                    correctAnswers.Add(participant.ParticipantId);
                 }
             }
 
-            return participantMostKills;
+            return correctAnswers;
         }
     }
 }

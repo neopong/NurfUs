@@ -12,9 +12,9 @@ namespace NurfUs.Classes.Betting.Questions
 
         public string BetQuestion { get { return "Which summoner got First Blood?"; } }
 
-        public int GetCorrectAnswerId(MatchDetail match)
+        public List<int> GetCorrectAnswerIds(MatchDetail match)
         {
-            int correctAnswer = -1;
+            List<int> correctAnswers = new List<int>();
 
             if (match.Timeline.Frames != null)
             {
@@ -27,14 +27,14 @@ namespace NurfUs.Classes.Betting.Questions
 
                         if (firstBloodEvent != null)
                         {
-                            correctAnswer = firstBloodEvent.KillerId;
+                            correctAnswers.Add(firstBloodEvent.KillerId);
                             break;
                         }
                     }
                 }
             }
 
-            return correctAnswer;
+            return correctAnswers;
         }
     }
 }
