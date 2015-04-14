@@ -7,6 +7,7 @@ var countdownTimer;
 var pauseTime = 7000;
 var timeLeftInPause = pauseTime;
 var timerInterval = 10;
+var staticTextSize = 100;
 
 $(document).ready(function () {
     var hub = $.connection.nurfUsHub;
@@ -41,16 +42,26 @@ $(document).ready(function () {
     function countdownElapsed() {
         timeLeftInPause -= timerInterval;
 
+        if (Modernizr.mq('(min-width: 800px)')) {
+            startSize = 300;
+            staticTextSize = 100;
+        } else {
+            startSize = 100;
+            staticTextSize = 24;
+        }
+
+        var fontSizeStep = startSize/100;
+
         if (timeLeftInPause > pauseTime - 1000) {
-            $("#countDown").attr("style", "z-index: 0; font-size: 100pt; position: fixed; top: 20%; left: 25%; font-weight: bold; color: red; ");
+            $("#countDown").attr("style", "z-index: 0; font-size: " + staticTextSize + "pt; position: fixed; top: 20%; left: 25%; font-weight: bold; color: red; ");
             $("#countDown").text("Get Ready...");
         }
         else if (timeLeftInPause > startCoundDown * 1000) {
-            $("#countDown").attr("style", "z-index: 0; font-size: 100pt; position: fixed; top: 20%; left: 18%; font-weight: bold; color: red; ");
+            $("#countDown").attr("style", "z-index: 0; font-size: " + staticTextSize + "pt; position: fixed; top: 20%; left: 18%; font-weight: bold; color: red; ");
             $("#countDown").text("Round Starting");
         }
         else {
-            if (currentSize == 0) {
+            if (currentSize <= 0) {
                 currentSize = startSize;
                 if (countDown > 0) {
                     countDown--;
@@ -64,7 +75,7 @@ $(document).ready(function () {
                 }
             }
             else {
-                currentSize -= 3;
+                currentSize -= fontSizeStep;
             }
 
             if (countDown == 0) {
