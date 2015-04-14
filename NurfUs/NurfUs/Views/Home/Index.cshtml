@@ -1,7 +1,4 @@
-﻿@using NurfUs.Models
-@model NurfUs.Models.SummonerSearch
-
-@{
+﻿@{
     ViewBag.Title = "League of Legends NURF mode denied by the mighty URF!";
     ViewBag.Description = "Prepare to have the mighty URF spatula brought down upon you. Urf's slimy flipper will touch every one of our lives.";
 }
@@ -9,6 +6,7 @@
 @using (Html.BeginForm())
 {
     <section class="section" id="head">
+        <span id="countDown"></span>
         <div class="well panelBackground" id="guestEntry">
             <input type="text" class="form-control" style="max-width: 350px;" placeholder="Enter a name and hit enter to Login as a guest" id="guestName" autocomplete="off" />
             <br />

@@ -70,7 +70,7 @@ namespace NurfUs.Hubs
             if (nurfers.FirstOrDefault(n => n.Name == name && n.Key == key) != null)
             {
                 Clients.All.applause();
-                Clients.All.broadcastMessage(name, name + " shares his love for URF's magestic spatula and fills the site with applause!");
+                Clients.All.broadcastMessage("System", name + " shares his love for URF's magestic spatula and fills the site with applause!");
             }
         }
 

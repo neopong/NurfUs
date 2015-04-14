@@ -1,4 +1,12 @@
 ﻿var betId = 0;
+var startSize = 300;
+var currentSize = startSize;
+var startCoundDown = 3;
+var countDown = startCoundDown;
+var countdownTimer;
+var pauseTime = 7000;
+var timeLeftInPause = pauseTime;
+var timerInterval = 10;
 
 $(document).ready(function () {
     var hub = $.connection.nurfUsHub;
@@ -21,11 +29,67 @@ $(document).ready(function () {
         numberOfDecimals: 0
     });
 
+    function countdown() {
+        timeLeftInPause = pauseTime;
+        if (countdownTimer > 0) {
+            clearInterval(countdownTimer);
+        }
+
+        countdownTimer = setInterval(function () { countdownElapsed() }, timerInterval);
+    }
+
+    function countdownElapsed() {
+        timeLeftInPause -= timerInterval;
+
+        if (timeLeftInPause > pauseTime - 1000) {
+            $("#countDown").attr("style", "z-index: 0; font-size: 100pt; position: fixed; top: 20%; left: 25%; font-weight: bold; color: red; ");
+            $("#countDown").text("Get Ready...");
+        }
+        else if (timeLeftInPause > startCoundDown * 1000) {
+            $("#countDown").attr("style", "z-index: 0; font-size: 100pt; position: fixed; top: 20%; left: 18%; font-weight: bold; color: red; ");
+            $("#countDown").text("Round Starting");
+        }
+        else {
+            if (currentSize == 0) {
+                currentSize = startSize;
+                if (countDown > 0) {
+                    countDown--;
+                }
+                else {
+                    countDown = startCoundDown;
+                    $("#countDown").text("");
+                    clearInterval(countdownTimer);
+                    $("#betArena").show();
+                    return;
+                }
+            }
+            else {
+                currentSize -= 3;
+            }
+
+            if (countDown == 0) {
+                $("#countDown").attr("style", "z-index: 0; font-size: " + startSize + "pt; position: fixed; top: 40%; left: 8%; font-weight: bold; color: red; ");
+                $("#countDown").text("URF!!!");
+            }
+            else {
+                $("#countDown").attr("style", "z-index: 0; font-size: " + currentSize + "pt; position: fixed; top: 40%; left: 45%; font-weight: bold; color: red; ");
+                $("#countDown").text(countDown);
+            }
+        }
+    }
+
     var timeLeftTemplate = '<div class="badge timer" data-x-started="{SecondsElapsed}"></div>';
 
     hub.client.newMatch = function (gameDisplay) {
         betId = 0;
+        if (getCookie("clientName").length >= 3)
+        {
+            $("#betArena").hide();
+            countdown();
+        }
+
         $(".checkShow").removeClass("checkShow");
+
         new Audio("/Audio/UrfIntro.mp3").play();
 
         $("#gameDetail").empty().append(timeLeftTemplate.supplant(gameDisplay));
