@@ -78,9 +78,18 @@ namespace NurfUs.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
+                    var user = UserManager.FindByEmail(model.Email);
+                    var id =  user.Id;
+                    NurfUsHub.AddNurfer(id);
+                    var cookieKey = new HttpCookie("clientKey");
+                    var cookieName = new HttpCookie("clientName");
+                    cookieKey.Value = id;
+                    cookieName.Value = user.UserName;
+                    //Response.Cookies.Add();
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -405,13 +414,13 @@ namespace NurfUs.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
+
+
 
         //
         // GET: /Account/ExternalLoginFailure

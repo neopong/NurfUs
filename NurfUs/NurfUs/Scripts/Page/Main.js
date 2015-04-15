@@ -183,24 +183,22 @@ $(document).ready(function () {
         new Audio("/Audio/Fart.mp3").play();
     };
 
+    hub.client.displayCurrency = function (amount) {
+        $('#currentCurrency').text(amount);
+    };
+
     //This is where we will poll the server to add the bet info.
     function betSelected(element) {
         $(".checkShow").removeClass("checkShow");
         if (betId != $(element).attr("data-x-betId")) {
             betId = $(element).attr("data-x-betId");
             $(element).children(".checkMark").addClass("checkShow");
-
-            var userBet = {
-                //Select the bet amount
-                BetAmount: $("#betAmount").val(),
-                UserId: getCookie("clientName"),
-                BetChoiceId: betId
-            }
             //--------------------- 
             hub.server.addUserBet(getCookie("clientKey"), $("#betAmount").val(), betId);
         }
         else {
             betId = 0;
+            hub.server.removeUserBet(getCookie("clientKey"));
         }
     }
 
