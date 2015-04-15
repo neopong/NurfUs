@@ -35,6 +35,13 @@ namespace NurfUs.Hubs
             get;
             set;
         }
+
+        public String ConnectionId
+        {
+            get;
+            set;
+        }
+
     }
 
     public class NurfUsHub : Hub
@@ -259,6 +266,11 @@ namespace NurfUs.Hubs
                 return true;
             }
             return false;
+        }
+
+        public void DisplayUserCurrency()
+        {
+
         }
 
 

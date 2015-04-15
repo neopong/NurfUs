@@ -82,14 +82,21 @@ namespace NurfUs.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    
                     var user = UserManager.FindByEmail(model.Email);
                     var id =  user.Id;
+                    
                     NurfUsHub.AddNurfer(id);
+                    
                     var cookieKey = new HttpCookie("clientKey");
                     var cookieName = new HttpCookie("clientName");
+                    
                     cookieKey.Value = id;
                     cookieName.Value = user.UserName;
-                    //Response.Cookies.Add();
+                    
+                    Response.Cookies.Add(cookieKey);
+                    Response.Cookies.Add(cookieName);
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
