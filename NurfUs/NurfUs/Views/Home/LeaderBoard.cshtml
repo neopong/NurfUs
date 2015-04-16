@@ -6,12 +6,6 @@
     ViewBag.Description = "Users with the most fish on the site.";
 }
 
-
-
-@{
-    WebGrid grdLeaders = new WebGrid(Model, rowsPerPage: 100);
-}
-
 @if (Model.Any())
 {
     <table class="table" style="margin-top: 100px;">
@@ -35,15 +29,6 @@
             }
         </tbody>
     </table>
-    @*@grdLeaders.GetHtml(
-        mode: WebGridPagerModes.All,
-        columns: new[]
-        {
-            grdLeaders.Column("UserKey", "User", canSort: true),
-            grdLeaders.Column("Currency", "Fish", canSort: true),
-            grdLeaders.Column("CorrectGuesses", "# Correct", canSort: true),
-            grdLeaders.Column("InCorrectGuesses", "# Incorrect", canSort: true)
-        })*@
 }
 else
 {

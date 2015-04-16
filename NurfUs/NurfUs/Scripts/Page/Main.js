@@ -8,6 +8,7 @@ var pauseTime = 7000;
 var timeLeftInPause = pauseTime;
 var timerInterval = 10;
 var staticTextSize = 100;
+var currentBetAmount = 0;
 
 $(document).ready(function () {
     var hub = $.connection.nurfUsHub;
@@ -29,6 +30,8 @@ $(document).ready(function () {
         value: 1000,
         numberOfDecimals: 0
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
 
     function countdown() {
         timeLeftInPause = pauseTime;
@@ -94,6 +97,8 @@ $(document).ready(function () {
 
     hub.client.newMatch = function (gameDisplay) {
         betId = 0;
+        currentBetAmount = 0;
+
         if (getCookie("clientName").length >= 3)
         {
             $("#betArena").hide();
@@ -192,15 +197,34 @@ $(document).ready(function () {
 
     //This is where we will poll the server to add the bet info.
     function betSelected(element) {
-        $(".checkShow").removeClass("checkShow");
-        if (betId != $(element).attr("data-x-betId")) {
-            betId = $(element).attr("data-x-betId");
-            $(element).children(".checkMark").addClass("checkShow");
-            //--------------------- 
-            hub.server.addUserBet(getCookie("clientKey"), $("#betAmount").val(), betId);
+        var newBetId = $(element).attr("data-x-betId");
+
+        if (betId != newBetId) {
+            var betAmountDelta = $("#betAmount").val() / 1 - currentBetAmount;
+
+            if (betAmountDelta > getCurrentCurrency()) {
+                alert("You don't have enough fish to place this bet. Please adjust the amount of fish you're wagering.");
+                $("#betAmount").focus();
+            } else {
+                hub.server.addUserBet(getCookie("clientKey"), $("#betAmount").val(), newBetId).done(function(result) {
+                    if (result) {
+                        betId = newBetId;
+                        currentBetAmount = $("#betAmount").val() / 1;
+                        hub.client.displayCurrency(getCurrentCurrency() - betAmountDelta);
+                        $(".checkShow").removeClass("checkShow");
+                        $(element).children(".checkMark").addClass("checkShow");
+                    } else {
+                        alert("You don't have enough fish to place this bet. Please adjust the amount of fish you're wagering.");
+                        $("#betAmount").focus();
+                    }
+                });
+            }
         }
         else {
             betId = 0;
+            hub.client.displayCurrency(getCurrentCurrency() + currentBetAmount);
+            currentBetAmount = 0;
+            $(".checkShow").removeClass("checkShow");
             hub.server.removeUserBet(getCookie("clientKey"));
         }
     }
@@ -214,7 +238,7 @@ $(document).ready(function () {
                 $('#sendmessage').click();
             }
             else {
-                hub.server.newGuest($("#guestName").val());
+                $('#guestLogin').click();
             }
             return false;
         }
@@ -224,11 +248,43 @@ $(document).ready(function () {
         hub.server.getCurrentMatch();
 
         $('#applause').click(function () {
-            hub.server.applause(getCookie("clientName"), getCookie("clientKey"));
+            if (getCurrentCurrency() - 10000 >= currentBetAmount) {
+                hub.server.applause(getCookie("clientName"), getCookie("clientKey")).done(function(result) {
+                    if (result) {
+                        hub.client.displayCurrency(getCurrentCurrency() - 10000);
+                    } else {
+                        alert("The mighty Urf demands 10K feesh to applaude someone.  He won't even wake up for anything less than 7K feesh!");
+                    }
+                });
+            } else {
+                if (betId > 0) {
+                    alert("The cost to get Urf to applaude the site (10K) wouldn't leave you with enough to complete your bet. Remove your bet by unchecking your current selection, change your bet amount and then place your bet again.");
+                } else {
+                    alert("The mighty Urf demands 10K feesh to applaude someone.  He won't even wake up for anything less than 7K feesh!");
+                }
+            }
         });
 
         $('#fart').click(function () {
-            hub.server.fart(getCookie("clientName"), getCookie("clientKey"));
+            if (getCurrentCurrency() - 20000 >= currentBetAmount) {
+                hub.server.fart(getCookie("clientName"), getCookie("clientKey")).done(function(result) {
+                    if (result) {
+                        hub.client.displayCurrency(getCurrentCurrency() - 20000);
+                    } else {
+                        alert("You can't have fish farts if you haven't eaten at least 20K fish!  Win some more and then let em rip!");
+                    }
+                });
+            } else {
+                if (betId > 0) {
+                    alert("Attempting to fart away this many fish (20K) wouldn't leave you with enough to complete your bet. Remove your bet by unchecking your current selection, change your bet amount and then place your bet again.");
+                } else {
+                    alert("You can't have fish farts if you haven't eaten at least 20K fish!  Win some more and then let em rip!");
+                }
+            }
+        });
+
+        $('#guestLogin').click(function () {
+            hub.server.newGuest($("#guestName").val());
         });
 
         $('#sendmessage').click(function () {
@@ -282,6 +338,11 @@ function toggleBet(authenticate)
 function playAudio(fileToPlay) {
     if (getCookie("muteAudio").length == 0) {
         var audio = new Audio(fileToPlay);
-        audio.volume = .5;
+        audio.volume = .75;
+        audio.play();
     }
+}
+
+function getCurrentCurrency() {
+    return $('#currentCurrency').text() / 1;
 }

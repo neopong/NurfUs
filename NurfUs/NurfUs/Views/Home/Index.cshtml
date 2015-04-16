@@ -8,15 +8,23 @@
     <section class="section" id="head">
         <span id="countDown"></span>
         <div class="well panelBackground" id="guestEntry">
-            <input type="text" class="form-control" style="max-width: 350px;" placeholder="Enter a name and hit enter to Login as a guest" id="guestName" autocomplete="off" />
-            <br />
+            <div class="form-group">
+                <div class="col-md-5">
+                    <input type="text" class="form-control" style="max-width: 350px;" placeholder="Enter a name and hit enter to Login as a guest" id="guestName" autocomplete="off"/>
+                </div>
+                <div class="col-md-3 btn-group">
+                    <input type="button" id="guestLogin" class="btn btn-default" value="Login as guest"/>
+                </div>
+            </div>
+            <br/>
             OR
             <a href="/Account/Login" class="btn btn-default">Login</a>
-            <br />
-            <br />
+            <br/>
+            <br/>
             OR
             <a href="/Account/Register" class="btn btn-default">Register for a new account</a>
         </div>
+
         <div id="betArena" style="display: none;">
             <div class="well panelBackground">
                 <h1 id="betQuestion"></h1>
@@ -60,21 +68,21 @@
             <div>&nbsp;</div>
             <div class="well panelBackground ">
                 <div class="form-group">
-                        <div class="col-md-3">
-                            <input type="text" id="message" class="form-control" placeholder="Chat with your fellow URFers" autocomplete="off" />
-                        </div>
-                        <div class="col-md-5 btn-group">
-                            <input type="button" class="btn btn-default" id="sendmessage" value="Send" />
-                            <input type="button" class="btn btn-danger" id="applause" value="Live for the applause" />
-                            <input type="button" class="btn btn-danger" id="fart" value="#FishFarts" />
-                        </div>
+                    <div class="col-md-3">
+                        <input type="text" id="message" class="form-control" placeholder="Chat with your fellow URFers" autocomplete="off" />
                     </div>
+                    <div class="col-md-4 btn-group">
+                        <input type="button" class="btn btn-default" id="sendmessage" value="Send" />
+                        <input type="button" class="btn btn-danger" id="applause" value="Live for the applause" data-toggle="tooltip" data-placement="top" title="Costs 10K feesh" />
+                        <input type="button" class="btn btn-danger" id="fart" value="#FishFarts" data-toggle="tooltip" data-placement="top" title="Costs 20K feesh" />
+                    </div>
+                </div>
                 <div id="discussion-wrapper">
                     <ul id="discussion"></ul>
                 </div>
             </div>
         </div>
-    </section>
+</section>
 }
 
 @section Scripts{

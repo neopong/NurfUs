@@ -85,7 +85,7 @@ namespace NurfUs.Hubs
 
         public bool Applause(string name, string key)
         {
-            int applauseCost = 40000;
+            int applauseCost = 10000;
 
             bool success = false;
             var nurfClient = Nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value;
@@ -107,7 +107,7 @@ namespace NurfUs.Hubs
         {
             bool success = false;
             //Abstract to somewhere later
-            int fartCost = 30000;
+            int fartCost = 20000;
             var nurfClient = Nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value;
             if (nurfClient != null && nurfClient.UserInfo.Currency >= fartCost)
             {
