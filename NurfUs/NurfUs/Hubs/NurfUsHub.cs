@@ -66,7 +66,10 @@ namespace NurfUs.Hubs
             new QFirstBlood(),
             new QMostKills(),
             new QTeamWinner(),
-            new QTeamMostTowerKills()
+            new QTeamMostTowerKills(),
+            new QMostDamageTaken(),
+            new QMostGoldSpent(),
+            new QTeamFirstInhibitor()
         };
 
         static NurfUsHub()

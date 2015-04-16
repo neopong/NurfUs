@@ -187,7 +187,10 @@
     <Compile Include="Classes\Betting\BetType.cs" />
     <Compile Include="Classes\Betting\Questions\IBetQuestion.cs" />
     <Compile Include="Classes\Betting\Questions\QFirstBlood.cs" />
+    <Compile Include="Classes\Betting\Questions\QMostDamageTaken.cs" />
+    <Compile Include="Classes\Betting\Questions\QMostGoldSpent.cs" />
     <Compile Include="Classes\Betting\Questions\QMostKills.cs" />
+    <Compile Include="Classes\Betting\Questions\QTeamFirstInhibitor.cs" />
     <Compile Include="Classes\Betting\Questions\QTeamMostTowerKills.cs" />
     <Compile Include="Classes\Betting\Questions\QTeamWinner.cs" />
     <Compile Include="Classes\GameDisplay.cs" />
