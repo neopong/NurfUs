@@ -1,0 +1,55 @@
+﻿@using NurfUs.Models
+@model IEnumerable<NurfUs.Models.UserInfo>
+
+@{
+    ViewBag.Title = "Nurf.Us Leaderboard";
+    ViewBag.Description = "Users with the most fish on the site.";
+}
+
+
+
+@{
+    WebGrid grdLeaders = new WebGrid(Model, rowsPerPage: 100);
+}
+
+@if (Model.Any())
+{
+    <table class="table" style="margin-top: 100px;">
+        <thead>
+            <tr class="well">
+                <th>User</th>
+                <th>Fish</th>
+                <th># Correct</th>
+                <th># Incorrect</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (UserInfo userInfo in Model)
+            {
+                <tr class="well">
+                    <td>@userInfo.UserKey</td>
+                    <td>@userInfo.Currency</td>
+                    <td>@userInfo.CorrectGuesses</td>
+                    <td>@userInfo.InCorrectGuesses</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*@grdLeaders.GetHtml(
+        mode: WebGridPagerModes.All,
+        columns: new[]
+        {
+            grdLeaders.Column("UserKey", "User", canSort: true),
+            grdLeaders.Column("Currency", "Fish", canSort: true),
+            grdLeaders.Column("CorrectGuesses", "# Correct", canSort: true),
+            grdLeaders.Column("InCorrectGuesses", "# Incorrect", canSort: true)
+        })*@
+}
+else
+{
+    <div class="well">
+        <strong>
+            No users have played yet.  Start betting!
+        </strong>
+    </div>
+}

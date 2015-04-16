@@ -17,18 +17,12 @@ namespace NurfUs.Controllers
             return View(new SummonerSearch());
         }
 
-        public ActionResult About()
+        [Route("LeaderBoard")]
+        public ActionResult LeaderBoard()
         {
-            ViewBag.Message = "Your application description page.";
+            UserData userDataContext = new UserData();
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View(userDataContext.UserInfoes.OrderByDescending(u => u.Currency));
         }
     }
 }

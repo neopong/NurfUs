@@ -27,6 +27,8 @@ namespace NurfUs
                       "~/Scripts/magister.js",
                       "~/Scripts/Common.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/mainpage").Include("~/Scripts/Page/Main.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/site.css",
                       "~/Content/magister.css"));
