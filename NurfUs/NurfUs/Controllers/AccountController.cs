@@ -424,6 +424,15 @@ namespace NurfUs.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
+
+            HttpCookie keyCookie = Request.Cookies["clientKey"];
+            if (keyCookie != null)
+            {
+                NurfUsHub.Nurfers.Remove(keyCookie.Value);
+            }
+
+            Response.Cookies["clientKey"].Expires = DateTime.Now.AddDays(-100);
+            Response.Cookies["clientName"].Expires = DateTime.Now.AddDays(-100);
             return RedirectToAction("Index", "Home");
         }
 
