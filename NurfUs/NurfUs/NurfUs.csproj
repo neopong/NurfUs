@@ -454,6 +454,7 @@
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\NurfUs New.pubxml" />
     <None Include="Properties\PublishProfiles\NurfUs.pubxml" />
+    <None Include="Properties\PublishProfiles\NurfUsProd.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
