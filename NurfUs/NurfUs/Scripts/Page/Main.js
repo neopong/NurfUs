@@ -281,6 +281,7 @@ function toggleBet(authenticate)
 
 function playAudio(fileToPlay) {
     if (getCookie("muteAudio").length == 0) {
-        new Audio(fileToPlay).play();
+        var audio = new Audio(fileToPlay);
+        audio.volume = .5;
     }
 }
