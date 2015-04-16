@@ -80,24 +80,29 @@ namespace NurfUs.Hubs
         }
 
 
-        public void Applause(string name, string key)
+        public bool Applause(string name, string key)
         {
             int applauseCost = 40000;
 
+            bool success = false;
             var nurfClient = Nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value;
             if (nurfClient != null && nurfClient.UserInfo.Currency >= applauseCost)
             {
                 if (SubtractMoney(key, applauseCost))
                 {
+                    success = true;
                     nurfClient.UserInfo.Currency -= applauseCost;
                     Clients.All.applause();
                     Clients.All.broadcastMessage("System", name + " shares his love for URF's magestic spatula and fills the site with applause!");
+                   
                 }
             }
+            return success;
         }
 
-        public void Fart(string name, string key)
+        public bool Fart(string name, string key)
         {
+            bool success = false;
             //Abstract to somewhere later
             int fartCost = 30000;
             var nurfClient = Nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value;
@@ -106,14 +111,12 @@ namespace NurfUs.Hubs
                 if(SubtractMoney(nurfClient.UserInfo.ASPNetUserId,fartCost))
                 {
                     nurfClient.UserInfo.Currency -= fartCost;
+                    success = true;
                     Clients.All.fart();
                     Clients.All.broadcastMessage("System", name + " has eaten too much feesh. Here comes the SPRAY!!!1one!");
                 }
             }
-            else
-            {
-                //Display something
-            }
+            return success;
         }
 
         public void GetCurrentMatch()
