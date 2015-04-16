@@ -86,7 +86,7 @@ namespace NurfUs.Controllers
                     var user = UserManager.FindByEmail(model.Email);
                     var id =  user.Id;
                     
-                    NurfUsHub.AddNurfer(id);
+                    //NurfUsHub.AddNurfer(id);
                     
                     var cookieKey = new HttpCookie("clientKey");
                     var cookieName = new HttpCookie("clientName");
