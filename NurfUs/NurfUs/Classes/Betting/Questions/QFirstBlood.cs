@@ -16,23 +16,7 @@ namespace NurfUs.Classes.Betting.Questions
         {
             List<int> correctAnswers = new List<int>();
 
-            if (match.Timeline.Frames != null)
-            {
-                foreach (var frame in match.Timeline.Frames)
-                {
-                    if (frame.Events != null)
-                    {
-                        Event firstBloodEvent =
-                            frame.Events.FirstOrDefault(e => e.EventType == "CHAMPION_KILL" && e.KillerId != 0);
-
-                        if (firstBloodEvent != null)
-                        {
-                            correctAnswers.Add(firstBloodEvent.KillerId);
-                            break;
-                        }
-                    }
-                }
-            }
+            correctAnswers.Add(match.Participants.FirstOrDefault(p => p.Stats.FirstBloodKill).ParticipantId);
 
             return correctAnswers;
         }
