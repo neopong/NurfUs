@@ -57,9 +57,7 @@ namespace NurfUs.Hubs
         private static Dictionary<String, PlayerBet> PlayerBets;
         private static List<int> CurrentCorrectAnswers;
 
-        private static UserData userDataContext;
-
-        private static Dictionary<String, NurfClient> nurfers = new Dictionary<String, NurfClient>();
+        internal static Dictionary<String, NurfClient> Nurfers = new Dictionary<String, NurfClient>();
 
         private static List<IBetQuestion> questions = new List<IBetQuestion>()
         {
@@ -75,7 +73,6 @@ namespace NurfUs.Hubs
         static NurfUsHub()
         {
             PlayerBets = new Dictionary<string, PlayerBet>();
-            userDataContext = new UserData();
         }
 
         public override Task OnConnected()
@@ -86,40 +83,43 @@ namespace NurfUs.Hubs
         }
 
 
-        public void Applause(string name, string key)
+        public bool Applause(string name, string key)
         {
             int applauseCost = 40000;
 
-            var nurfClient = nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value;
+            bool success = false;
+            var nurfClient = Nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value;
             if (nurfClient != null && nurfClient.UserInfo.Currency >= applauseCost)
             {
                 if (SubtractMoney(key, applauseCost))
                 {
+                    success = true;
                     nurfClient.UserInfo.Currency -= applauseCost;
                     Clients.All.applause();
                     Clients.All.broadcastMessage("System", name + " shares his love for URF's magestic spatula and fills the site with applause!");
+                   
                 }
             }
+            return success;
         }
 
-        public void Fart(string name, string key)
+        public bool Fart(string name, string key)
         {
+            bool success = false;
             //Abstract to somewhere later
             int fartCost = 30000;
-            var nurfClient = nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value;
+            var nurfClient = Nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value;
             if (nurfClient != null && nurfClient.UserInfo.Currency >= fartCost)
             {
                 if(SubtractMoney(nurfClient.UserInfo.ASPNetUserId,fartCost))
                 {
                     nurfClient.UserInfo.Currency -= fartCost;
+                    success = true;
                     Clients.All.fart();
                     Clients.All.broadcastMessage("System", name + " has eaten too much feesh. Here comes the SPRAY!!!1one!");
                 }
             }
-            else
-            {
-                //Display something
-            }
+            return success;
         }
 
         public void GetCurrentMatch()
@@ -130,6 +130,7 @@ namespace NurfUs.Hubs
         public void NewGuest(string guestName)
         {
             NurfClient newClient = new NurfClient();
+             
             guestName = guestName.Trim();
             if (guestName.Length < 3)
             {
@@ -137,10 +138,11 @@ namespace NurfUs.Hubs
             }
             else
 	        {
+                UserData userDataContext = new UserData();
                 guestName = "Guest( " + guestName + " )";
                 if 
                 (
-                    nurfers.FirstOrDefault(n => n.Value.Name.ToLower() == guestName.ToLower()).Value != null 
+                    Nurfers.FirstOrDefault(n => n.Value.Name.ToLower() == guestName.ToLower()).Value != null 
                     || 
                     userDataContext.UserInfoes.FirstOrDefault(u => u.UserKey == guestName) != null
                 )
@@ -164,7 +166,7 @@ namespace NurfUs.Hubs
                     dataContext.SaveChangesAsync();
                     newClient.UserInfo = userInfo;
                     newClient.SignalRConnectionId = Context.ConnectionId;
-                    nurfers.Add(newClient.Key, newClient);
+                    Nurfers.Add(newClient.Key, newClient);
 	            }
 	        }
             
@@ -195,24 +197,24 @@ namespace NurfUs.Hubs
                 newClient.Valid = true;
 
                 var userInfo = dataContext.UserInfoes.Where(u => u.ASPNetUserId == clientKey).FirstOrDefault();
-                if (!nurfers.ContainsKey(clientKey))
+                if (!Nurfers.ContainsKey(clientKey))
                 {
                     if (userInfo != null)
                     {
                         newClient.UserInfo = userInfo;
                         newClient.SignalRConnectionId = connId;
-                        nurfers.Add(clientKey, newClient);
+                        Nurfers.Add(clientKey, newClient);
                     }
                 }
                 else
                 {
-                    nurfers[clientKey].Name = clientName;
-                    nurfers[clientKey].SignalRConnectionId = connId;
+                    Nurfers[clientKey].Name = clientName;
+                    Nurfers[clientKey].SignalRConnectionId = connId;
 
                 }
-                if (nurfers.ContainsKey(clientKey))
+                if (Nurfers.ContainsKey(clientKey))
                 {
-                    Clients.Client(nurfers[clientKey].SignalRConnectionId).displayCurrency(nurfers[clientKey].UserInfo.Currency);
+                    Clients.Client(Nurfers[clientKey].SignalRConnectionId).displayCurrency(Nurfers[clientKey].UserInfo.Currency);
                     return true;
                 }
             }
@@ -265,33 +267,43 @@ namespace NurfUs.Hubs
             return null;
         }
 
-        public void AddUserBet(String userId, int betAmount, int betId)
+        public bool AddUserBet(String userId, int betAmount, int betId)
         {
-            //TODO: Add check for negative and bet is less or eq the total currency.
-            //Add bool
-            if (!PlayerBets.ContainsKey(userId))
+            UserData userDataContext = new UserData();
+            var user = userDataContext.UserInfoes.FirstOrDefault(cl => cl.ASPNetUserId == userId);
+            bool success = false;
+            if (user != null)
             {
-                PlayerBets.Add(userId, new PlayerBet() { UserId = userId });   
+                success = true;
+                if (betAmount > user.Currency || betAmount <= 0)
+                {
+                    success = false;
+                }
+                else
+                {
+                    if (!PlayerBets.ContainsKey(userId))
+                    {
+                        PlayerBets.Add(userId, new PlayerBet() { UserId = userId });
+                    }
+                    PlayerBets[userId].BetAmount = betAmount;
+                    PlayerBets[userId].BetChoiceId = betId;
+                }
             }
-            PlayerBets[userId].BetAmount = betAmount;
-            PlayerBets[userId].BetChoiceId = betId;
-
-            //You can call a client function to subtract their visible amount of currenty or something
-            //After this function.:
-
-            //client.DoSomethingCool();
+            return success;
         }
-        public void RemoveUserBet(String userId)
+        public bool RemoveUserBet(String userId)
         {
             if (PlayerBets.ContainsKey(userId))
             {
                 PlayerBets.Remove(userId);
+                return true;
             }
+            return false;
         }
 
         public bool Send(string name, string key, string message)
         {
-            if (nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value != null)
+            if (Nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value != null)
             {
                 if (!string.IsNullOrWhiteSpace(message))
                 {
@@ -397,6 +409,7 @@ namespace NurfUs.Hubs
             //Only evaluate the results if there were any bets
             if (PlayerBets != null && PlayerBets.Count > 0)
             {
+                UserData userDataContext = new UserData();
                 foreach (var playerBetKvp in PlayerBets)
                 {
                     String curUserId = playerBetKvp.Key;
@@ -414,16 +427,16 @@ namespace NurfUs.Hubs
                             user.InCorrectGuesses++;
                         }
 
-                        if (nurfers.ContainsKey(curUserId))
+                        if (Nurfers.ContainsKey(curUserId))
                         {
                             GlobalHost
                                 .ConnectionManager
                                 .GetHubContext<NurfUsHub>()
                                 .Clients
-                                .Client(nurfers[curUserId].SignalRConnectionId)
+                                .Client(Nurfers[curUserId].SignalRConnectionId)
                                 .displayCurrency(user.Currency);
 
-                            nurfers[curUserId].UserInfo = user;
+                            Nurfers[curUserId].UserInfo = user;
                         }
                     }
                 }
