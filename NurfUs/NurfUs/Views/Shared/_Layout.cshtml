@@ -33,11 +33,11 @@
                 </button>
                 @if (controller.ToLower() == "home" && action.ToLower() == "index") 
                 { 
-                    <a href="#head" class="navbar-brand sectionSwitch">Match Gambling&nbsp;<span id="gameDetail"></span>&nbsp;<img src="/Images/Currency.jpg" style="width:20px; height: 25px;" /></a>
+                    <a href="#head" class="navbar-brand sectionSwitch">Match Gambling&nbsp;<span id="gameDetail"></span>&nbsp;<img src="/Images/Currency.jpg" style="width:20px; height: 25px;" /><span id="currentCurrency">0</span></a>
                 }
                 else
                 {
-                    <a href="/" class="navbar-brand">Match Gambling&nbsp;<span id="gameDetail"></span>&nbsp;<img src="/Images/Currency.jpg" style="width:20px; height: 25px;" /></a>
+                    <a href="/" class="navbar-brand">Match Gambling&nbsp;<span id="gameDetail"></span>&nbsp;<img src="/Images/Currency.jpg" style="width:20px; height: 25px;" /><span id="currentCurrency">0</span></a>
                 }
             </div>
             <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">

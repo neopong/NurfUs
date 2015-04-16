@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NurfUs.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,5 +12,7 @@ namespace NurfUs.Classes
         public string Key { get; set; }
         public bool Valid { get; set; }
         public string Message { get; set; }
+
+        public UserInfo UserInfo { get; set; }
     }
 }
