@@ -71,6 +71,7 @@ $(document).ready(function () {
                     $("#countDown").text("");
                     clearInterval(countdownTimer);
                     $("#betArena").show();
+                    $("#footer").show();
                     return;
                 }
             }
@@ -96,12 +97,14 @@ $(document).ready(function () {
         if (getCookie("clientName").length >= 3)
         {
             $("#betArena").hide();
+            $("#footer").hide();
+
             countdown();
         }
 
         $(".checkShow").removeClass("checkShow");
 
-        new Audio("/Audio/UrfIntro.mp3").play();
+        playAudio("/Audio/UrfIntro.mp3");
 
         $("#gameDetail").empty().append(timeLeftTemplate.supplant(gameDisplay));
         $("#betQuestion").empty().append(gameDisplay.BetQuestion);
@@ -176,11 +179,11 @@ $(document).ready(function () {
     };
 
     hub.client.applause = function () {
-        new Audio("/Audio/Applause.mp3").play();
+        playAudio("/Audio/Applause.mp3");
     };
 
     hub.client.fart = function () {
-        new Audio("/Audio/Fart.mp3").play();
+        playAudio("/Audio/Fart.mp3");
     };
 
     hub.client.displayCurrency = function (amount) {
@@ -257,7 +260,7 @@ function toggleBet(authenticate)
         $("#head").show();
         $("#betArena").show();
         // Set initial focus to message input box.  
-        $('#message').focus();
+        //$('#message').focus();
     }
     else {
         $("#betArena").hide();
@@ -273,5 +276,11 @@ function toggleBet(authenticate)
             $("#howtoplay").show();
             $("#playWizard").show();
         }
+    }
+}
+
+function playAudio(fileToPlay) {
+    if (getCookie("muteAudio").length == 0) {
+        new Audio(fileToPlay).play();
     }
 }

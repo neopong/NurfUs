@@ -1,3 +1,8 @@
+.audioIcon {
+    color: white;
+    font-size: 14pt;
+}
+
 div.summoner.selectable{
     position: relative;
 }

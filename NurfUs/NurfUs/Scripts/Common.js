@@ -10,7 +10,33 @@
         };
     }
 
+    setAudioIcon();
+
+    $("#muteAudio").click(function () {
+        toggleAudio();
+    });
+
 });
+
+function toggleAudio() {
+    if (getCookie("muteAudio").length > 0) {
+        setCookie("muteAudio", "", -365);
+        setAudioIcon();
+    } else {
+        setCookie("muteAudio", "true", 365);
+        setAudioIcon();
+    }
+
+    setAudioIcon();
+}
+
+function setAudioIcon() {
+    if (getCookie("muteAudio").length > 0) {
+        $("#muteAudio").attr("class", "glyphicon glyphicon-volume-off audioIcon");
+    } else {
+        $("#muteAudio").attr("class", "glyphicon glyphicon-volume-up audioIcon");
+    }
+}
 
 function htmlEncode(message) {
     return $('<div />').text(message).html();
