@@ -190,50 +190,31 @@ namespace NurfUs.Hubs
                 newClient.Name = clientName;
                 newClient.Key = clientKey;
                 newClient.Valid = true;
+
+                var userInfo = dataContext.UserInfoes.Where(u => u.ASPNetUserId == clientKey).FirstOrDefault();
                 if (!nurfers.ContainsKey(clientKey))
                 {
-                    var userInfo = dataContext.UserInfoes.Where(u => u.ASPNetUserId == clientKey).FirstOrDefault();
                     if (userInfo != null)
                     {
                         newClient.UserInfo = userInfo;
                         newClient.SignalRConnectionId = connId;
                         nurfers.Add(clientKey, newClient);
-                        return true;
                     }
                 }
                 else
                 {
                     nurfers[clientKey].Name = clientName;
                     nurfers[clientKey].SignalRConnectionId = connId;
+
+                }
+                if (nurfers.ContainsKey(clientKey))
+                {
+                    Clients.Client(nurfers[clientKey].SignalRConnectionId).displayCurrency(nurfers[clientKey].UserInfo.Currency);
                     return true;
                 }
             }
             return false;
         }
-
-        //public static void AddNurfer(NurfClient client)
-        //{
-        //    nurfers.Add(client);
-        //}
-
-       
-
-        //public static void AddNurfer(String userId)
-        //{
-            
-        //    UserData context = new UserData();
-        //    var users = context.UserInfoes.FirstOrDefault(cl => cl.ASPNetUserId == userId);
-        //    if (users != null)
-        //    {
-        //        NurfClient nurf = new NurfClient();
-        //        nurf.Valid = true;
-        //        nurf.Key = users.ASPNetUserId;
-        //        nurf.Message = "";
-        //        nurf.UserInfo = users;
-        //        AddNurfer(nurf);
-                
-        //    }
-        //}
 
         //30,000 - 50,000
         public bool SubtractMoney(String userId, int money)
@@ -283,6 +264,8 @@ namespace NurfUs.Hubs
 
         public void AddUserBet(String userId, int betAmount, int betId)
         {
+            //TODO: Add check for negative and bet is less or eq the total currency.
+            //Add bool
             if (!PlayerBets.ContainsKey(userId))
             {
                 PlayerBets.Add(userId, new PlayerBet() { UserId = userId });   
@@ -317,10 +300,6 @@ namespace NurfUs.Hubs
             return false;
         }
 
-        public void DisplayUserCurrency()
-        {
-
-        }
 
 
         //this is where we will add the new event
@@ -417,6 +396,7 @@ namespace NurfUs.Hubs
             {
                 foreach (var playerBetKvp in PlayerBets)
                 {
+                    String curUserId = playerBetKvp.Key;
                     var user = userDataContext.UserInfoes.Where(ud => ud.ASPNetUserId == playerBetKvp.Key).FirstOrDefault();
                     if (user != null)
                     {
@@ -429,6 +409,18 @@ namespace NurfUs.Hubs
                         {
                             user.Currency -= playerBetKvp.Value.BetAmount;
                             user.InCorrectGuesses++;
+                        }
+
+                        if (nurfers.ContainsKey(curUserId))
+                        {
+                            GlobalHost
+                                .ConnectionManager
+                                .GetHubContext<NurfUsHub>()
+                                .Clients
+                                .Client(nurfers[curUserId].SignalRConnectionId)
+                                .displayCurrency(user.Currency);
+
+                            nurfers[curUserId].UserInfo = user;
                         }
                     }
                 }
