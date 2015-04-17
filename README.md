@@ -39,7 +39,7 @@ well even on mobile devices, laptops and tablets... yay!
 
 ### NurfUsMatchPuller 
 
-This project pulls all of the match Id's and match details from the Rito API. This info is cached and used by the website.
+This project pulls all of the match Id's and match details from the Riot API. This info is cached and used by the website.
 
 It uses the following endpoints:
 * [api-challenge-v4.1](https://developer.riotgames.com/api/methods#!/980/3340)
