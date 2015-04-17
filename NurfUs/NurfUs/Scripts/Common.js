@@ -21,10 +21,8 @@
 function toggleAudio() {
     if (getCookie("muteAudio").length > 0) {
         setCookie("muteAudio", "", -365);
-        setAudioIcon();
     } else {
         setCookie("muteAudio", "true", 365);
-        setAudioIcon();
     }
 
     setAudioIcon();

@@ -63,6 +63,7 @@ namespace NurfUs.Hubs
         internal static ChampionListDto champs;
         private static Dictionary<String, PlayerBet> PlayerBets;
         private static List<int> CurrentCorrectAnswers;
+        internal static int TotalMatchFiles = 0;
 
         internal static ConcurrentDictionary<String, NurfClient> Nurfers = new ConcurrentDictionary<String, NurfClient>();
 
@@ -354,10 +355,24 @@ namespace NurfUs.Hubs
             #region Pull Match from local drive
             //***************************************************
             DirectoryInfo diMatchHistory = new DirectoryInfo(ConfigurationManager.AppSettings["MatchDirectory"]);
-            int matchCount = diMatchHistory.GetFiles().Count();
 
-            Random randomGameNum = new Random();
-            string matchContent = File.ReadAllText(diMatchHistory.GetFiles()[randomGameNum.Next(matchCount)].FullName);
+            Random randomGameNum = new Random((int)DateTime.Now.Ticks);
+            
+            int randomFile = randomGameNum.Next(TotalMatchFiles);
+            string matchContent = "";
+
+            int matchCount = 0;
+
+            foreach (var file in diMatchHistory.EnumerateFiles())
+            {
+                if (matchCount == randomFile)
+                {
+                    matchContent = File.ReadAllText(file.FullName);
+                    break;
+                }
+
+                matchCount++;
+            }
 
             JavaScriptSerializer jss = new JavaScriptSerializer();
 
@@ -419,7 +434,7 @@ namespace NurfUs.Hubs
             switch(ChosenQuestion.BetType){
 
                 case Classes.Betting.BetType.Summoner:
-                    multiplier = 4;
+                    multiplier = 5;
                     break;
 
                 case Classes.Betting.BetType.Team:

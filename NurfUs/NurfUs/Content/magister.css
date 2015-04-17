@@ -1,3 +1,25 @@
+.bling {
+    text-shadow: 0 0 1px #000, 0 0 1px #aaa, 0 0 2px #999, 0 0 3px #888, 0 0 4px #666, 0 3px 3px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.5);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #2A1C00;
+    background-color: #A3710B;
+    color: #FFFF08;
+}
+
+.currency {
+    height: 25px;
+    width: 25px;
+}
+
+.blueTeamLabel {
+    background-color: #2585B3 !important;
+}
+
+.purpleTeamLabel {
+    background-color: #8041B0 !important;
+}
+
 .blueBorder {
     border-width: 5px; 
     border-color: blue; 
@@ -10,7 +32,7 @@
 
 .purpleBorder {
     border-width: 5px; 
-    border-color: blue; 
+    border-color: purple; 
     border-style: solid;
     height: 40px; 
     width: 40px; 
@@ -89,6 +111,11 @@ div.blueTeam.selectable, div.purpleTeam.selectable{
         width: 60px;
         height:60px;
         margin-left:10%;
+    }
+
+    .currency {
+        height: 50px;
+        width: 50px;
     }
 }
 
@@ -213,7 +240,7 @@ body {
 	top:0;
 } 
 @media (min-width: 768px) {
-	.section { padding-bottom:0px;}
+	.section {padding-top: 60px; padding-bottom:0px;}
 }
 
 /* Show one of sections */

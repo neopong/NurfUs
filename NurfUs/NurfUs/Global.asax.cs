@@ -36,6 +36,15 @@ namespace NurfUs
             string champData = File.ReadAllText(HostingEnvironment.MapPath("~/Cache/champion.json"));
             NurfUsHub.champs = jss.Deserialize<ChampionListDto>(champData);
 
+            DirectoryInfo diMatchHistory = new DirectoryInfo(ConfigurationManager.AppSettings["MatchDirectory"]);
+
+            NurfUsHub.TotalMatchFiles = 0;
+
+            foreach (var file in diMatchHistory.EnumerateFiles())
+            {
+                NurfUsHub.TotalMatchFiles++;
+            }
+
             NurfUsHub.GenerateNewMatch();
 
             betArenaTimer.Interval = Convert.ToInt32(ConfigurationManager.AppSettings["NewMatchInterval"]);
@@ -44,15 +53,19 @@ namespace NurfUs
             betArenaTimer.Elapsed += (o, t) =>
             {
                 betArenaTimer.Stop();
+                
                 NurfUsHub.EvaluateCurrentMatch();
+                
                 endRoundTimer.Start();
             };
             
             endRoundTimer.Elapsed += (o, t) =>
             {
                 endRoundTimer.Stop();
+
                 NurfUsHub.GenerateNewMatch();
                 GlobalHost.ConnectionManager.GetHubContext<NurfUsHub>().Clients.All.newMatch(NurfUsHub.CreateGameDisplay(NurfUsHub.ChosenMatch));
+
                 betArenaTimer.Start();
             };
 

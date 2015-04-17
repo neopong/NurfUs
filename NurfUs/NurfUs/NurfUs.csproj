@@ -281,8 +281,11 @@
   <ItemGroup>
     <Content Include="APIKey.txt" />
     <Content Include="Audio\Applause.mp3" />
+    <Content Include="Audio\Defeat.mp3" />
     <Content Include="Audio\Fart.mp3" />
+    <Content Include="Audio\lockinchampion.mp3" />
     <Content Include="Audio\UrfIntro.mp3" />
+    <Content Include="Audio\Victory.mp3" />
     <Content Include="Content\bootstrap-spinedit.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -422,6 +425,8 @@
     <Content Include="Images\Checkmark.png" />
     <Content Include="Images\Currency.jpg" />
     <Content Include="Images\leagueoflegendwallpapers.com-ashe-league-of-legends-game-hd-wallpaper-1920x1080-1536.jpg" />
+    <Content Include="Images\MoneyFish25x25.png" />
+    <Content Include="Images\MoneyFish50x50.png" />
     <Content Include="Images\UrfFlex.jpg" />
     <Content Include="Images\UrfRises.jpg" />
     <Content Include="Images\Urf_OriginalSkin.jpg" />

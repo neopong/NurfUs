@@ -95,10 +95,17 @@ $(document).ready(function () {
 
     var timeLeftTemplate = '<div class="badge timer" data-x-started="{SecondsElapsed}"></div>';
 
+    //Used for any generic debug logging you want to dump from the server to the client
+    hub.client.serverLog = function(logInfo) {
+        if (window.console) {
+            window.console.log(logInfo);
+        }
+    };
+
     hub.client.newMatch = function (gameDisplay) {
         //Hide the modal if it appears
-        clearModal();
         $('#resultDialog').modal('hide');
+
         betId = 0;
         currentBetAmount = 0;
 
@@ -121,8 +128,15 @@ $(document).ready(function () {
         var checkMark = '<div class="checkMark"><img src="/Images/Checkmark.png" /></div>';
         var preImage = '<img src="/Images/Champion/';
 
+        $("#payout").empty();
+
         if (gameDisplay.BetType == 1) {
             preImage = checkMark + preImage;
+            $("#payout").addClass("bling");
+            $("#payout").append("Payout 5:1");
+        } else {
+            $("#payout").removeClass("bling");
+            $("#payout").append("Payout 1:1");
         }
 
         $("#participant1").empty().append(preImage + gameDisplay.BlueTeam[0].ChampionImage + '"\>');
@@ -178,13 +192,6 @@ $(document).ready(function () {
         }
     };
 
-    //TODO(Scott):
-    hub.client.displayFallBelowThreshold = function () {
-        //Scott if you want you can change this to something modal,
-        //but in the interest of time Im going to do a javascript alert
-        alert('Urf the manatee feels bad for your loss, He gifts you some more fish!!');
-    };
-
     /*
 
     {
@@ -207,28 +214,29 @@ $(document).ready(function () {
     hub.client.displayPostGameResult = function (gameResult)
     {
         clearModal();
-        //summon case
+        //Team Bet Type
         if (gameResult.BetType == 0)
         {
             //blue team
             if (gameResult.CorrectAnswerIds[0] == 100) {
-                $("#choiceList").append('<span class="blueText">' + 'Blue Team' + '</span>');
+                $("#choiceList").append('<span class="blueText">Blue Team</span>');
             }
-                //purple team
-            else if (gameResult.CorrectAnswerIds[0] == 200) {
-                $("#choiceList").append('<span class="purpleText">' + 'Purple Team' + '</span>');
+            //purple team
+            else {
+                $("#choiceList").append('<span class="purpleText">Purple Team</span>');
             }
 
             if(gameResult.UserAnswer == 100)
             {
-                $('#playerChoice').append('<span class="blueText">' + 'Blue Team' + '</span>');
+                $('#playerChoice').append('<span class="blueText">Blue Team</span>');
             }
-            else if(gameResult.UserAnswer == 200)
+            else
             {
-                $('#playerChoice').append('<span class="purpleText">' + 'Purple Team' + '</span>');
+                $('#playerChoice').append('<span class="purpleText">Purple Team</span>');
             }
 
         }
+        //Summoner Bet Type
         else if (gameResult.BetType == 1)
         {
             var playerChoice = $('[data-x-betId="' + betId + '"]').children('img').first().clone();
@@ -253,13 +261,20 @@ $(document).ready(function () {
                 $("#choiceList").append(correctChoiceImg);
             }
         }
+
         //UserAmountDelta
-        $('#moneyOutcome').text(gameResult.UserAmountDelta);
+        $('#moneyOutcome').append('<img src="/Images/MoneyFish50x50.png" class="currency" /> ' + gameResult.UserAmountDelta);
 
         if (gameResult.UserFallsBelowThreshold == true) {
-            $('#threshHoldMessage').text('Urf the manatee feels bad for your loss, He gifts you some more fish!!');
+            $('#threshHoldMessage').append('Urf the manatee feels bad for your loss, He gifts you some more fish!! <img src="/Images/MoneyFish50x50.png" class="currency" />');
         }
         $('#resultDialog').modal('show');
+
+        if (gameResult.UserCorrect) {
+            playAudio("/Audio/Victory.mp3");
+        } else {
+            playAudio("/Audio/Defeat.mp3");
+        }
     };
 
     hub.client.broadcastMessage = function (name, message) {
@@ -286,6 +301,7 @@ $(document).ready(function () {
     //This is where we will poll the server to add the bet info.
     function betSelected(element) {
         var newBetId = $(element).attr("data-x-betId");
+        playAudio("/Audio/lockinchampion.mp3");
 
         if (betId != newBetId) {
             var betAmountDelta = $("#betAmount").val() / 1 - currentBetAmount;
