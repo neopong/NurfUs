@@ -1,0 +1,745 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NurfUsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="APIResponses">
+          <Key>
+            <PropertyRef Name="APIResponseId" />
+          </Key>
+          <Property Name="APIResponseId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JSON" Type="varchar(max)" Nullable="false" />
+          <Property Name="DateStamp" Type="datetime" Nullable="false" />
+          <Property Name="RequestType" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="ChampionExtraInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChampionId" Type="int" Nullable="false" />
+          <Property Name="InfoType" Type="tinyint" Nullable="false" />
+          <Property Name="Detail" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChampionHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VersionId" Type="int" Nullable="false" />
+          <Property Name="ChampionId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Blurb" Type="varchar" MaxLength="400" Nullable="false" />
+          <Property Name="ImageName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Attack" Type="int" Nullable="false" />
+          <Property Name="Defense" Type="int" Nullable="false" />
+          <Property Name="Difficulty" Type="int" Nullable="false" />
+          <Property Name="Magic" Type="int" Nullable="false" />
+          <Property Name="Lore" Type="varchar(max)" Nullable="false" />
+          <Property Name="Partype" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Key" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Armor" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="ArmorPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackDamage" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackDamagePerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackRange" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackSpeedOffset" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackSpeedPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Crit" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="CritPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Hp" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpRegen" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpRegenPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MoveSpeed" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Mp" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpRegen" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpRegenPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="SpellBlock" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="SpellBlockPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Champions">
+          <Key>
+            <PropertyRef Name="ChampionId" />
+          </Key>
+          <Property Name="ChampionId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Blurb" Type="varchar" MaxLength="400" Nullable="false" />
+          <Property Name="ImageName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Attack" Type="int" Nullable="false" />
+          <Property Name="Defense" Type="int" Nullable="false" />
+          <Property Name="Difficulty" Type="int" Nullable="false" />
+          <Property Name="Magic" Type="int" Nullable="false" />
+          <Property Name="Lore" Type="varchar(max)" Nullable="false" />
+          <Property Name="Partype" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Key" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Armor" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="ArmorPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackDamage" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackDamagePerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackRange" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackSpeedOffset" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackSpeedPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Crit" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="CritPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Hp" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpRegen" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpRegenPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MoveSpeed" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Mp" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpRegen" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpRegenPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="SpellBlock" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="SpellBlockPerLevel" Type="decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChampionSkinHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VersionId" Type="int" Nullable="false" />
+          <Property Name="SkinId" Type="int" Nullable="false" />
+          <Property Name="ChampionId" Type="int" Nullable="false" />
+          <Property Name="Num" Type="tinyint" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChampionSkins">
+          <Key>
+            <PropertyRef Name="SkinId" />
+          </Key>
+          <Property Name="SkinId" Type="int" Nullable="false" />
+          <Property Name="ChampionId" Type="int" Nullable="false" />
+          <Property Name="Num" Type="tinyint" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChampionSpellHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VersionId" Type="int" Nullable="false" />
+          <Property Name="ChampionId" Type="int" Nullable="false" />
+          <Property Name="Key" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CooldownBurn" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CostBurn" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CostType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="MaxRank" Type="tinyint" Nullable="false" />
+          <Property Name="RangeBurn" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Resource" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SanitizedDescription" Type="varchar(max)" Nullable="false" />
+          <Property Name="SanitizedToolTip" Type="varchar(max)" Nullable="false" />
+          <Property Name="ToolTip" Type="varchar(max)" Nullable="false" />
+          <Property Name="SpellSlot" Type="tinyint" Nullable="false" />
+          <Property Name="ImageName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChampionSpells">
+          <Key>
+            <PropertyRef Name="SpellId" />
+          </Key>
+          <Property Name="SpellId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChampionId" Type="int" Nullable="false" />
+          <Property Name="Key" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CooldownBurn" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CostBurn" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CostType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="MaxRank" Type="tinyint" Nullable="false" />
+          <Property Name="RangeBurn" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Resource" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SanitizedDescription" Type="varchar(max)" Nullable="false" />
+          <Property Name="SanitizedToolTip" Type="varchar(max)" Nullable="false" />
+          <Property Name="ToolTip" Type="varchar(max)" Nullable="false" />
+          <Property Name="SpellSlot" Type="tinyint" Nullable="false" />
+          <Property Name="ImageName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameParticipants">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GameId" Type="bigint" Nullable="false" />
+          <Property Name="SummonerId" Type="int" Nullable="false" />
+          <Property Name="ParticipantId" Type="int" Nullable="false" />
+          <Property Name="TeamId" Type="tinyint" Nullable="false" />
+          <Property Name="ChampionId" Type="int" Nullable="false" />
+          <Property Name="Spell1Id" Type="tinyint" Nullable="false" />
+          <Property Name="Spell2Id" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="GameId" Type="bigint" Nullable="false" />
+          <Property Name="GameMode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GameQueueConfigId" Type="int" Nullable="false" />
+          <Property Name="GameStartTime" Type="bigint" Nullable="false" />
+          <Property Name="GameType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MapId" Type="int" Nullable="false" />
+          <Property Name="EncryptionKey" Type="varchar" MaxLength="512" />
+          <Property Name="PlatformId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SearchId" Type="int" />
+          <Property Name="CurrentGame" Type="bit" Nullable="false" />
+          <Property Name="DateStamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Summoners">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SummonerId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Level" Type="tinyint" />
+          <Property Name="RevisionDate" Type="datetime" />
+          <Property Name="SearchId" Type="int" />
+          <Property Name="Rank" Type="varchar" MaxLength="13" />
+          <Property Name="ProfileIconId" Type="int" />
+          <Property Name="Region" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="SummonerSearch">
+          <Key>
+            <PropertyRef Name="SearchId" />
+          </Key>
+          <Property Name="SearchId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SearchValue" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Region" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Datestamp" Type="datetime" Nullable="false" />
+          <Property Name="IP" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Versions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Version" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateStamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="NurfUsModelStoreContainer">
+          <EntitySet Name="APIResponses" EntityType="Self.APIResponses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChampionExtraInfo" EntityType="Self.ChampionExtraInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChampionHistory" EntityType="Self.ChampionHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Champions" EntityType="Self.Champions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChampionSkinHistory" EntityType="Self.ChampionSkinHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChampionSkins" EntityType="Self.ChampionSkins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChampionSpellHistory" EntityType="Self.ChampionSpellHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChampionSpells" EntityType="Self.ChampionSpells" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameParticipants" EntityType="Self.GameParticipants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Games" EntityType="Self.Games" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Summoners" EntityType="Self.Summoners" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SummonerSearch" EntityType="Self.SummonerSearch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Versions" EntityType="Self.Versions" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NurfUsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="APIRespons">
+          <Key>
+            <PropertyRef Name="APIResponseId" />
+          </Key>
+          <Property Name="APIResponseId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JSON" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RequestType" Type="Byte" />
+        </EntityType>
+        <EntityType Name="ChampionExtraInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChampionId" Type="Int32" Nullable="false" />
+          <Property Name="InfoType" Type="Byte" Nullable="false" />
+          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChampionHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VersionId" Type="Int32" Nullable="false" />
+          <Property Name="ChampionId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Blurb" Type="String" MaxLength="400" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Attack" Type="Int32" Nullable="false" />
+          <Property Name="Defense" Type="Int32" Nullable="false" />
+          <Property Name="Difficulty" Type="Int32" Nullable="false" />
+          <Property Name="Magic" Type="Int32" Nullable="false" />
+          <Property Name="Lore" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Partype" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Key" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Armor" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="ArmorPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackDamage" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackDamagePerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackRange" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackSpeedOffset" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackSpeedPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Crit" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="CritPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Hp" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpRegen" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpRegenPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MoveSpeed" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Mp" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpRegen" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpRegenPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="SpellBlock" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="SpellBlockPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Champion">
+          <Key>
+            <PropertyRef Name="ChampionId" />
+          </Key>
+          <Property Name="ChampionId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Blurb" Type="String" MaxLength="400" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Attack" Type="Int32" Nullable="false" />
+          <Property Name="Defense" Type="Int32" Nullable="false" />
+          <Property Name="Difficulty" Type="Int32" Nullable="false" />
+          <Property Name="Magic" Type="Int32" Nullable="false" />
+          <Property Name="Lore" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Partype" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Key" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Armor" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="ArmorPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackDamage" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackDamagePerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackRange" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackSpeedOffset" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="AttackSpeedPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Crit" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="CritPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Hp" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpRegen" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="HpRegenPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MoveSpeed" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="Mp" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpRegen" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="MpRegenPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="SpellBlock" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="SpellBlockPerLevel" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ChampionSkinHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VersionId" Type="Int32" Nullable="false" />
+          <Property Name="SkinId" Type="Int32" Nullable="false" />
+          <Property Name="ChampionId" Type="Int32" Nullable="false" />
+          <Property Name="Num" Type="Byte" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChampionSkin">
+          <Key>
+            <PropertyRef Name="SkinId" />
+          </Key>
+          <Property Name="SkinId" Type="Int32" Nullable="false" />
+          <Property Name="ChampionId" Type="Int32" Nullable="false" />
+          <Property Name="Num" Type="Byte" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChampionSpellHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VersionId" Type="Int32" Nullable="false" />
+          <Property Name="ChampionId" Type="Int32" Nullable="false" />
+          <Property Name="Key" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CooldownBurn" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CostBurn" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CostType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MaxRank" Type="Byte" Nullable="false" />
+          <Property Name="RangeBurn" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Resource" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SanitizedDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SanitizedToolTip" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ToolTip" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SpellSlot" Type="Byte" Nullable="false" />
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChampionSpell">
+          <Key>
+            <PropertyRef Name="SpellId" />
+          </Key>
+          <Property Name="SpellId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChampionId" Type="Int32" Nullable="false" />
+          <Property Name="Key" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CooldownBurn" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CostBurn" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CostType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MaxRank" Type="Byte" Nullable="false" />
+          <Property Name="RangeBurn" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Resource" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SanitizedDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SanitizedToolTip" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ToolTip" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SpellSlot" Type="Byte" Nullable="false" />
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameParticipant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GameId" Type="Int64" Nullable="false" />
+          <Property Name="SummonerId" Type="Int32" Nullable="false" />
+          <Property Name="ParticipantId" Type="Int32" Nullable="false" />
+          <Property Name="TeamId" Type="Byte" Nullable="false" />
+          <Property Name="ChampionId" Type="Int32" Nullable="false" />
+          <Property Name="Spell1Id" Type="Byte" Nullable="false" />
+          <Property Name="Spell2Id" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="GameId" />
+          </Key>
+          <Property Name="GameId" Type="Int64" Nullable="false" />
+          <Property Name="GameMode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GameQueueConfigId" Type="Int32" Nullable="false" />
+          <Property Name="GameStartTime" Type="Int64" Nullable="false" />
+          <Property Name="GameType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MapId" Type="Int32" Nullable="false" />
+          <Property Name="EncryptionKey" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="PlatformId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SearchId" Type="Int32" />
+          <Property Name="CurrentGame" Type="Boolean" Nullable="false" />
+          <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Summoner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SummonerId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Level" Type="Byte" />
+          <Property Name="RevisionDate" Type="DateTime" Precision="3" />
+          <Property Name="SearchId" Type="Int32" />
+          <Property Name="Rank" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="ProfileIconId" Type="Int32" />
+          <Property Name="Region" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SummonerSearch">
+          <Key>
+            <PropertyRef Name="SearchId" />
+          </Key>
+          <Property Name="SearchId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SearchValue" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Region" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Datestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Version">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Version1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateStamp" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="NurfUsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="APIResponses" EntityType="Self.APIRespons" />
+          <EntitySet Name="ChampionExtraInfoes" EntityType="Self.ChampionExtraInfo" />
+          <EntitySet Name="ChampionHistories" EntityType="Self.ChampionHistory" />
+          <EntitySet Name="Champions" EntityType="Self.Champion" />
+          <EntitySet Name="ChampionSkinHistories" EntityType="Self.ChampionSkinHistory" />
+          <EntitySet Name="ChampionSkins" EntityType="Self.ChampionSkin" />
+          <EntitySet Name="ChampionSpellHistories" EntityType="Self.ChampionSpellHistory" />
+          <EntitySet Name="ChampionSpells" EntityType="Self.ChampionSpell" />
+          <EntitySet Name="GameParticipants" EntityType="Self.GameParticipant" />
+          <EntitySet Name="Games" EntityType="Self.Game" />
+          <EntitySet Name="Summoners" EntityType="Self.Summoner" />
+          <EntitySet Name="SummonerSearches" EntityType="Self.SummonerSearch" />
+          <EntitySet Name="Versions" EntityType="Self.Version" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NurfUsModelStoreContainer" CdmEntityContainer="NurfUsEntities">
+          <EntitySetMapping Name="APIResponses">
+            <EntityTypeMapping TypeName="NurfUsModel.APIRespons">
+              <MappingFragment StoreEntitySet="APIResponses">
+                <ScalarProperty Name="APIResponseId" ColumnName="APIResponseId" />
+                <ScalarProperty Name="JSON" ColumnName="JSON" />
+                <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
+                <ScalarProperty Name="RequestType" ColumnName="RequestType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChampionExtraInfoes">
+            <EntityTypeMapping TypeName="NurfUsModel.ChampionExtraInfo">
+              <MappingFragment StoreEntitySet="ChampionExtraInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="InfoType" ColumnName="InfoType" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChampionHistories">
+            <EntityTypeMapping TypeName="NurfUsModel.ChampionHistory">
+              <MappingFragment StoreEntitySet="ChampionHistory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Blurb" ColumnName="Blurb" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="Attack" ColumnName="Attack" />
+                <ScalarProperty Name="Defense" ColumnName="Defense" />
+                <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+                <ScalarProperty Name="Magic" ColumnName="Magic" />
+                <ScalarProperty Name="Lore" ColumnName="Lore" />
+                <ScalarProperty Name="Partype" ColumnName="Partype" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Armor" ColumnName="Armor" />
+                <ScalarProperty Name="ArmorPerLevel" ColumnName="ArmorPerLevel" />
+                <ScalarProperty Name="AttackDamage" ColumnName="AttackDamage" />
+                <ScalarProperty Name="AttackDamagePerLevel" ColumnName="AttackDamagePerLevel" />
+                <ScalarProperty Name="AttackRange" ColumnName="AttackRange" />
+                <ScalarProperty Name="AttackSpeedOffset" ColumnName="AttackSpeedOffset" />
+                <ScalarProperty Name="AttackSpeedPerLevel" ColumnName="AttackSpeedPerLevel" />
+                <ScalarProperty Name="Crit" ColumnName="Crit" />
+                <ScalarProperty Name="CritPerLevel" ColumnName="CritPerLevel" />
+                <ScalarProperty Name="Hp" ColumnName="Hp" />
+                <ScalarProperty Name="HpPerLevel" ColumnName="HpPerLevel" />
+                <ScalarProperty Name="HpRegen" ColumnName="HpRegen" />
+                <ScalarProperty Name="HpRegenPerLevel" ColumnName="HpRegenPerLevel" />
+                <ScalarProperty Name="MoveSpeed" ColumnName="MoveSpeed" />
+                <ScalarProperty Name="Mp" ColumnName="Mp" />
+                <ScalarProperty Name="MpPerLevel" ColumnName="MpPerLevel" />
+                <ScalarProperty Name="MpRegen" ColumnName="MpRegen" />
+                <ScalarProperty Name="MpRegenPerLevel" ColumnName="MpRegenPerLevel" />
+                <ScalarProperty Name="SpellBlock" ColumnName="SpellBlock" />
+                <ScalarProperty Name="SpellBlockPerLevel" ColumnName="SpellBlockPerLevel" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Champions">
+            <EntityTypeMapping TypeName="NurfUsModel.Champion">
+              <MappingFragment StoreEntitySet="Champions">
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Blurb" ColumnName="Blurb" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="Attack" ColumnName="Attack" />
+                <ScalarProperty Name="Defense" ColumnName="Defense" />
+                <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+                <ScalarProperty Name="Magic" ColumnName="Magic" />
+                <ScalarProperty Name="Lore" ColumnName="Lore" />
+                <ScalarProperty Name="Partype" ColumnName="Partype" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Armor" ColumnName="Armor" />
+                <ScalarProperty Name="ArmorPerLevel" ColumnName="ArmorPerLevel" />
+                <ScalarProperty Name="AttackDamage" ColumnName="AttackDamage" />
+                <ScalarProperty Name="AttackDamagePerLevel" ColumnName="AttackDamagePerLevel" />
+                <ScalarProperty Name="AttackRange" ColumnName="AttackRange" />
+                <ScalarProperty Name="AttackSpeedOffset" ColumnName="AttackSpeedOffset" />
+                <ScalarProperty Name="AttackSpeedPerLevel" ColumnName="AttackSpeedPerLevel" />
+                <ScalarProperty Name="Crit" ColumnName="Crit" />
+                <ScalarProperty Name="CritPerLevel" ColumnName="CritPerLevel" />
+                <ScalarProperty Name="Hp" ColumnName="Hp" />
+                <ScalarProperty Name="HpPerLevel" ColumnName="HpPerLevel" />
+                <ScalarProperty Name="HpRegen" ColumnName="HpRegen" />
+                <ScalarProperty Name="HpRegenPerLevel" ColumnName="HpRegenPerLevel" />
+                <ScalarProperty Name="MoveSpeed" ColumnName="MoveSpeed" />
+                <ScalarProperty Name="Mp" ColumnName="Mp" />
+                <ScalarProperty Name="MpPerLevel" ColumnName="MpPerLevel" />
+                <ScalarProperty Name="MpRegen" ColumnName="MpRegen" />
+                <ScalarProperty Name="MpRegenPerLevel" ColumnName="MpRegenPerLevel" />
+                <ScalarProperty Name="SpellBlock" ColumnName="SpellBlock" />
+                <ScalarProperty Name="SpellBlockPerLevel" ColumnName="SpellBlockPerLevel" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChampionSkinHistories">
+            <EntityTypeMapping TypeName="NurfUsModel.ChampionSkinHistory">
+              <MappingFragment StoreEntitySet="ChampionSkinHistory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
+                <ScalarProperty Name="SkinId" ColumnName="SkinId" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="Num" ColumnName="Num" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChampionSkins">
+            <EntityTypeMapping TypeName="NurfUsModel.ChampionSkin">
+              <MappingFragment StoreEntitySet="ChampionSkins">
+                <ScalarProperty Name="SkinId" ColumnName="SkinId" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="Num" ColumnName="Num" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChampionSpellHistories">
+            <EntityTypeMapping TypeName="NurfUsModel.ChampionSpellHistory">
+              <MappingFragment StoreEntitySet="ChampionSpellHistory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CooldownBurn" ColumnName="CooldownBurn" />
+                <ScalarProperty Name="CostBurn" ColumnName="CostBurn" />
+                <ScalarProperty Name="CostType" ColumnName="CostType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MaxRank" ColumnName="MaxRank" />
+                <ScalarProperty Name="RangeBurn" ColumnName="RangeBurn" />
+                <ScalarProperty Name="Resource" ColumnName="Resource" />
+                <ScalarProperty Name="SanitizedDescription" ColumnName="SanitizedDescription" />
+                <ScalarProperty Name="SanitizedToolTip" ColumnName="SanitizedToolTip" />
+                <ScalarProperty Name="ToolTip" ColumnName="ToolTip" />
+                <ScalarProperty Name="SpellSlot" ColumnName="SpellSlot" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChampionSpells">
+            <EntityTypeMapping TypeName="NurfUsModel.ChampionSpell">
+              <MappingFragment StoreEntitySet="ChampionSpells">
+                <ScalarProperty Name="SpellId" ColumnName="SpellId" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CooldownBurn" ColumnName="CooldownBurn" />
+                <ScalarProperty Name="CostBurn" ColumnName="CostBurn" />
+                <ScalarProperty Name="CostType" ColumnName="CostType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MaxRank" ColumnName="MaxRank" />
+                <ScalarProperty Name="RangeBurn" ColumnName="RangeBurn" />
+                <ScalarProperty Name="Resource" ColumnName="Resource" />
+                <ScalarProperty Name="SanitizedDescription" ColumnName="SanitizedDescription" />
+                <ScalarProperty Name="SanitizedToolTip" ColumnName="SanitizedToolTip" />
+                <ScalarProperty Name="ToolTip" ColumnName="ToolTip" />
+                <ScalarProperty Name="SpellSlot" ColumnName="SpellSlot" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameParticipants">
+            <EntityTypeMapping TypeName="NurfUsModel.GameParticipant">
+              <MappingFragment StoreEntitySet="GameParticipants">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="SummonerId" ColumnName="SummonerId" />
+                <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="Spell1Id" ColumnName="Spell1Id" />
+                <ScalarProperty Name="Spell2Id" ColumnName="Spell2Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="NurfUsModel.Game">
+              <MappingFragment StoreEntitySet="Games">
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="GameMode" ColumnName="GameMode" />
+                <ScalarProperty Name="GameQueueConfigId" ColumnName="GameQueueConfigId" />
+                <ScalarProperty Name="GameStartTime" ColumnName="GameStartTime" />
+                <ScalarProperty Name="GameType" ColumnName="GameType" />
+                <ScalarProperty Name="MapId" ColumnName="MapId" />
+                <ScalarProperty Name="EncryptionKey" ColumnName="EncryptionKey" />
+                <ScalarProperty Name="PlatformId" ColumnName="PlatformId" />
+                <ScalarProperty Name="SearchId" ColumnName="SearchId" />
+                <ScalarProperty Name="CurrentGame" ColumnName="CurrentGame" />
+                <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Summoners">
+            <EntityTypeMapping TypeName="NurfUsModel.Summoner">
+              <MappingFragment StoreEntitySet="Summoners">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SummonerId" ColumnName="SummonerId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="RevisionDate" ColumnName="RevisionDate" />
+                <ScalarProperty Name="SearchId" ColumnName="SearchId" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="ProfileIconId" ColumnName="ProfileIconId" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SummonerSearches">
+            <EntityTypeMapping TypeName="NurfUsModel.SummonerSearch">
+              <MappingFragment StoreEntitySet="SummonerSearch">
+                <ScalarProperty Name="SearchId" ColumnName="SearchId" />
+                <ScalarProperty Name="SearchValue" ColumnName="SearchValue" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Datestamp" ColumnName="Datestamp" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Versions">
+            <EntityTypeMapping TypeName="NurfUsModel.Version">
+              <MappingFragment StoreEntitySet="Versions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Version1" ColumnName="Version" />
+                <ScalarProperty Name="DateStamp" ColumnName="DateStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
