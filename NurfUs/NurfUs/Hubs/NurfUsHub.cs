@@ -51,7 +51,7 @@ namespace NurfUs.Hubs
         public const int NEW_ACCOUNT_CURRENCY = 10000;
         public const int NEW_GUEST_CURRENCY = 5000;
 
-        public const int FART_COST = 15000;
+        public const int FART_COST = 30000;
         public const int APPLAUSE_COST = 20000;
 
 

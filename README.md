@@ -37,18 +37,20 @@ well even on mobile devices, laptops and tablets... yay!
 
 ## Setup
 
-### NurfUsMatchPuller - Pulls all of the match Id's and match details from the Rito API. This info is cached and used by the website.
+### NurfUsMatchPuller 
+
+This project pulls all of the match Id's and match details from the Rito API. This info is cached and used by the website.
 
 It uses the following endpoints:
 * [api-challenge-v4.1](https://developer.riotgames.com/api/methods#!/980/3340)
 * [match-v2.2](https://developer.riotgames.com/api/methods#!/967/3313)
 
 You will want to configure the following pieces of information in the App.config:
-1. [Root directory to store Match Buckets](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L8) IE <add key="JSONCacheDirectory" value="C:\Games\"/>
-2. [Subdirectory name to store Match Details](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L9) IE <add key="MatchInfoSubDirectory" value="MatchDetail"/>
-3. [Flag to pull Match Id buckets](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L10) IE <add key="RunMatchIdScraper" value="False"/>
-4. [Flag to pull Match Details](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L11) IE <add key="RunMatchDetailScraper" value="True"/>
-5. [SQL connection string](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L27) IE <add name="NurfUsEntities" connectionString="metadata=res://*/Classes.Data.NurfUs.csdl|res://*/Classes.Data.NurfUs.ssdl|res://*/Classes.Data.NurfUs.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=YourServer;initial catalog=YourDatabase;user id=YourUserId;password=YourPassword;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+* [Root directory to store Match Buckets](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L8) IE <add key="JSONCacheDirectory" value="C:\Games\"/>
+* [Subdirectory name to store Match Details](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L9) IE <add key="MatchInfoSubDirectory" value="MatchDetail"/>
+* [Flag to pull Match Id buckets](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L10) IE <add key="RunMatchIdScraper" value="False"/>
+* [Flag to pull Match Details](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L11) IE <add key="RunMatchDetailScraper" value="True"/>
+* [SQL connection string](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L27) IE <add name="NurfUsEntities" connectionString="metadata=res://*/Classes.Data.NurfUs.csdl|res://*/Classes.Data.NurfUs.ssdl|res://*/Classes.Data.NurfUs.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=YourServer;initial catalog=YourDatabase;user id=YourUserId;password=YourPassword;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
 
 Enter your API Key in the [Program.cs](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/Program.cs#L20)
 
@@ -60,11 +62,14 @@ Most of the server side logic is in the [NurfUsHub.cs](https://github.com/neopon
 and the client side logic is in the [Main.js](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Scripts/Page/Main.js)
 
 You will want to change the following information in the Web.config:
-1. GoogleAnalyticsKey
-2. MatchDirectory (this should be the combination of the directory and subdirectory that you setup in the NurfUsMatchPuller)
-3. SQL Connection string
+* GoogleAnalyticsKey
+* MatchDirectory (this should be the combination of the directory and subdirectory that you setup in the NurfUsMatchPuller)
+* SQL Connection string
 
 You should also enter your API key into the APIKey.txt file in the root directory of the project
+
+If you want to create a new question just implement the [IBetQuestion interface](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Classes/Betting/Questions/IBetQuestion.cs).
+Then add it to the [array of possible questions in the NurfUsHub](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Hubs/NurfUsHub.cs#L69)
 
 ## Our Challenges
 
@@ -74,17 +79,28 @@ in a fun way that had some reward to it. Sticking to the constraints of the URF
 Endpoint, we had to figure out what to do with a plethora of anonymous match data.
 We also found that two weeks is a tight deadline when you're working a full-time job.
 
-We also had some trouble with making the front-end look decent as we are not designers.
-In fact we are about the furthest thing from designers as we mainly deal with backend and middle-tiers.
-We hope that the interface feels intuitive and is at least somewhat appealing. /crossesfingers
+Learning SignalR had a little overhead in the learning curve as we had both barely used it prior to this.
+I must say SignalR is pretty awesome and I think websockets will end up being the next step in web development, regardless of platform.
+All in all I'm really glad we got to work with SignalR as investing your time in learning new technology is always WORTH!
+
+Last but not least, we also had some trouble with making the front-end look decent as we are not designers.
+In fact we are about the furthest thing from designers as we mainly deal with backend and middle-tiers but that wasn't going to stop us!
+We hope that the interface feels intuitive and is at least somewhat appealing! /crossesfingers
+
+I just want to take a moment to thank Twitter for Bootstrap. You make our crappy designing skills not look nearly as bad as it should!
 
 ## The Team
 
 Scott Karbel 
+
 	Summoner Name: neopong 
+
 	github: [neopong](https://github.com/neopong)
 
+
 Tyler Thomas 
+
 	Summoner Name: MMMOverkill 
+
 	github: [tt9](https://github.com/tt9)
 

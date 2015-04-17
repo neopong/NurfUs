@@ -110,6 +110,7 @@ $(document).ready(function () {
             countdown();
         }
 
+        $("#betAmount").removeAttr("disabled");
         $(".checkShow").removeClass("checkShow");
 
         playAudio("/Audio/UrfIntro.mp3");
@@ -230,11 +231,26 @@ $(document).ready(function () {
         }
         else if (gameResult.BetType == 1)
         {
+            var playerChoice = $('[data-x-betId="' + betId + '"]').children('img').first().clone();
 
-            for (var i = 0 ; i < gameResult.CorrectAnswerIds.Count; i++) {
-                //$("#choiceList").Append('<li>' + $('[data-x-betId="' + gameResult.CorrectAnswerIds [i] + '"]').children('img')[0] + '</li>');
-                var testing = $('[data-x-betId="'+ gameResult.CorrectAnswerIds[i] +'"]').children('img').first();
-                $("#choiceList").append(testing);
+            if (betId <= 5) {
+                $(playerChoice).addClass("blueBorder");
+            } else {
+                $(playerChoice).addClass("purpleBorder");
+            }
+
+            $('#playerChoice').append(playerChoice);
+
+            for (var i = 0 ; i < gameResult.CorrectAnswerIds.length; i++) {
+                var correctChoiceImg = $('[data-x-betId="' + gameResult.CorrectAnswerIds[i] + '"]').children('img').first().clone();
+
+                if (gameResult.CorrectAnswerIds[i] <= 5) {
+                    $(correctChoiceImg).addClass("blueBorder");
+                } else {
+                    $(correctChoiceImg).addClass("purpleBorder");
+                }
+
+                $("#choiceList").append(correctChoiceImg);
             }
         }
         //UserAmountDelta
@@ -294,7 +310,6 @@ $(document).ready(function () {
             }
         }
         else {
-            
             $("#betAmount").removeAttr("disabled");
             betId = 0;
             hub.client.displayCurrency(getCurrentCurrency() + currentBetAmount);
@@ -323,37 +338,37 @@ $(document).ready(function () {
         hub.server.getCurrentMatch();
 
         $('#applause').click(function () {
-            if (getCurrentCurrency() - 10000 >= currentBetAmount) {
+            if (getCurrentCurrency() - 20000 >= currentBetAmount) {
                 hub.server.applause(getCookie("clientName"), getCookie("clientKey")).done(function(result) {
                     if (result) {
-                        hub.client.displayCurrency(getCurrentCurrency() - 10000);
+                        hub.client.displayCurrency(getCurrentCurrency() - 20000);
                     } else {
-                        alert("The mighty Urf demands 10K feesh to applaude someone.  He won't even wake up for anything less than 7K feesh!");
+                        alert("The mighty Urf demands 20K feesh to applaude someone.  He won't even wake up for anything less than 7K feesh!");
                     }
                 });
             } else {
                 if (betId > 0) {
-                    alert("The cost to get Urf to applaude the site (10K) wouldn't leave you with enough to complete your bet. Remove your bet by unchecking your current selection, change your bet amount and then place your bet again.");
+                    alert("The cost to get Urf to applaude the site (20K) wouldn't leave you with enough to complete your bet. Remove your bet by unchecking your current selection, change your bet amount and then place your bet again.");
                 } else {
-                    alert("The mighty Urf demands 10K feesh to applaude someone.  He won't even wake up for anything less than 7K feesh!");
+                    alert("The mighty Urf demands 20K feesh to applaude someone.  He won't even wake up for anything less than 7K feesh!");
                 }
             }
         });
 
         $('#fart').click(function () {
-            if (getCurrentCurrency() - 20000 >= currentBetAmount) {
+            if (getCurrentCurrency() - 30000 >= currentBetAmount) {
                 hub.server.fart(getCookie("clientName"), getCookie("clientKey")).done(function(result) {
                     if (result) {
-                        hub.client.displayCurrency(getCurrentCurrency() - 20000);
+                        hub.client.displayCurrency(getCurrentCurrency() - 30000);
                     } else {
-                        alert("You can't have fish farts if you haven't eaten at least 20K fish!  Win some more and then let em rip!");
+                        alert("You can't have fish farts if you haven't eaten at least 30K fish!  Win some more and then let em rip!");
                     }
                 });
             } else {
                 if (betId > 0) {
-                    alert("Attempting to fart away this many fish (20K) wouldn't leave you with enough to complete your bet. Remove your bet by unchecking your current selection, change your bet amount and then place your bet again.");
+                    alert("Attempting to fart away this many fish (30K) wouldn't leave you with enough to complete your bet. Remove your bet by unchecking your current selection, change your bet amount and then place your bet again.");
                 } else {
-                    alert("You can't have fish farts if you haven't eaten at least 20K fish!  Win some more and then let em rip!");
+                    alert("You can't have fish farts if you haven't eaten at least 30K fish!  Win some more and then let em rip!");
                 }
             }
         });

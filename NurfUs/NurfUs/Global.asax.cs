@@ -39,21 +39,23 @@ namespace NurfUs
             NurfUsHub.GenerateNewMatch();
 
             betArenaTimer.Interval = Convert.ToInt32(ConfigurationManager.AppSettings["NewMatchInterval"]);
-            endRoundTimer.Interval = 20000;
+            endRoundTimer.Interval = 10000;
 
             betArenaTimer.Elapsed += (o, t) =>
             {
-                NurfUsHub.EvaluateCurrentMatch();
                 betArenaTimer.Stop();
+                NurfUsHub.EvaluateCurrentMatch();
                 endRoundTimer.Start();
             };
+            
             endRoundTimer.Elapsed += (o, t) =>
             {
+                endRoundTimer.Stop();
                 NurfUsHub.GenerateNewMatch();
                 GlobalHost.ConnectionManager.GetHubContext<NurfUsHub>().Clients.All.newMatch(NurfUsHub.CreateGameDisplay(NurfUsHub.ChosenMatch));
-                endRoundTimer.Stop();
                 betArenaTimer.Start();
             };
+
             betArenaTimer.Start();
         }
     }
