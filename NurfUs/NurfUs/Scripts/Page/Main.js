@@ -211,20 +211,20 @@ $(document).ready(function () {
         {
             //blue team
             if (gameResult.CorrectAnswerIds[0] == 100) {
-                $("#choiceList").append('<span class="blueText">' + 'Blue Team' + '<span>');
+                $("#choiceList").append('<span class="blueText">' + 'Blue Team' + '</span>');
             }
                 //purple team
             else if (gameResult.CorrectAnswerIds[0] == 200) {
-                $("#choiceList").append('<span class="purpleText">' + 'Purple Team' + '<span>');
+                $("#choiceList").append('<span class="purpleText">' + 'Purple Team' + '</span>');
             }
 
             if(gameResult.UserAnswer == 100)
             {
-                $('#playerChoice').append('<span class="blueText">' + 'Blue Team' + '<span>');
+                $('#playerChoice').append('<span class="blueText">' + 'Blue Team' + '</span>');
             }
             else if(gameResult.UserAnswer == 200)
             {
-                $('#playerChoice').append('<span class="purpleText">' + 'Purple Team' + '<span>');
+                $('#playerChoice').append('<span class="purpleText">' + 'Purple Team' + '</span>');
             }
 
         }
@@ -234,7 +234,7 @@ $(document).ready(function () {
             for (var i = 0 ; i < gameResult.CorrectAnswerIds.Count; i++) {
                 //$("#choiceList").Append('<li>' + $('[data-x-betId="' + gameResult.CorrectAnswerIds [i] + '"]').children('img')[0] + '</li>');
                 var testing = $('[data-x-betId="'+ gameResult.CorrectAnswerIds[i] +'"]').children('img').first();
-                $("#choiceList").add(testing);
+                $("#choiceList").append(testing);
             }
         }
         //UserAmountDelta

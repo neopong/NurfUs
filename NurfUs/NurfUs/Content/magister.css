@@ -416,3 +416,13 @@ a:hover, a:active { color:#fff; text-decoration: underline; }
 .thumbnail .caption {
 	color: inherit;
 }
+
+
+.blueText{
+    Color:blue;
+    font-weight:800;
+}
+.purpleText{
+    Color:purple;
+    font-weight:800;
+}
