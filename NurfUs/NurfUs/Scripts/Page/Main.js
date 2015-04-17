@@ -182,6 +182,15 @@ $(document).ready(function () {
     };
 
     //TODO(Scott): This function recieves a boolean indicating if the user won the last round
+    /*
+    {
+        BetType BetType 
+        List<int> CorrectAnswerIds
+        int UserAnswer 
+        int UserBetAmount
+        bool UserCorrect
+    }
+    */
     hub.client.displayPostGameResult = function (wonLastRound) { };
 
     hub.client.broadcastMessage = function (name, message) {

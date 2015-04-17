@@ -73,7 +73,8 @@ namespace NurfUs.Models
         [Display(Name="Display Name")]
         [MaxLength(256, ErrorMessage="Your display name must be less than 256 characters long")]
         [MinLength(2, ErrorMessage = "Your display name must be at least 2 characters long")]
-        public string Username { get; set; }
+        [RegularExpression(@"^((?!Guest).)*$", ErrorMessage = "Invalid Display Name")]
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

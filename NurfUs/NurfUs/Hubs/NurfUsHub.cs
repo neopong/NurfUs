@@ -16,6 +16,7 @@ using NurfUs.Models;
 using System.Data.Entity;
 using NurfUs.Classes.Betting.Questions;
 using System.Collections.Concurrent;
+using NurfUs.Classes.Betting;
 
 
 namespace NurfUs.Hubs
@@ -173,7 +174,8 @@ namespace NurfUs.Hubs
 	            }
 	        }
             Clients.Caller.userResponse(newClient);
-            Clients.Caller.displayCurrency(newClient.UserInfo.Currency);
+            if(newClient.UserInfo != null)
+                Clients.Caller.displayCurrency(newClient.UserInfo.Currency);
         }
 
         public bool AddNurferConnection()
@@ -412,6 +414,19 @@ namespace NurfUs.Hubs
         //Evaluates the results of the current match before starting a new one.
         internal static void EvaluateCurrentMatch()
         {
+            int multiplier = 1;
+
+            switch(ChosenQuestion.BetType){
+
+                case Classes.Betting.BetType.Summoner:
+                    multiplier = 4;
+                    break;
+
+                case Classes.Betting.BetType.Team:
+                    multiplier = 1;
+                    break;
+            }
+
             //Grab the global hub context
             var GlobalHubContext = GlobalHost.ConnectionManager.GetHubContext<NurfUsHub>();
             //Only evaluate the results if there were any bets
@@ -430,7 +445,7 @@ namespace NurfUs.Hubs
                         {
                             userCorrect = true;
                             user.CorrectGuesses++;
-                            user.Currency += playerBetKvp.Value.BetAmount;
+                            user.Currency += (playerBetKvp.Value.BetAmount * multiplier);
                         }
                         else
                         {
@@ -447,7 +462,13 @@ namespace NurfUs.Hubs
                         {
                             NurfClient clientReference = Nurfers[curUserId];
                             clientReference.UserInfo = user;
-                            GlobalHubContext.Clients.Client(clientReference.SignalRConnectionId).displayPostGameResult(userCorrect);
+                            GlobalHubContext.Clients.Client(clientReference.SignalRConnectionId).displayPostGameResult(new GameResult() { 
+                                BetType = ChosenQuestion.BetType,
+                                CorrectAnswerIds = CurrentCorrectAnswers,
+                                UserAnswer = playerBetKvp.Value.BetChoiceId,
+                                UserBetAmount = playerBetKvp.Value.BetAmount,
+                                UserCorrect = userCorrect
+                            });
 
                             if (userFallsBelowThreshold)
                             {
@@ -468,5 +489,13 @@ namespace NurfUs.Hubs
         {
             
         }
+    }
+    internal class GameResult
+    {
+        public BetType BetType { get; set; }
+        public List<int> CorrectAnswerIds { get; set; }
+        public int UserAnswer { get; set; }
+        public int UserBetAmount { get; set; }
+        public bool UserCorrect { get; set; }
     }
 }
