@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using NurfUs.Models;
 using System.Data.Entity;
 using NurfUs.Classes.Betting.Questions;
+using System.Collections.Concurrent;
 
 
 namespace NurfUs.Hubs
@@ -47,7 +48,12 @@ namespace NurfUs.Hubs
     public class NurfUsHub : Hub
     {
         public const int NEW_ACCOUNT_CURRENCY = 10000;
-        internal const String EVENT_KEY_CHAMPION_KILL = "CHAMPION_KILL";
+        public const int NEW_GUEST_CURRENCY = 5000;
+
+        public const int FART_COST = 15000;
+        public const int APPLAUSE_COST = 20000;
+
+
         private const int MILLISECONDS_PER_ROUND = 3000;
 
         private static DateTime LastChosen;
@@ -57,7 +63,7 @@ namespace NurfUs.Hubs
         private static Dictionary<String, PlayerBet> PlayerBets;
         private static List<int> CurrentCorrectAnswers;
 
-        internal static Dictionary<String, NurfClient> Nurfers = new Dictionary<String, NurfClient>();
+        internal static ConcurrentDictionary<String, NurfClient> Nurfers = new ConcurrentDictionary<String, NurfClient>();
 
         private static List<IBetQuestion> questions = new List<IBetQuestion>()
         {
@@ -85,8 +91,7 @@ namespace NurfUs.Hubs
 
         public bool Applause(string name, string key)
         {
-            int applauseCost = 10000;
-
+            int applauseCost = APPLAUSE_COST;
             bool success = false;
             var nurfClient = Nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value;
             if (nurfClient != null && nurfClient.UserInfo.Currency >= applauseCost)
@@ -97,7 +102,6 @@ namespace NurfUs.Hubs
                     nurfClient.UserInfo.Currency -= applauseCost;
                     Clients.All.applause();
                     Clients.All.broadcastMessage("System", name + " shares his love for URF's magestic spatula and fills the site with applause!");
-                   
                 }
             }
             return success;
@@ -106,8 +110,7 @@ namespace NurfUs.Hubs
         public bool Fart(string name, string key)
         {
             bool success = false;
-            //Abstract to somewhere later
-            int fartCost = 20000;
+            int fartCost = FART_COST;
             var nurfClient = Nurfers.FirstOrDefault(n => n.Value.Name == name && n.Value.Key == key).Value;
             if (nurfClient != null && nurfClient.UserInfo.Currency >= fartCost)
             {
@@ -166,11 +169,11 @@ namespace NurfUs.Hubs
                     dataContext.SaveChangesAsync();
                     newClient.UserInfo = userInfo;
                     newClient.SignalRConnectionId = Context.ConnectionId;
-                    Nurfers.Add(newClient.Key, newClient);
+                    Nurfers.TryAdd(newClient.Key, newClient);
 	            }
 	        }
-            
             Clients.Caller.userResponse(newClient);
+            Clients.Caller.displayCurrency(newClient.UserInfo.Currency);
         }
 
         public bool AddNurferConnection()
@@ -203,7 +206,7 @@ namespace NurfUs.Hubs
                     {
                         newClient.UserInfo = userInfo;
                         newClient.SignalRConnectionId = connId;
-                        Nurfers.Add(clientKey, newClient);
+                        Nurfers.TryAdd(clientKey, newClient);
                     }
                 }
                 else
@@ -224,11 +227,8 @@ namespace NurfUs.Hubs
         //30,000 - 50,000
         public bool SubtractMoney(String userId, int money)
         {
-
             UserData dataContext = new UserData();
-            
             var query = dataContext.UserInfoes.Where(c => c.ASPNetUserId == userId).FirstOrDefault();
-
             if (query != null)
             {
                 query.Currency -= money;
@@ -238,6 +238,12 @@ namespace NurfUs.Hubs
             return false;
         }
 
+        /// <summary>
+        /// Subtracts the money from both the memory space and in the database for a specified NurfClient
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="money"></param>
+        /// <returns></returns>
         public bool SubtractMoney(NurfClient client, int money)
         {
             bool success = SubtractMoney(client.Key, money);
@@ -406,6 +412,8 @@ namespace NurfUs.Hubs
         //Evaluates the results of the current match before starting a new one.
         internal static void EvaluateCurrentMatch()
         {
+            //Grab the global hub context
+            var GlobalHubContext = GlobalHost.ConnectionManager.GetHubContext<NurfUsHub>();
             //Only evaluate the results if there were any bets
             if (PlayerBets != null && PlayerBets.Count > 0)
             {
@@ -416,33 +424,45 @@ namespace NurfUs.Hubs
                     var user = userDataContext.UserInfoes.Where(ud => ud.ASPNetUserId == playerBetKvp.Key).FirstOrDefault();
                     if (user != null)
                     {
+                        bool userCorrect = false;
+                        bool userFallsBelowThreshold = false;
                         if (CurrentCorrectAnswers.Contains(playerBetKvp.Value.BetChoiceId))
                         {
-                            user.Currency += playerBetKvp.Value.BetAmount;
+                            userCorrect = true;
                             user.CorrectGuesses++;
+                            user.Currency += playerBetKvp.Value.BetAmount;
                         }
                         else
                         {
-                            user.Currency -= playerBetKvp.Value.BetAmount;
                             user.InCorrectGuesses++;
-                        }
+                            user.Currency -= playerBetKvp.Value.BetAmount;
 
+                            if (user.Currency < 5000)
+                            {
+                                userFallsBelowThreshold = true;
+                                user.Currency = 5000;
+                            }
+                        }
                         if (Nurfers.ContainsKey(curUserId))
                         {
-                            GlobalHost
-                                .ConnectionManager
-                                .GetHubContext<NurfUsHub>()
-                                .Clients
-                                .Client(Nurfers[curUserId].SignalRConnectionId)
-                                .displayCurrency(user.Currency);
+                            NurfClient clientReference = Nurfers[curUserId];
+                            clientReference.UserInfo = user;
+                            GlobalHubContext.Clients.Client(clientReference.SignalRConnectionId).displayPostGameResult(userCorrect);
 
-                            Nurfers[curUserId].UserInfo = user;
+                            if (userFallsBelowThreshold)
+                            {
+                                //Do client display for informing them they suck
+                                GlobalHubContext.Clients.Client(clientReference.SignalRConnectionId).displayFallBelowThreshold();
+                            }
+
+                            GlobalHubContext.Clients.Client(clientReference.SignalRConnectionId).displayCurrency(user.Currency);
                         }
                     }
                 }
                 userDataContext.SaveChangesAsync();
             }
         }
+
 
         internal static async void UpdateUserInfo(UserInfo info)
         {

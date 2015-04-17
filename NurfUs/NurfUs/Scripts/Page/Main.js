@@ -174,6 +174,16 @@ $(document).ready(function () {
         }
     };
 
+    //TODO(Scott):
+    hub.client.displayFallBelowThreshold = function () {
+        //Scott if you want you can change this to something modal,
+        //but in the interest of time Im going to do a javascript alert
+        alert('Urf the manatee feels bad for your loss, He gifts you some more fish!!');
+    };
+
+    //TODO(Scott): This function recieves a boolean indicating if the user won the last round
+    hub.client.displayPostGameResult = function (wonLastRound) { };
+
     hub.client.broadcastMessage = function (name, message) {
         // Html encode display name and message. 
         var encodedName = htmlEncode(name);
