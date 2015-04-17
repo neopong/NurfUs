@@ -330,13 +330,14 @@ namespace NurfUs.Hubs
         internal static void GenerateNewMatch()
         {
             //We've already pulled match info and stored the json on the local drive in the event the api is down.
-            //If you don't have the matches stored on your local drive use the code below instead of the region below it
+            //If you don't have the matches stored on your local drive uncomment the code below and comment the region below it
+            //There is one match hard coded here but you would want to pull your match Id from whereever you're storing them if you wanted more than one match :)
             /*
             Task<RESTResult<MatchDetail>> matchResult = RESTHelpers.RESTRequest<MatchDetail>
                 (
                     "https://na.api.pvp.net/api/lol/na/v2.2/match/1778704162", 
                     "", 
-                    "{apiKey}", 
+                    NurfUsController.DevKey, 
                     "includeTimeline=true"
                 );
 

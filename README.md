@@ -22,6 +22,9 @@ This project is an ASP.NET MVC website that leverages websocket technology throu
 the [SignalR API](http://signalr.net/). This allows all connections to be
 updated in real time without the need to repeatedly send requests to the web server.
 
+We are using [SQL Server 2014 Express](http://www.microsoft.com/en-us/download/details.aspx?id=42299) to store our data
+and we are using [Entity Framework 6](https://www.nuget.org/packages/EntityFramework) as our mechanism perform all CRUD operations.
+
 The project requires the [.Net framework 4.5.1](http://www.microsoft.com/en-us/download/details.aspx?id=40779)
 
 User accounts are managed by the ASP.NET Identity framework which we adapted to
@@ -34,6 +37,8 @@ located under the NurfUsMatchPuller/ directory.
 
 The site is also designed using [Bootstrap 3](http://getbootstrap.com/) which means it should function
 well even on mobile devices, laptops and tablets... yay!
+
+All dependencies should be able to be pulled automagically using NuGet in Visual Studio 2013
 
 ## Setup
 
@@ -56,7 +61,9 @@ Enter your API Key in the [Program.cs](https://github.com/neopong/NurfUs/blob/ma
 
 You can run the executable as you wish or set it up as a scheduled task (I recommend setting up a scheduled task)
 
-### NurfUs - This is the front-end for the website and holds all of the logic for working with the users. 
+### NurfUs 
+
+This is the front-end for the website and holds all of the logic for working with the users. 
 
 Most of the server side logic is in the [NurfUsHub.cs](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Hubs/NurfUsHub.cs)
 and the client side logic is in the [Main.js](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Scripts/Page/Main.js)
@@ -70,6 +77,10 @@ You should also enter your API key into the APIKey.txt file in the root director
 
 If you want to create a new question just implement the [IBetQuestion interface](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Classes/Betting/Questions/IBetQuestion.cs).
 Then add it to the [array of possible questions in the NurfUsHub](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Hubs/NurfUsHub.cs#L69)
+
+### SQL Script
+
+Run the [SqlTables.sql](https://github.com/neopong/NurfUs/blob/master/Setup/SqlTables.sql) script against your database before you run NurfUs or the NurfUsMatchPuller
 
 ## Our Challenges
 
