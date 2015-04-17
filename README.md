@@ -1,5 +1,5 @@
 # NurfUs
-An application devoted to the Riot API challenge and the new NURF mode... sure to be the future of League
+An application devoted to the Rito API challenge and the ~~NURF~~ URF game mode... sure to be the future of League
 
 ## Live Link
 
@@ -10,7 +10,7 @@ An application devoted to the Riot API challenge and the new NURF mode... sure t
 [Nurf.Us](http://Nurf.us) is a League of Legends based betting arena.
 
 The betting arena consists of rounds where the players are presented with a 
-question based on actual URF data that was pulled from the new Riot URF endpoint.
+question based on actual URF data that was pulled from the new Rito URF endpoint.
 Each round gives you 60 seconds to think over the choices and place your bet.
 If you guess correctly you will earn fish, but if you guess wrong you will lose the fish you bet.
 Once you have won a sufficient amount of fish you can spend them on sound effects in the
@@ -29,7 +29,7 @@ allow "Guest" users.
 
 To get the data, we threw together a quick application to start grabbing as many matchids
 from the URF Endpoint as possible. Once we captured as many matchids as we could
-we had access to all the match data through the Riot API. This application is 
+we had access to all the match data through the Rito API. This application is 
 located under the NurfUsMatchPuller/ directory.
 
 The site is also designed using [Bootstrap 3](http://getbootstrap.com/) which means it should function
@@ -39,7 +39,7 @@ well even on mobile devices, laptops and tablets... yay!
 
 ### NurfUsMatchPuller 
 
-This project pulls all of the match Id's and match details from the Riot API. This info is cached and used by the website.
+This project pulls all of the match Id's and match details from the Rito API. This info is cached and used by the website.
 
 It uses the following endpoints:
 * [api-challenge-v4.1](https://developer.riotgames.com/api/methods#!/980/3340)
