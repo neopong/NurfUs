@@ -46,11 +46,11 @@ It uses the following endpoints:
 * [match-v2.2](https://developer.riotgames.com/api/methods#!/967/3313)
 
 You will want to configure the following pieces of information in the App.config:
-* [Root directory to store Match Buckets](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L8) IE <add key="JSONCacheDirectory" value="C:\Games\"/>
-* [Subdirectory name to store Match Details](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L9) IE <add key="MatchInfoSubDirectory" value="MatchDetail"/>
-* [Flag to pull Match Id buckets](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L10) IE <add key="RunMatchIdScraper" value="False"/>
-* [Flag to pull Match Details](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L11) IE <add key="RunMatchDetailScraper" value="True"/>
-* [SQL connection string](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L27) IE <add name="NurfUsEntities" connectionString="metadata=res://*/Classes.Data.NurfUs.csdl|res://*/Classes.Data.NurfUs.ssdl|res://*/Classes.Data.NurfUs.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=YourServer;initial catalog=YourDatabase;user id=YourUserId;password=YourPassword;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+* [Root directory to store Match Buckets](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L8)
+* [Subdirectory name to store Match Details](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L9)
+* [Flag to pull Match Id buckets](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L10)
+* [Flag to pull Match Details](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L11)
+* [SQL connection string](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/App.config#L27)
 
 Enter your API Key in the [Program.cs](https://github.com/neopong/NurfUs/blob/master/NurfUsMatchPuller/NurfUsMatchPuller/Program.cs#L20)
 
@@ -92,15 +92,15 @@ I just want to take a moment to thank Twitter for Bootstrap. You make our crappy
 ## The Team
 
 Scott Karbel 
-
+<br />
 	Summoner Name: neopong 
-
+<br />
 	github: [neopong](https://github.com/neopong)
 
 
 Tyler Thomas 
-
+<br />
 	Summoner Name: MMMOverkill 
-
+<br />
 	github: [tt9](https://github.com/tt9)
 
