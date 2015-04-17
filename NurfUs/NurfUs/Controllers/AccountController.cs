@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using NurfUs.Models;
 using NurfUs.Hubs;
+using NurfUs.Classes;
 
 namespace NurfUs.Controllers
 {
@@ -181,7 +182,7 @@ namespace NurfUs.Controllers
                         ui.Currency = NurfUsHub.NEW_ACCOUNT_CURRENCY;
                         ui.InCorrectGuesses = 0;
                         ui.TempUser = false;
-                        ui.UserKey = "";
+                        ui.UserKey = model.Username;
                         _userDataContext.UserInfoes.Add(ui);
                         _userDataContext.SaveChanges();
                     }
@@ -428,7 +429,8 @@ namespace NurfUs.Controllers
             HttpCookie keyCookie = Request.Cookies["clientKey"];
             if (keyCookie != null)
             {
-                NurfUsHub.Nurfers.Remove(keyCookie.Value);
+                NurfClient garbage;   
+                NurfUsHub.Nurfers.TryRemove(keyCookie.Value,out garbage);
             }
 
             Response.Cookies["clientKey"].Expires = DateTime.Now.AddDays(-100);
