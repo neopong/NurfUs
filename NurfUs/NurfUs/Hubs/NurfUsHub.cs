@@ -173,7 +173,8 @@ namespace NurfUs.Hubs
 	            }
 	        }
             Clients.Caller.userResponse(newClient);
-            Clients.Caller.displayCurrency(newClient.UserInfo.Currency);
+            if(newClient.UserInfo != null)
+                Clients.Caller.displayCurrency(newClient.UserInfo.Currency);
         }
 
         public bool AddNurferConnection()
