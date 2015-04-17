@@ -7,7 +7,7 @@ namespace NurfUs.Classes.Betting
 {
     public enum BetType
     {
-        Team,
-        Summoner
+        Team = 0,
+        Summoner = 1
     }
 }

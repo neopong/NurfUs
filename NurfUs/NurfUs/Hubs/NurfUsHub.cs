@@ -441,17 +441,19 @@ namespace NurfUs.Hubs
                     {
                         bool userCorrect = false;
                         bool userFallsBelowThreshold = false;
+                        long userCurrencyDelta = 0;
                         if (CurrentCorrectAnswers.Contains(playerBetKvp.Value.BetChoiceId))
                         {
                             userCorrect = true;
                             user.CorrectGuesses++;
                             user.Currency += (playerBetKvp.Value.BetAmount * multiplier);
+                            userCurrencyDelta = (playerBetKvp.Value.BetAmount * multiplier);
                         }
                         else
                         {
                             user.InCorrectGuesses++;
                             user.Currency -= playerBetKvp.Value.BetAmount;
-
+                            userCurrencyDelta -= playerBetKvp.Value.BetAmount;
                             if (user.Currency < 5000)
                             {
                                 userFallsBelowThreshold = true;
@@ -462,19 +464,17 @@ namespace NurfUs.Hubs
                         {
                             NurfClient clientReference = Nurfers[curUserId];
                             clientReference.UserInfo = user;
+
                             GlobalHubContext.Clients.Client(clientReference.SignalRConnectionId).displayPostGameResult(new GameResult() { 
                                 BetType = ChosenQuestion.BetType,
                                 CorrectAnswerIds = CurrentCorrectAnswers,
                                 UserAnswer = playerBetKvp.Value.BetChoiceId,
                                 UserBetAmount = playerBetKvp.Value.BetAmount,
-                                UserCorrect = userCorrect
+                                UserCorrect = userCorrect,
+                                UserFallsBelowThreshold = userFallsBelowThreshold,
+                                UserAmountDelta = userCurrencyDelta
                             });
 
-                            if (userFallsBelowThreshold)
-                            {
-                                //Do client display for informing them they suck
-                                GlobalHubContext.Clients.Client(clientReference.SignalRConnectionId).displayFallBelowThreshold();
-                            }
 
                             GlobalHubContext.Clients.Client(clientReference.SignalRConnectionId).displayCurrency(user.Currency);
                         }
@@ -496,6 +496,8 @@ namespace NurfUs.Hubs
         public List<int> CorrectAnswerIds { get; set; }
         public int UserAnswer { get; set; }
         public int UserBetAmount { get; set; }
+        public long UserAmountDelta { get; set; }
         public bool UserCorrect { get; set; }
+        public bool UserFallsBelowThreshold { get; set; }
     }
 }
