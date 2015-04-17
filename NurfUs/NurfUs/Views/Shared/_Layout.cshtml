@@ -135,8 +135,8 @@
                         <p class="lead">It's you against the world in the ultimate betting arena.</p>
                         <p class="lead">Every @(Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["NewMatchInterval"]) / 1000) seconds you will be presented with an event that happened in an actual URF game</p>
                         <p class="lead">You will see related data to that particular event, and using that data it is your job to try and figure out who did what in that event.</p>
-                        <p class="lead">If you guess correctly you will be rewarded a portion of the fish that the people who guessed incorrectly bet.</p>
-                        <p class="lead">But be careful, if you guess wrong you can lose it all!</p>
+                        <p class="lead">If you guess correctly you will be rewarded with fish, glorious fish! When betting on a team you will win the amount you wager. If you're bold enough to participate in a question that asks you to guess on a specific summoner you will get 5 times the FEESH BOOYAH!</p>
+                        <p class="lead">But be careful, if you guess wrong you will lose the feesh you wagered! There goes your glory!</p>
                         <a href="#head" id="playWizard" class="sectionSwitch btn btn-default" @Html.Raw((User.Identity.IsAuthenticated || Request.Cookies["clientName"] != null) ? "style=\"display: none;\"" : "")>Continue</a>
                     </div>
                 </div>
