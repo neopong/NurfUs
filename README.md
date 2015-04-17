@@ -22,10 +22,22 @@ This project is an ASP.NET MVC website that leverages websocket technology throu
 the [SignalR API](http://signalr.net/). This allows all connections to be
 updated in real time without the need to repeatedly send requests to the web server.
 
+User accounts are managed by the ASP.NET Identity framework which we adapted to
+allow "Guest" users.
+
 To get the data, we threw together a quick application to start grabbing as many matchids
 from the URF Endpoint as possible. Once we captured as many matchids as we could
 we had access to all the match data through the Riot API. This application is 
 located under the NurfUsMatchPuller/ directory.
+
+## Our Challenges
+
+While this was a fun project, it was not without it's challenges. We wanted to
+create something that brought community interaction and presented the URF data
+in a fun way that had some reward to it. Sticking to the constraints of the URF 
+Endpoint, we had to figure out what to do with a plethora of anonymous match data.
+We also found that two weeks is a tight deadline when you're working a full-time job.
+
 
 ## The Team
 
