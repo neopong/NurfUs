@@ -69,11 +69,14 @@ Most of the server side logic is in the [NurfUsHub.cs](https://github.com/neopon
 and the client side logic is in the [Main.js](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Scripts/Page/Main.js)
 
 You will want to change the following information in the Web.config:
-* GoogleAnalyticsKey
-* MatchDirectory (this should be the combination of the directory and subdirectory that you setup in the NurfUsMatchPuller)
-* SQL Connection string
+* [GoogleAnalyticsKey](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Web.config#L22) (An invalid key may throw js errors and you know how js loves to stop working if it errors)
+* [MatchDirectory](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Web.config#L24) (this should be the combination of the directory and subdirectory that you setup in the NurfUsMatchPuller)
+* SQL Connection string [here](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Web.config#L13) and [here](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Web.config#L14)
 
-You should also enter your API key into the APIKey.txt file in the root directory of the project
+If you don't intend on using cached match data from the NurfUsMatchPuller do the following:
+* Enter your API key into the [APIKey.txt](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/APIKey.txt) file in the root directory of the project
+* Uncomment the code [here](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Hubs/NurfUsHub.cs#L335) and comment [this region](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Hubs/NurfUsHub.cs#L356)
+* You'll probably want to grab more than one match Id from wherever you end up storing them and randomly replace the match Id that is hardcoded as an example [here](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Hubs/NurfUsHub.cs#L338)
 
 If you want to create a new question just implement the [IBetQuestion interface](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Classes/Betting/Questions/IBetQuestion.cs).
 Then add it to the [array of possible questions in the NurfUsHub](https://github.com/neopong/NurfUs/blob/master/NurfUs/NurfUs/Hubs/NurfUsHub.cs#L69)
