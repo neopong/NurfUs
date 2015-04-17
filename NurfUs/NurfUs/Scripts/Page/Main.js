@@ -96,6 +96,9 @@ $(document).ready(function () {
     var timeLeftTemplate = '<div class="badge timer" data-x-started="{SecondsElapsed}"></div>';
 
     hub.client.newMatch = function (gameDisplay) {
+        //Hide the modal if it appears
+        clearModal();
+        $('#resultDialog').modal('hide');
         betId = 0;
         currentBetAmount = 0;
 
@@ -181,17 +184,67 @@ $(document).ready(function () {
         alert('Urf the manatee feels bad for your loss, He gifts you some more fish!!');
     };
 
-    //TODO(Scott): This function recieves a boolean indicating if the user won the last round
     /*
+
     {
         BetType BetType 
         List<int> CorrectAnswerIds
         int UserAnswer 
         int UserBetAmount
         bool UserCorrect
+        UserFallsBelowThreshold
     }
+
     */
-    hub.client.displayPostGameResult = function (wonLastRound) { };
+    var clearModal = function () {
+        $("#choiceList").empty();
+        $('#playerChoice').empty();
+        $('#moneyOutcome').empty();
+        $('#threshHoldMessage').empty();
+    }
+
+    hub.client.displayPostGameResult = function (gameResult)
+    {
+        clearModal();
+        //summon case
+        if (gameResult.BetType == 0)
+        {
+            //blue team
+            if (gameResult.CorrectAnswerIds[0] == 100) {
+                $("#choiceList").append('<span class="blueText">' + 'Blue Team' + '<span>');
+            }
+                //purple team
+            else if (gameResult.CorrectAnswerIds[0] == 200) {
+                $("#choiceList").append('<span class="purpleText">' + 'Purple Team' + '<span>');
+            }
+
+            if(gameResult.UserAnswer == 100)
+            {
+                $('#playerChoice').append('<span class="blueText">' + 'Blue Team' + '<span>');
+            }
+            else if(gameResult.UserAnswer == 200)
+            {
+                $('#playerChoice').append('<span class="purpleText">' + 'Purple Team' + '<span>');
+            }
+
+        }
+        else if (gameResult.BetType == 1)
+        {
+
+            for (var i = 0 ; i < gameResult.CorrectAnswerIds.Count; i++) {
+                //$("#choiceList").Append('<li>' + $('[data-x-betId="' + gameResult.CorrectAnswerIds [i] + '"]').children('img')[0] + '</li>');
+                var testing = $('[data-x-betId="'+ gameResult.CorrectAnswerIds[i] +'"]').children('img').first();
+                $("#choiceList").add(testing);
+            }
+        }
+        //UserAmountDelta
+        $('#moneyOutcome').text(gameResult.UserAmountDelta);
+
+        if (gameResult.UserFallsBelowThreshold == true) {
+            $('#threshHoldMessage').text('Urf the manatee feels bad for your loss, He gifts you some more fish!!');
+        }
+        $('#resultDialog').modal('show');
+    };
 
     hub.client.broadcastMessage = function (name, message) {
         // Html encode display name and message. 
@@ -232,6 +285,7 @@ $(document).ready(function () {
                         hub.client.displayCurrency(getCurrentCurrency() - betAmountDelta);
                         $(".checkShow").removeClass("checkShow");
                         $(element).children(".checkMark").addClass("checkShow");
+                        $("#betAmount").attr("disabled", "disabled");
                     } else {
                         alert("You don't have enough fish to place this bet. Please adjust the amount of fish you're wagering.");
                         $("#betAmount").focus();
@@ -240,6 +294,8 @@ $(document).ready(function () {
             }
         }
         else {
+            
+            $("#betAmount").removeAttr("disabled");
             betId = 0;
             hub.client.displayCurrency(getCurrentCurrency() + currentBetAmount);
             currentBetAmount = 0;

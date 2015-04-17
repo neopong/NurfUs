@@ -19,8 +19,8 @@ namespace NurfUs
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        private Timer timer = new Timer();
-
+        private Timer betArenaTimer = new Timer();
+        private Timer endRoundTimer = new Timer();
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -38,15 +38,23 @@ namespace NurfUs
 
             NurfUsHub.GenerateNewMatch();
 
-            timer.Interval = Convert.ToInt32(ConfigurationManager.AppSettings["NewMatchInterval"]);
-            timer.Elapsed += (o, t) =>
+            betArenaTimer.Interval = Convert.ToInt32(ConfigurationManager.AppSettings["NewMatchInterval"]);
+            endRoundTimer.Interval = 20000;
+
+            betArenaTimer.Elapsed += (o, t) =>
             {
                 NurfUsHub.EvaluateCurrentMatch();
+                betArenaTimer.Stop();
+                endRoundTimer.Start();
+            };
+            endRoundTimer.Elapsed += (o, t) =>
+            {
                 NurfUsHub.GenerateNewMatch();
                 GlobalHost.ConnectionManager.GetHubContext<NurfUsHub>().Clients.All.newMatch(NurfUsHub.CreateGameDisplay(NurfUsHub.ChosenMatch));
+                endRoundTimer.Stop();
+                betArenaTimer.Start();
             };
-
-            timer.Start();
+            betArenaTimer.Start();
         }
     }
 }
