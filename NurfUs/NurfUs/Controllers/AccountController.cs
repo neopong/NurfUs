@@ -182,7 +182,7 @@ namespace NurfUs.Controllers
                         ui.Currency = NurfUsHub.NEW_ACCOUNT_CURRENCY;
                         ui.InCorrectGuesses = 0;
                         ui.TempUser = false;
-                        ui.UserKey = "";
+                        ui.UserKey = model.Username;
                         _userDataContext.UserInfoes.Add(ui);
                         _userDataContext.SaveChanges();
                     }
