@@ -83,6 +83,18 @@
         <div class="container">
             <div class="row">
                 @RenderBody()
+                @if (controller.ToLower() != "home" || action.ToLower() != "index")
+                {
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- NurfUs Mobile ad -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:320px;height:100px"
+                         data-ad-client="ca-pub-2001188018575506"
+                         data-ad-slot="2398408271"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                }
             </div>
         </div>
 
