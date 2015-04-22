@@ -64,6 +64,7 @@ namespace NurfUs.Hubs
         private static Dictionary<String, PlayerBet> PlayerBets;
         private static List<int> CurrentCorrectAnswers;
         internal static int TotalMatchFiles = 0;
+        internal static string[] FileNames;
 
         internal static ConcurrentDictionary<String, NurfClient> Nurfers = new ConcurrentDictionary<String, NurfClient>();
 
@@ -148,8 +149,6 @@ namespace NurfUs.Hubs
                 if 
                 (
                     Nurfers.FirstOrDefault(n => n.Value.Name.ToLower() == guestName.ToLower()).Value != null 
-                    || 
-                    userDataContext.UserInfoes.FirstOrDefault(u => u.UserKey == guestName) != null
                 )
                 {
                     newClient.Message = "Guest name already taken. Try registering for a real account or try a new name";
@@ -158,7 +157,6 @@ namespace NurfUs.Hubs
 	            {
                     newClient.Name = guestName;
                     newClient.Key = Guid.NewGuid().ToString();
-                    newClient.Valid = true;
                     UserData dataContext = new UserData();
                     UserInfo userInfo = new UserInfo();
                     userInfo.ASPNetUserId = newClient.Key;
@@ -167,11 +165,20 @@ namespace NurfUs.Hubs
                     userInfo.TempUser = true;
                     userInfo.Currency = 5000;
                     userInfo.UserKey = guestName;
-                    dataContext.UserInfoes.Add(userInfo);
-                    dataContext.SaveChangesAsync();
-                    newClient.UserInfo = userInfo;
-                    newClient.SignalRConnectionId = Context.ConnectionId;
-                    Nurfers.TryAdd(newClient.Key, newClient);
+
+	                NewGuest_Result newGuestResult = dataContext.NewGuest(userInfo.UserKey, userInfo.ASPNetUserId).FirstOrDefault();
+
+	                if (newGuestResult.SUCCESS ?? false)
+	                {
+                        newClient.Valid = true;
+                        newClient.UserInfo = userInfo;
+	                    newClient.SignalRConnectionId = Context.ConnectionId;
+	                    Nurfers.TryAdd(newClient.Key, newClient);
+	                }
+	                else
+	                {
+	                    newClient.Message = newGuestResult.MESSAGE;
+	                }
 	            }
 	        }
             Clients.Caller.userResponse(newClient);
@@ -360,20 +367,8 @@ namespace NurfUs.Hubs
             Random randomGameNum = new Random((int)DateTime.Now.Ticks);
             
             int randomFile = randomGameNum.Next(TotalMatchFiles);
-            string matchContent = "";
-
-            int matchCount = 0;
-
-            foreach (var file in diMatchHistory.EnumerateFiles())
-            {
-                if (matchCount == randomFile)
-                {
-                    matchContent = File.ReadAllText(file.FullName);
-                    break;
-                }
-
-                matchCount++;
-            }
+            
+            string matchContent = File.ReadAllText(FileNames[randomFile]);
 
             JavaScriptSerializer jss = new JavaScriptSerializer();
 

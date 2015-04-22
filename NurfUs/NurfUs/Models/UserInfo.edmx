@@ -34,6 +34,10 @@
           <Property Name="CorrectGuesses" Type="int" Nullable="false" />
           <Property Name="InCorrectGuesses" Type="int" Nullable="false" />
         </EntityType>
+        <Function Name="NewGuest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserKey" Type="varchar" Mode="In" />
+          <Parameter Name="ASPNetUserId" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="NurfUsModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
@@ -74,7 +78,15 @@
         <EntityContainer Name="UserData" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="UserInfoes" EntityType="Self.UserInfo" />
+          <FunctionImport Name="NewGuest" ReturnType="Collection(NurfUsModel.NewGuest_Result)">
+            <Parameter Name="UserKey" Mode="In" Type="String" />
+            <Parameter Name="ASPNetUserId" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="NewGuest_Result">
+          <Property Type="Boolean" Name="SUCCESS" Nullable="true" />
+          <Property Type="String" Name="MESSAGE" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -112,6 +124,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="NewGuest" FunctionName="NurfUsModel.Store.NewGuest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NurfUsModel.NewGuest_Result">
+                <ScalarProperty Name="SUCCESS" ColumnName="SUCCESS" />
+                <ScalarProperty Name="MESSAGE" ColumnName="MESSAGE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

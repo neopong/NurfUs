@@ -12,6 +12,8 @@ namespace NurfUs.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class UserData : DbContext
     {
@@ -27,5 +29,18 @@ namespace NurfUs.Models
     
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<UserInfo> UserInfoes { get; set; }
+    
+        public virtual ObjectResult<NewGuest_Result> NewGuest(string userKey, string aSPNetUserId)
+        {
+            var userKeyParameter = userKey != null ?
+                new ObjectParameter("UserKey", userKey) :
+                new ObjectParameter("UserKey", typeof(string));
+    
+            var aSPNetUserIdParameter = aSPNetUserId != null ?
+                new ObjectParameter("ASPNetUserId", aSPNetUserId) :
+                new ObjectParameter("ASPNetUserId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<NewGuest_Result>("NewGuest", userKeyParameter, aSPNetUserIdParameter);
+        }
     }
 }

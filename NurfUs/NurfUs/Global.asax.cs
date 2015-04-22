@@ -40,10 +40,9 @@ namespace NurfUs
 
             NurfUsHub.TotalMatchFiles = 0;
 
-            foreach (var file in diMatchHistory.EnumerateFiles())
-            {
-                NurfUsHub.TotalMatchFiles++;
-            }
+            NurfUsHub.FileNames = diMatchHistory.GetFiles().Select(f => f.FullName).ToArray();
+
+            NurfUsHub.TotalMatchFiles = NurfUsHub.FileNames.Length;
 
             NurfUsHub.GenerateNewMatch();
 

@@ -9,6 +9,7 @@ var timeLeftInPause = pauseTime;
 var timerInterval = 10;
 var staticTextSize = 100;
 var currentBetAmount = 0;
+var submittingName = false;
 
 $(document).ready(function () {
     var hub = $.connection.nurfUsHub;
@@ -190,6 +191,10 @@ $(document).ready(function () {
             $("#guestName").val('');
             alert(newClient.Message);
         }
+
+        submittingName = false;
+        $("#guestLogin").removeAttr("disabled");
+        $("#guestName").removeAttr("disabled");
     };
 
     /*
@@ -390,7 +395,13 @@ $(document).ready(function () {
         });
 
         $('#guestLogin').click(function () {
-            hub.server.newGuest($("#guestName").val());
+            if (!submittingName) {
+                submittingName = true;
+                $("#guestLogin").attr("disabled", "disabled");
+                $("#guestName").attr("disabled", "disabled");
+
+                hub.server.newGuest($("#guestName").val());
+            }
         });
 
         $('#sendmessage').click(function () {

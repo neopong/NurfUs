@@ -256,6 +256,9 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NewGuest_Result.cs">
+      <DependentUpon>UserInfo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SummonerSearch.cs" />
     <Compile Include="Models\UserInfo.Context.cs">
       <AutoGen>True</AutoGen>
